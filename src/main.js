@@ -3,7 +3,9 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import ApiClient from "./services/apiClient.js"
 
+ApiClient.init()
 
 const app = createApp(App)
 
