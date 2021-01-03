@@ -1,17 +1,21 @@
 import axios from "axios";
-
-const apiClient = {
+const ApiClient = {
 
     init(){
         axios.defaults.baseURL = 'http://localhost:3000'
         axios.defaults.withCredentials = false
     },
-    setHeader(){
-        axios.defaults.headers.common['Authorization'] = `Bearer ${
-            userData.accessToken
-          }`
+    setHeader(token){
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     }
 
 }
 
-export default apiClient;
+export default ApiClient;
+
+export const RecipeService = {
+    getRecipes(){
+        return axios.get('/recipes')
+    }
+}
+

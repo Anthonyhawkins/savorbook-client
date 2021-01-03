@@ -5,6 +5,9 @@ import Signup from "../views/Signup.vue";
 import About from "../views/About.vue";
 import Account from "../views/Account.vue";
 
+import JwtService from "@/services/jwtService.js"
+import ApiClient from "@/services/apiClient.js"
+
 import Publish from "../views/publish/Publish.vue";
 import RecipeEdit from "../views/publish/RecipeEdit.vue";
 
@@ -23,7 +26,7 @@ const routes = [
     path: "/publish",
     name: "Publish",
     component: Publish,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true } 
   },
   {
     path: "/publish/recipe/new",
@@ -54,14 +57,21 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const userData = JSON.parse(localStorage.getItem('user'))
-  if (to.matched.some(record => record.meta.requiresAuth) && !userData) {
+  const token = JwtService.getToken()
+
+  //Not Logged In
+  if (to.matched.some(record => record.meta.requiresAuth) && !token) {
+
     // route to home if not authenticated / loggedin
     next('/')
+  
+    //Logged In
   } else {
+    if (token) ApiClient.setHeader(token)
     // continue with desired route
     next()
   }
 })
+
 
 export default router;

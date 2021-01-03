@@ -9,7 +9,7 @@
 
 <script>
 import RecipeListItem from "@/components/publish/RecipeListItem.vue"
-import RecipeService from '@/services/RecipeService.js'
+import { RecipeService } from '@/services/apiClient.js'
 
 export default {
     name: "RecipeList",
@@ -24,13 +24,12 @@ export default {
   mounted() {
     RecipeService.getRecipes()
       .then(response => {
-        console.log(response.data)
         this.recipes = response.data
       })
       .catch(error => {
         console.log(error)
       })
-  }    
+  }
 }
 </script>
 

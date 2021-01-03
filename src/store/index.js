@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import axios from 'axios'
+import JwtService from "@/services/jwtService.js"
 
 import recipe from "./recipe.module";
 
@@ -12,15 +13,14 @@ export default createStore({
   },
   mutations: {
     SET_USER_DATA(state, userData) {
-      state.user = userData
-      localStorage.setItem('user', JSON.stringify(userData))
-      axios.defaults.headers.common['Authorization'] = `Bearer ${
-        userData.accessToken
-      }`
-      console.log("SET THE SESSION")
+      JwtService.saveToken(userData.accessToken)
+      const user = JwtService.parseToken(userData.accessToken)
+      state.user = user
     },
-    CLEAR_USER_DATA () {
-      localStorage.removeItem('user')
+
+    CLEAR_USER_DATA (state) {
+      state.user = {}
+      JwtService.destroyToken()
       // force a refresh to clear state
       location.reload()
     }
@@ -47,6 +47,9 @@ export default createStore({
   getters: {
     loggedIn (state) {
       return !!state.user
+    },
+    user (state) {
+      return state.user
     }
   }
 });
