@@ -1,0 +1,20 @@
+/* ./src/index.css */
+
+/*! @import */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .input {
+        @apply px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded focus:outline-none focus:ring text-sm shadow w-full;
+    },
+        
+    .label {
+        @apply block uppercase text-gray-700 text-xs font-bold mb-1;
+    },
+        
+    .button {
+        @apply w-full text-gray-700 bg-white border border-solid border-gray-700 hover:bg-gray-700 hover:text-white font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1;
+    }
+}
