@@ -16,6 +16,9 @@ export default ApiClient;
 export const RecipeService = {
     getRecipes(){
         return axios.get('/recipes')
+    },
+    getRecipe(id){
+        return axios.get('/recipes/' + id)
     }
 }
 

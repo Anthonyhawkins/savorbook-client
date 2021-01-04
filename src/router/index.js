@@ -12,6 +12,7 @@ import ApiClient from "@/services/apiClient.js"
 
 import Publish from "../views/publish/Publish.vue";
 import RecipeEdit from "../views/publish/RecipeEdit.vue";
+import RecipeShow from "../views/publish/RecipeShow.vue";
 
 const routes = [
   {
@@ -32,8 +33,9 @@ const routes = [
   },
   {
     path: "/publish/recipe/new",
-    name: "RecipeEdit",
-    component: RecipeEdit
+    name: "RecipeNew",
+    component: RecipeEdit,
+    meta: { requiresAuth: true }
   },
   {
     path: "/login",
@@ -49,6 +51,18 @@ const routes = [
     path: "/account",
     name: "Account",
     component: Account,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/recipes/:id",
+    name: "RecipeShow",
+    component: RecipeShow,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/recipes/:id/edit",
+    name: "RecipeEdit",
+    component: RecipeEdit,
     meta: { requiresAuth: true }
   },
 ];

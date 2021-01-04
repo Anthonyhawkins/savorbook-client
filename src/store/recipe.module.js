@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { RecipeService } from "@/services/apiClient.js"
 
 const initialState = {
   recipe: {
@@ -28,6 +29,17 @@ const initialState = {
 export const state = { ...initialState };
 
 export const actions = {
+  getRecipe({ commit }, id){
+    RecipeService.getRecipe(id).then(
+      ({ data }) => {
+        commit('SET_RECIPE', data)
+      }
+    )
+  },
+
+  resetRecipe({ commit }){
+    commit('RESET_RECIPE')
+  },
   setStep({ commit }, payload){
     commit('SET_STEP', payload)
   },
@@ -46,14 +58,23 @@ export const actions = {
   addIngredientGroup({ commit }){
     commit('ADD_INGREDIENT_GROUP')
   },
-  async createRecipe(){
-    const { data } = await axios.post('//localhost:3000/recipes', state.recipe);
+  async createRecipe(actionType){
+
+    if (actionType === "create") {
+      const { data } = await axios.post('//localhost:3000/recipes', state.recipe);
+      console.log(data);
+    } else {
+      const recipeId = state.recipe.id
+      const { data } = await axios.put('//localhost:3000/recipes/' + recipeId, state.recipe);
+      console.log(data);
+    }
+
+    
     /**
      * data contains the recipe from the server and specifically the id field.
      * upon save set recipe id and update message with "changes saved" or something like
      * that.  Do not redirect the user back unless they want to. 
      */
-    console.log(data);
   },
 }
 
@@ -61,10 +82,16 @@ export const actions = {
  * TODO - change payload params to { parm1, param2 } convention
  */
 export const mutations= {
+  RESET_RECIPE(state){
+    state.recipe = initialState
+  },
+  SET_RECIPE(state, payload){
+    state.recipe = payload
+  },
+
   SET_STEP(state, payload){
     state.recipe.steps[payload.index] = payload.step
   },
-
   ADD_STEP(state, stepType){
     let newStep = null
   
@@ -79,18 +106,15 @@ export const mutations= {
     }
     state.recipe.steps.push(newStep)    
   },
-
   REMOVE_STEP(state, index){
     state.recipe.steps.splice(index, 1)
   },
-
   MOVE_STEP (state, payload) {
     const fromStepIndex = payload.fromStepIndex
     const toStepIndex = payload.toStepIndex
     const stepToMove = state.recipe.steps.splice(fromStepIndex, 1)[0]
     state.recipe.steps.splice(toStepIndex, 0, stepToMove)
   },
-
   SET_INGREDIENT_GROUP(state, payload){
     const group = {
       groupName: payload.groupName, 
@@ -98,7 +122,6 @@ export const mutations= {
     }
     state.recipe.ingredientGroups[payload.index] = group
   },
-  
   ADD_INGREDIENT_GROUP(state){
     const newGroup = {
       groupName: '',
