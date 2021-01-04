@@ -1,7 +1,11 @@
 <template>
-    <div class="flex flex-col">
 
-        <RecipeListItem v-for="(recipe, index) in recipes" :key="index" :recipeName="recipe.name"/>
+    <div class="flex flex-col">
+        <RecipeListItem 
+        v-for="(recipe, index) in recipes" 
+        :key="index" 
+        :recipeName="recipe.name"
+        :recipeId="recipe.id"/>
 
 
     </div>

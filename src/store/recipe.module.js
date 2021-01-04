@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { RecipeService } from "@/services/apiClient.js"
 
 const initialState = {
   recipe: {
@@ -28,6 +29,15 @@ const initialState = {
 export const state = { ...initialState };
 
 export const actions = {
+  getRecipe({ commit }, id){
+    RecipeService.getRecipe(id).then(
+      ({ data }) => {
+        commit('SET_RECIPE', data)
+      }
+    )
+  },
+
+
   setStep({ commit }, payload){
     commit('SET_STEP', payload)
   },
@@ -61,10 +71,13 @@ export const actions = {
  * TODO - change payload params to { parm1, param2 } convention
  */
 export const mutations= {
+  SET_RECIPE(state, payload){
+    state.recipe = payload
+  },
+
   SET_STEP(state, payload){
     state.recipe.steps[payload.index] = payload.step
   },
-
   ADD_STEP(state, stepType){
     let newStep = null
   
@@ -79,18 +92,15 @@ export const mutations= {
     }
     state.recipe.steps.push(newStep)    
   },
-
   REMOVE_STEP(state, index){
     state.recipe.steps.splice(index, 1)
   },
-
   MOVE_STEP (state, payload) {
     const fromStepIndex = payload.fromStepIndex
     const toStepIndex = payload.toStepIndex
     const stepToMove = state.recipe.steps.splice(fromStepIndex, 1)[0]
     state.recipe.steps.splice(toStepIndex, 0, stepToMove)
   },
-
   SET_INGREDIENT_GROUP(state, payload){
     const group = {
       groupName: payload.groupName, 
@@ -98,7 +108,6 @@ export const mutations= {
     }
     state.recipe.ingredientGroups[payload.index] = group
   },
-  
   ADD_INGREDIENT_GROUP(state){
     const newGroup = {
       groupName: '',
