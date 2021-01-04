@@ -1,12 +1,10 @@
 <template>
-    <div class="flex flex-col justify-between mx-2 border-b border-gray-200 space-x-9">
-        <div class="flex flex-col  bg-white p-2 shadow-md">
+    <div class="flex flex-col justify-between mx-2 border-b border-gray-50">
+        <div class="flex flex-col  bg-white p-2 shadow-md hover:bg-gray-50 cursor-pointer">
             <div class="flex flex-row justify-between">
                 <div class="flex place-items-center">
-                    <h1 class="font-medium leading-snug align-middle">
-                        <a class=" text-red-500 hover:text-red-300" href="">
-                            {{recipeName}}
-                        </a>
+                    <h1 class="leading-snug align-middle">
+                        <router-link  class="text-red-500" :to="{ name: 'RecipeShow', params: { id: recipeId }}">{{recipeName}}</router-link>
                     </h1>
                 </div>
                 <div class="flex flex-row justify-end">
@@ -33,6 +31,10 @@ export default {
             type: [String],
             required: true
         },
+        recipeId: {
+            type: [Number],
+            required: true
+        },
         publishState: {
             type: [String],
             default: "Published"
@@ -49,6 +51,6 @@ export default {
 
 <style lang="postcss" scoped>
     .tag {
-        @apply mr-1 mb-1 rounded-lg py-1 px-2 bg-red-500  text-blue-gray-50 text-sm cursor-pointer
+        @apply mr-1 mb-1 rounded-md py-1 px-2 bg-gray-100  text-gray-500 text-sm cursor-pointer
     }
 </style>
