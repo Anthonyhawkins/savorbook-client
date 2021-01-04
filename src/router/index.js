@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "@/store"
+
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Signup from "../views/Signup.vue";
@@ -58,7 +60,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = JwtService.getToken()
-
   //Not Logged In
   if (to.matched.some(record => record.meta.requiresAuth) && !token) {
 
@@ -67,7 +68,12 @@ router.beforeEach((to, from, next) => {
   
     //Logged In
   } else {
-    if (token) ApiClient.setHeader(token)
+
+    //if we have a token, ensure the auth header and user is set 
+    if (token) {
+      ApiClient.setHeader(token)
+      store.commit('SET_USER_DATA', token)
+    }
     // continue with desired route
     next()
   }

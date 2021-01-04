@@ -1,7 +1,6 @@
 import { createStore } from "vuex";
 import axios from 'axios'
 import JwtService from "@/services/jwtService.js"
-
 import recipe from "./recipe.module";
 
 export default createStore({
@@ -12,9 +11,9 @@ export default createStore({
     user: null
   },
   mutations: {
-    SET_USER_DATA(state, userData) {
-      JwtService.saveToken(userData.accessToken)
-      const user = JwtService.parseToken(userData.accessToken)
+    SET_USER_DATA(state, token) {
+      JwtService.saveToken(token)
+      const user = JwtService.parseToken(token)
       state.user = user
     },
 
@@ -29,14 +28,14 @@ export default createStore({
     register({ commit }, credentials){
       return axios.post('//localhost:3000/users', credentials).then(
         ({ data }) => {
-          commit('SET_USER_DATA', data)
+          commit('SET_USER_DATA', data.accessToken)
         }
       )
     },
     login({ commit }, credentials){
       return axios.post('//localhost:3000/login', credentials).then(
         ({ data }) => {
-          commit('SET_USER_DATA', data)
+          commit('SET_USER_DATA', data.accessToken)
         }
       )
     },
@@ -46,6 +45,7 @@ export default createStore({
   },
   getters: {
     loggedIn (state) {
+      console.log(state)
       return !!state.user
     },
     user (state) {
