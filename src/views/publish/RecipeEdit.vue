@@ -113,17 +113,18 @@ export default {
 
     },
     computed: {
-        ...mapGetters(["recipe"]),
         actionType(){
-            if (this.$route.name === "recipeEdit") {
+            if (this.$route.name === "RecipeEdit") {
                 return "update"
             }
             return "create"
-        }
+        },
+        ...mapGetters(["recipe"])
+
     },
     methods: {
         saveRecipe () {
-            console.log(this.recipe)
+            console.log(this.actionType)
             this.$store.dispatch('createRecipe', this.actionType)
         },
         pickupStep(e, index){

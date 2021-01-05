@@ -58,8 +58,8 @@ export const actions = {
   addIngredientGroup({ commit }){
     commit('ADD_INGREDIENT_GROUP')
   },
-  async createRecipe(actionType){
-
+  async createRecipe({ commit }, actionType){
+    console.log(commit)
     if (actionType === "create") {
       const { data } = await axios.post('//localhost:3000/recipes', state.recipe);
       console.log(data);
