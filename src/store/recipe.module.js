@@ -37,7 +37,9 @@ export const actions = {
     )
   },
 
-
+  resetRecipe({ commit }){
+    commit('RESET_RECIPE')
+  },
   setStep({ commit }, payload){
     commit('SET_STEP', payload)
   },
@@ -56,14 +58,23 @@ export const actions = {
   addIngredientGroup({ commit }){
     commit('ADD_INGREDIENT_GROUP')
   },
-  async createRecipe(){
-    const { data } = await axios.post('//localhost:3000/recipes', state.recipe);
+  async createRecipe(actionType){
+
+    if (actionType === "create") {
+      const { data } = await axios.post('//localhost:3000/recipes', state.recipe);
+      console.log(data);
+    } else {
+      const recipeId = state.recipe.id
+      const { data } = await axios.put('//localhost:3000/recipes/' + recipeId, state.recipe);
+      console.log(data);
+    }
+
+    
     /**
      * data contains the recipe from the server and specifically the id field.
      * upon save set recipe id and update message with "changes saved" or something like
      * that.  Do not redirect the user back unless they want to. 
      */
-    console.log(data);
   },
 }
 
@@ -71,6 +82,9 @@ export const actions = {
  * TODO - change payload params to { parm1, param2 } convention
  */
 export const mutations= {
+  RESET_RECIPE(state){
+    state.recipe = initialState
+  },
   SET_RECIPE(state, payload){
     state.recipe = payload
   },

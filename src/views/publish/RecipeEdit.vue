@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import store from "@/store"
 import { mapGetters } from "vuex";
 
 import TitleBar from "@/components/publish/TitleBar.vue";
@@ -96,17 +97,34 @@ export default {
         TipStep
 
     },
-    data () {
-        return {
+    beforeRouteEnter(to, from, next) {
+        console.log(to.name)
+        if (to.name === 'RecipeEdit') {
+            Promise.all([
+                store.dispatch('getRecipe', to.params.id)
+            ]).then(() => {
+                next();
+            });
+        } else {
+            next();
         }
+
+        
+
     },
     computed: {
-        ...mapGetters(["recipe"])
+        ...mapGetters(["recipe"]),
+        actionType(){
+            if (this.$route.name === "recipeEdit") {
+                return "update"
+            }
+            return "create"
+        }
     },
     methods: {
         saveRecipe () {
             console.log(this.recipe)
-            this.$store.dispatch('createRecipe')
+            this.$store.dispatch('createRecipe', this.actionType)
         },
         pickupStep(e, index){
             e.dataTransfer.effectAllowed = 'move'

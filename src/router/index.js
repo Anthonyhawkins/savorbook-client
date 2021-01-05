@@ -33,8 +33,9 @@ const routes = [
   },
   {
     path: "/publish/recipe/new",
-    name: "RecipeEdit",
-    component: RecipeEdit
+    name: "RecipeNew",
+    component: RecipeEdit,
+    meta: { requiresAuth: true }
   },
   {
     path: "/login",
@@ -56,6 +57,12 @@ const routes = [
     path: "/recipes/:id",
     name: "RecipeShow",
     component: RecipeShow,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/recipes/:id/edit",
+    name: "RecipeEdit",
+    component: RecipeEdit,
     meta: { requiresAuth: true }
   },
 ];
