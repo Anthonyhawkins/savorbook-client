@@ -1,68 +1,60 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from "@/store"
 
-import Home from "../views/Home.vue";
-import Login from "../views/Login.vue";
-import Signup from "../views/Signup.vue";
-import About from "../views/About.vue";
-import Account from "../views/Account.vue";
-
 import JwtService from "@/services/jwtService.js"
 import ApiService from "@/services/apiService.js"
 
-import Publish from "../views/publish/Publish.vue";
-import RecipeEdit from "../views/publish/RecipeEdit.vue";
-import RecipeShow from "../views/publish/RecipeShow.vue";
+
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: () => import("@/views/Home.vue")
   },
   {
     path: "/about",
     name: "About",
-    component: About
+    component: () => import("@/views/About.vue")
   },
   {
     path: "/publish",
     name: "Publish",
-    component: Publish,
+    component: () => import("@/views/publish/Publish.vue"),
     meta: { requiresAuth: true } 
   },
   {
     path: "/publish/recipe/new",
     name: "RecipeNew",
-    component: RecipeEdit,
+    component: () => import("@/views/publish/RecipeEdit.vue"),
     meta: { requiresAuth: true }
   },
   {
     path: "/login",
     name: "Login",
-    component: Login
+    component: () => import("@/views/Login.vue")
   },
   {
     path: "/signup",
     name: "Signup",
-    component: Signup
+    component: () => import("@/views/Signup.vue")
   },
   {
     path: "/account",
     name: "Account",
-    component: Account,
+    component: () => import("@/views/Account.vue"),
     meta: { requiresAuth: true }
   },
   {
-    path: "/recipes/:id",
+    path: "/publish/recipes/:id",
     name: "RecipeShow",
-    component: RecipeShow,
+    component: () => import("@/views/publish/RecipeShow.vue"),
     meta: { requiresAuth: true }
   },
   {
-    path: "/recipes/:id/edit",
+    path: "/publish/recipes/:id/edit",
     name: "RecipeEdit",
-    component: RecipeEdit,
+    component: () => import("@/views/publish/RecipeEdit.vue"),
     meta: { requiresAuth: true }
   },
 ];

@@ -14,27 +14,27 @@
       <div class="lg:flex flex-grow justify-between" id="example-navbar-warning">
         <ul class="flex flex-col lg:flex-row list-none">
             <li class="nav-item">
-              <router-link class="nav-item" to="/about">Library</router-link>
+              <router-link class="nav-item" :to="{ name:  'About' }">Library</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-item" to="/about">Store</router-link>
+              <router-link class="nav-item" :to="{ name:  'About' }">Store</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-item" to="/publish">Publishing</router-link>
+              <router-link class="nav-item" :to="{ name:  'Publish' }">Publishing</router-link>
             </li>
         </ul>
         <ul class="flex flex-col lg:flex-row list-none">
             <li v-if="loggedIn" class="nav-item">
-              <router-link class="nav-item" to="/account">Account</router-link>
+              <router-link class="nav-item" :to="{ name:  'Account' }">Account</router-link>
             </li>
             <li v-if="loggedIn" class="nav-item">
               <a href="" @click="logout" class="nav-item">Logout</a>
             </li>
             <li v-if="!loggedIn" class="nav-item">
-              <router-link class="nav-item" to="/login">Login</router-link>
+              <router-link class="nav-item" :to="{ name:  'Login' }">Login</router-link>
             </li>
             <li v-if="!loggedIn" class="nav-item">
-              <router-link class="nav-item" to="/signup">Signup</router-link>
+              <router-link class="nav-item" :to="{ name:  'Signup' }">Signup</router-link>
             </li>
         </ul>
       </div>

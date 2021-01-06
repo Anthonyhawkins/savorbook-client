@@ -49,7 +49,7 @@ export default {
         password: this.password
       })
       .then( () => {
-        this.$router.push({"name": "Home"})
+        this.$router.push({name: 'Home'})
       })
       .catch(err=> {
         this.error = err.response.data

@@ -30,7 +30,7 @@
                         </svg>
                     </div>
                     <div class="flex items-center w-full">
-                        <span class="ml-2"><router-link class="nav-item" to="/publish/recipe/new">New Recipe</router-link></span>
+                        <span class="ml-2"><router-link class="nav-item" :to="{ name: 'RecipeNew'}">New Recipe</router-link></span>
                     </div>
                 </div>
             </div>
