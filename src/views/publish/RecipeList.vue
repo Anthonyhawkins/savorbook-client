@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import RecipeListItem from "@/components/publish/RecipeListItem.vue"
+import RecipeListItem from "@/components/publish/recipe/RecipeListItem.vue"
 import { RecipeService } from '@/services/apiService.js'
 
 export default {

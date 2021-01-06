@@ -1,21 +1,21 @@
 <template>
   <div class="flex flex-col h-screen justify-between">
-    <header><TopNav/></header>
+    <header><NavbarTop/></header>
     <main class="mb-auto"><router-view /></main>
-    <footer><BottomNav/></footer>
+    <footer><NavbarBottom/></footer>
   </div>
 </template>
 
 
 <script>
 import axios from "axios"
-import TopNav from "@/components/TopNav.vue";
-import BottomNav from "@/components/BottomNav.vue";
+import NavbarTop from "@/components/NavbarTop.vue";
+import NavbarBottom from "@/components/NavbarBottom.vue";
 
 export default {
   components: {
-    TopNav,
-    BottomNav
+    NavbarTop,
+    NavbarBottom
   },
   created(){
     const userString = localStorage.getItem('user')

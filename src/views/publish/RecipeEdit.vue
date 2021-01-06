@@ -2,16 +2,16 @@
     <div class="flex flex-col"> 
         <form @submit.prevent>
             <div class="flex flex-row h-12 bg-white m-2">        
-                <TitleBar v-model="recipe.name"/>
-                <ToolBar @save-recipe="saveRecipe()"/>
+                <RecipeTitleBar v-model="recipe.name"/>
+                <RecipeToolBar @save-recipe="saveRecipe()"/>
             </div>
             <div class="flex flex-row justify-end mx-2 mb-2">
                 <div class="flex flex-col bg-white w-2/3 p-5">
 
                     <label for="description" class="this-label">Photo</label>
-                    <MainPhoto/>
+                    <RecipePhoto/>
                     <label for="description" class="this-label">Description</label>
-                    <DescriptionBox v-model="recipe.description"/>
+                    <RecipeDescription v-model="recipe.description"/>
                     <IngredientsToolBar/>
 
                     <div class="flex flex-col">
@@ -34,7 +34,7 @@
                         <template 
                         v-for="(step, index) in recipe.steps"
                         >
-                            <TextStep
+                            <StepText
                             v-if="step.type === 'text'"
                             :stepIndex="index"
                             :content="step.content"
@@ -45,7 +45,7 @@
                             @dragenter.prevent
                             @drop="moveStep($event, index)"
                             />
-                            <TipStep
+                            <StepTip
                             v-if="step.type === 'tipText'"
                             :stepIndex="index"
                             :content="step.content"
@@ -71,31 +71,31 @@ import store from "@/store"
 import { mapGetters } from "vuex";
 import { RecipeService } from "@/services/apiService.js"
 
-import TitleBar from "@/components/publish/TitleBar.vue";
-import ToolBar from "@/components/publish/ToolBar.vue";
-import MainPhoto from "@/components/publish/MainPhoto.vue"
-import DescriptionBox from "@/components/publish/DescriptionBox.vue";
+import RecipeTitleBar from "@/components/publish/recipe/RecipeTitleBar.vue";
+import RecipeToolBar from "@/components/publish/recipe/RecipeToolBar.vue";
+import RecipePhoto from "@/components/publish/recipe/RecipePhoto.vue"
+import RecipeDescription from "@/components/publish/recipe/RecipeDescription.vue";
 
-import IngredientsToolBar from "@/components/publish/IngredientsToolBar.vue";
-import IngredientGroup from "@/components/publish/IngredientGroup.vue";
-import StepTemplates from "@/components/publish/StepTemplates.vue";
+import IngredientsToolBar from "@/components/publish/recipe/IngredientsToolBar.vue";
+import IngredientGroup from "@/components/publish/recipe/IngredientGroup.vue";
 
-import StepHint from "@/components/publish/steps/StepHint.vue";
-import TextStep from "@/components/publish/steps/TextStep.vue";
-import TipStep from "@/components/publish/steps/TipStep.vue";
+import StepTemplates from "@/components/publish/recipe/StepTemplates.vue";
+import StepHint from "@/components/publish/recipe/steps/StepHint.vue";
+import StepText from "@/components/publish/recipe/steps/StepText.vue";
+import StepTip from "@/components/publish/recipe/steps/StepTip.vue";
 
 export default {
     components: {
-        TitleBar,
-        ToolBar,
-        DescriptionBox,
+        RecipeTitleBar,
+        RecipeToolBar,
+        RecipeDescription,
         IngredientsToolBar,
         IngredientGroup,
         StepTemplates,
-        MainPhoto,
+        RecipePhoto,
         StepHint,
-        TextStep,
-        TipStep
+        StepText,
+        StepTip
 
     },
     beforeRouteEnter(to, from, next) {
