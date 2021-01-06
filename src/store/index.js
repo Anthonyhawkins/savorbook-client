@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
-import axios from 'axios'
 import JwtService from "@/services/jwtService.js"
+import { AuthService } from "@/services/apiService.js"
 import recipe from "./recipe.module";
 
 export default createStore({
@@ -26,14 +26,14 @@ export default createStore({
   },
   actions: {
     register({ commit }, credentials){
-      return axios.post('//localhost:3000/users', credentials).then(
+      return AuthService.createUser(credentials).then(
         ({ data }) => {
           commit('SET_USER_DATA', data.accessToken)
         }
       )
     },
     login({ commit }, credentials){
-      return axios.post('//localhost:3000/login', credentials).then(
+      return AuthService.login(credentials).then(
         ({ data }) => {
           commit('SET_USER_DATA', data.accessToken)
         }
