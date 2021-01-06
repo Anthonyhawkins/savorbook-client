@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name: "TitleBar",
+    name: "RecipeTitleBar",
     props: {
         modelValue: {
             type: [String],

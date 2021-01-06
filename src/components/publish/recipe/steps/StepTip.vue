@@ -31,7 +31,7 @@
 
 <script>
 export default {
-    name: "TipStep",
+    name: "StepTip",
     props: {
         stepIndex: {
             type: [Number],

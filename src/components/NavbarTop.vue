@@ -46,7 +46,7 @@
 import { mapGetters } from "vuex"
 
 export default {
-  name: "TopNav",
+  name: "NavbarTop",
   data(){
     return {
 

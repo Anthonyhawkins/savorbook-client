@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    name: "MainPhoto"
+    name: "RecipePhoto"
 }
 </script>
 

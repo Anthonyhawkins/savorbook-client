@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    name: "DescriptionBox",
+    name: "RecipeDescription",
     props: {
         modelValue: {
             type: [String],

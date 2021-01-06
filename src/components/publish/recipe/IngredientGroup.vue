@@ -14,7 +14,7 @@
         v-for="ingredient in ingredientGroup.ingredients"
         :key="ingredient.id"
         >
-            <IngredientItem
+            <IngredientGroupItem
             v-model:ingredientName="ingredient.name"
             v-model:ingredientQty="ingredient.qty"
             v-model:ingredientUnit="ingredient.unit"
@@ -27,12 +27,12 @@
 </template>
  
 <script>
-import IngredientItem from "@/components/publish/IngredientItem.vue";
+import IngredientGroupItem from "@/components/publish/recipe/IngredientGroupItem.vue";
 
 export default {
   name: "IngredientGroup",
     components: {
-        IngredientItem
+        IngredientGroupItem
     },
     props: {
         groupIndex: {

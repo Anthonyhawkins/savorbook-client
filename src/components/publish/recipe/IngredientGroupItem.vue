@@ -30,7 +30,7 @@
 
 <script>
 export default {
-    name: "IngredientItem",
+    name: "IngredientGroupItem",
     emits: [
         'outOfFocus',
         'update:ingredientName', 
