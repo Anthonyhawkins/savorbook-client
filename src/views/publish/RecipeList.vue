@@ -13,7 +13,7 @@
 
 <script>
 import RecipeListItem from "@/components/publish/RecipeListItem.vue"
-import { RecipeService } from '@/services/apiClient.js'
+import { RecipeService } from '@/services/apiService.js'
 
 export default {
     name: "RecipeList",

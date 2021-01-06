@@ -8,7 +8,7 @@ import About from "../views/About.vue";
 import Account from "../views/Account.vue";
 
 import JwtService from "@/services/jwtService.js"
-import ApiClient from "@/services/apiClient.js"
+import ApiService from "@/services/apiService.js"
 
 import Publish from "../views/publish/Publish.vue";
 import RecipeEdit from "../views/publish/RecipeEdit.vue";
@@ -85,7 +85,7 @@ router.beforeEach((to, from, next) => {
 
     //if we have a token, ensure the auth header and user is set 
     if (token) {
-      ApiClient.setHeader(token)
+      ApiService.setHeader(token)
       store.commit('SET_USER_DATA', token)
     }
     // continue with desired route

@@ -69,6 +69,7 @@
 <script>
 import store from "@/store"
 import { mapGetters } from "vuex";
+import { RecipeService } from "@/services/apiService.js"
 
 import TitleBar from "@/components/publish/TitleBar.vue";
 import ToolBar from "@/components/publish/ToolBar.vue";
@@ -106,6 +107,7 @@ export default {
                 next();
             });
         } else {
+            store.dispatch('resetRecipe')
             next();
         }
 
@@ -115,7 +117,7 @@ export default {
     computed: {
         ...mapGetters(["recipe"]),
         actionType(){
-            if (this.$route.name === "recipeEdit") {
+            if (this.$route.name === "RecipeEdit") {
                 return "update"
             }
             return "create"
@@ -123,8 +125,12 @@ export default {
     },
     methods: {
         saveRecipe () {
-            console.log(this.recipe)
-            this.$store.dispatch('createRecipe', this.actionType)
+            console.log(this.actionType)
+            if (this.actionType === "create") {
+                RecipeService.createRecipe(this.recipe)
+            } else {
+                RecipeService.updateRecipe(this.recipe)
+            }
         },
         pickupStep(e, index){
             e.dataTransfer.effectAllowed = 'move'

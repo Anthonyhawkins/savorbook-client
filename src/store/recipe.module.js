@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { RecipeService } from "@/services/apiClient.js"
+import { RecipeService } from "@/services/apiService.js"
 
 const initialState = {
   recipe: {
@@ -57,25 +56,7 @@ export const actions = {
   },
   addIngredientGroup({ commit }){
     commit('ADD_INGREDIENT_GROUP')
-  },
-  async createRecipe(actionType){
-
-    if (actionType === "create") {
-      const { data } = await axios.post('//localhost:3000/recipes', state.recipe);
-      console.log(data);
-    } else {
-      const recipeId = state.recipe.id
-      const { data } = await axios.put('//localhost:3000/recipes/' + recipeId, state.recipe);
-      console.log(data);
-    }
-
-    
-    /**
-     * data contains the recipe from the server and specifically the id field.
-     * upon save set recipe id and update message with "changes saved" or something like
-     * that.  Do not redirect the user back unless they want to. 
-     */
-  },
+  }
 }
 
 /**
