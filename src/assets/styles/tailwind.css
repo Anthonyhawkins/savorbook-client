@@ -14,7 +14,39 @@
         @apply block uppercase text-gray-700 text-xs font-bold mb-1;
     },
         
-    .button {
-        @apply w-full text-gray-700 bg-white border border-solid border-gray-700 hover:bg-gray-700 hover:text-white font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1;
+    .button-block {
+        @apply w-full border border-solid font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1;
+    },
+    .primary-bg {
+      @apply bg-rose-500
     }
+
+    .success-bg {
+      @apply bg-lime-500
+    }
+
+    .primary-text {
+      @apply text-rose-500
+    }
+
+    .button {
+      @apply rounded-md px-4 py-2 m-2 transition duration-200 select-none
+    }
+
+    .button-primary {
+      @apply primary-bg text-white hover:bg-rose-600
+    }
+
+    .button-success {
+      @apply success-bg text-white hover:bg-lime-600
+    }
+
+    .button-clear {
+      @apply hover:shadow-inner border-2 border-blue-gray-300
+    }
+
+    .card {
+      @apply bg-white p-4 m-1 mx-auto shadow rounded-md
+    }
+
 }

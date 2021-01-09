@@ -66,11 +66,11 @@ export default {
 <style lang="postcss" scoped>
 
 a.router-link-active {
-  @apply border-t-2 border-b-2  border-amber-500;
+  @apply border-b-2  border-white;
 }
 
 .nav-bar {
-  @apply relative flex flex-wrap items-center justify-between px-2 py-3 bg-gray-700 shadow-md border-b border-gray-700 border;
+  @apply relative flex flex-wrap items-center justify-between px-2 py-3 bg-rose-600 shadow-md border-b border-rose-700 border;
 }
 .nav-item {
   @apply px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75;

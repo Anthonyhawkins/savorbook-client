@@ -96,22 +96,21 @@
       StepTip
 
     },
+
     beforeRouteEnter(to, from, next) {
       console.log(to.name)
       if (to.name === 'RecipeEdit') {
         Promise.all([
           store.dispatch('getRecipe', to.params.id)
         ]).then(() => {
-          next();
+          return next();
         });
       } else {
         store.dispatch('resetRecipe')
-        next();
+        return next();
       }
-
-      
-
     },
+
     computed: {
       ...mapGetters(["recipe"]),
       actionType(){
@@ -120,8 +119,9 @@
         }
         return "create"
       },
-
-
+    },
+    mounted(){
+      console.log(this.recipe)
     },
     methods: {
       saveRecipe () {

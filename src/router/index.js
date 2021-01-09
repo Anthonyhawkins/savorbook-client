@@ -24,12 +24,6 @@ const routes = [
     meta: { requiresAuth: true } 
   },
   {
-    path: "/publish/recipe/new",
-    name: "RecipeNew",
-    component: () => import("@/views/publish/RecipeEdit.vue"),
-    meta: { requiresAuth: true }
-  },
-  {
     path: "/login",
     name: "Login",
     component: () => import("@/views/Login.vue")
@@ -43,6 +37,18 @@ const routes = [
     path: "/account",
     name: "Account",
     component: () => import("@/views/Account.vue"),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/publish/recipes",
+    name: "RecipeList",
+    component: () => import("@/views/publish/RecipeList.vue"),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/publish/recipes/new",
+    name: "RecipeNew",
+    component: () => import("@/views/publish/RecipeEdit.vue"),
     meta: { requiresAuth: true }
   },
   {

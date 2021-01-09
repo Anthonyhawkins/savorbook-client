@@ -67,6 +67,33 @@
     </div>
   </div>
 
+<!-- Default -->
+    <div
+      class="bg-white px-6 py-4 my-3 w-3/4 mx-auto shadow rounded-md flex items-center"
+    >
+    <div class="w-full text-center mx-auto">
+      <button
+        type="button"
+        class="button button-clear"
+      >
+        Info
+      </button>
+      <button
+        type="button"
+        class="button button-success"
+      >
+        Dark
+      </button>
+      <button
+        type="button"
+        class="button button-primary"
+      >
+        Light
+      </button>
+      </div>
+    </div>
+    <!-- End Default -->
+
 </div>
 </template>
 

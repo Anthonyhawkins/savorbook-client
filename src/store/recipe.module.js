@@ -1,31 +1,33 @@
 import { RecipeService } from "@/services/apiService.js"
 
-const initialState = {
-  recipe: {
-    name: "",
-    description: "",
-    
-    ingredientGroups: [
-      {
-        groupName: '',
-        ingredients: [
-          { name: "", qty: "", unit: "" },
-          { name: "", qty: "", unit: "" },
-          { name: "", qty: "", unit: "" }
-        ]
-      }
-    ],
-    steps: [
-      {
-        id: 1,
-        type: "text",
-        content: { text: "" }
-      }
-    ]
+const getDefaultState = () => {
+  return {
+    recipe: {
+      name: "",
+      description: "",
+      
+      ingredientGroups: [
+        {
+          groupName: '',
+          ingredients: [
+            { name: "", qty: "", unit: "" },
+            { name: "", qty: "", unit: "" },
+            { name: "", qty: "", unit: "" }
+          ]
+        }
+      ],
+      steps: [
+        {
+          id: 1,
+          type: "text",
+          content: { text: "" }
+        }
+      ]
+    }
   }
 }
 
-export const state = { ...initialState };
+export const state = { ...getDefaultState () };
 
 export const actions = {
   getRecipe({ commit }, id){
@@ -64,7 +66,9 @@ export const actions = {
  */
 export const mutations= {
   RESET_RECIPE(state){
-    state.recipe = initialState
+    Object.assign(state, getDefaultState())
+    //state.recipe = initialState
+    console.log(state.recipe)
   },
   SET_RECIPE(state, payload){
     state.recipe = payload
@@ -112,6 +116,8 @@ export const mutations= {
         { name: "", qty: "", unit: "" }
       ]
     }
+    console.log(state.recipe)
+
     state.recipe.ingredientGroups.push(newGroup)
   },  
 }

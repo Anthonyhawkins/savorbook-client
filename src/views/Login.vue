@@ -16,7 +16,7 @@
           </div>
 
           <div class="relative w-full mb-3">
-            <button class="button" type="submit" name="action">
+            <button class="button-block button-primary" type="submit" name="action">
               Login
             </button>
           </div>
