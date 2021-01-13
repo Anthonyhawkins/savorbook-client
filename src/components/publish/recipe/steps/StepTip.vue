@@ -37,15 +37,15 @@ export default {
             type: [Number],
             required: true
         },
-        content: {
-            type: [Object],
+        stepText: {
+            type: [String],
             required: true
         }
     },
     data () {
         return {
             index: this.stepIndex,
-            text: this.content.text
+            text: this.stepText
         }
     },
     methods: {
@@ -57,7 +57,7 @@ export default {
                 index,
                 step: {
                     type: "tipText",
-                    content: { text: this.text }
+                    text: this.text
                 }
             }
             this.$store.dispatch('setStep', payload)

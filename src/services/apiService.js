@@ -15,16 +15,17 @@ export default ApiService;
 
 export const RecipeService = {
     getRecipes(){
-        return axios.get('/recipes')
+        return axios.get('/publish/recipes')
     },
     getRecipe(id){    
-        return axios.get('/recipes/' + id)
+        return axios.get('/publish/recipes/' + id)
     },
     createRecipe(recipe){
-        return axios.post('/recipes', recipe)
+      console.log(recipe)  
+      //return axios.post('/publish/recipes', recipe)
     },
     updateRecipe(recipe){
-        return axios.put('/recipes/' + recipe.id, recipe)
+        return axios.put('/publish/recipes/' + recipe.id, recipe)
     }
 }
 

@@ -37,8 +37,8 @@
               <StepText
               v-if="step.type === 'text'"
               :stepIndex="index"
-              :content="step.content"
-               :key="index + step.content.text"
+              :stepText="step.text"
+              :key="index + step.text"
               draggable="true"
               @dragstart="pickupStep($event, index)"
               @dragover.prevent
@@ -48,8 +48,8 @@
               <StepTip
               v-if="step.type === 'tipText'"
               :stepIndex="index"
-              :content="step.content"
-              :key="index + step.content.text"
+              :stepText="step.text"
+              :key="index + step.text"
               draggable="true"
               @dragstart="pickupStep($event, index)"
               @dragover.prevent
