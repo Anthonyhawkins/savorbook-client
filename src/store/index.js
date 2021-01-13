@@ -8,9 +8,14 @@ export default createStore({
     recipe
   },
   state: {
-    user: null
+    user: null,
+    error: null
   },
   mutations: {
+    SET_ERROR(state, error) {
+      state.error = error
+    },
+
     SET_USER_DATA(state, token) {
       JwtService.saveToken(token)
       const user = JwtService.parseToken(token)
@@ -25,31 +30,50 @@ export default createStore({
     }
   },
   actions: {
-    register({ commit }, credentials){
-      return AuthService.createUser(credentials).then(
+    setError({ commit }, error) {
+      commit('SET_ERROR', error)
+    },
+    register({ commit }, {username, displayName, email, password}){
+      return AuthService.createUser({username, displayName, email, password}).then(
         ({ data }) => {
-          commit('SET_USER_DATA', data.accessToken)
+          if (data.success){
+            commit('SET_USER_DATA', data.data.accessToken)
+          } else {
+            //return errors back to component
+            return data
+          }
         }
       )
     },
-    login({ commit }, credentials){
-      return AuthService.login(credentials).then(
+    login({ commit }, {email, password}){
+      return AuthService.login({email, password}).then(
         ({ data }) => {
-          commit('SET_USER_DATA', data.accessToken)
+          if (data.success){
+            commit('SET_USER_DATA', data.data.accessToken)
+          } else {
+            //return errors back to component
+            return data
+          }
         }
       )
     },
     logout({ commit }) {
-      commit('CLEAR_USER_DATA')
+        commit('CLEAR_USER_DATA')
+    },
+    setUser({commit}, token) {
+      commit('SET_USER_DATA', token)
     }
   },
   getters: {
+    errorMessage (state) {
+      return state.error
+    },
     loggedIn (state) {
-      console.log(state)
       return !!state.user
     },
     user (state) {
       return state.user
     }
+
   }
 });

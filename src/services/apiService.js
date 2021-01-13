@@ -2,7 +2,7 @@ import axios from "axios";
 const ApiService = {
 
     init(){
-        axios.defaults.baseURL = 'http://localhost:3000'
+        axios.defaults.baseURL = 'http://localhost:3000/api'
         axios.defaults.withCredentials = false
     },
     setHeader(token){
@@ -29,10 +29,13 @@ export const RecipeService = {
 }
 
 export const AuthService = {
-    createUser(credentials){
-        return axios.post('/users', credentials)
+    createUser({username, displayName, email, password}){
+        return axios.post('/auth/register', {username, displayName, email, password})
     },
-    login(credentials){
-        return axios.post('/login', credentials)
+    login({email, password}){
+        return axios.post('/auth/login', {email, password})
+    },
+    getAccount(){
+      return axios.get('/auth/account')
     }
 }

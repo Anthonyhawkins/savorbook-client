@@ -83,9 +83,10 @@ router.beforeEach((to, from, next) => {
 
     //if we have a token, ensure the auth header and user is set 
     if (token) {
-      ApiService.setHeader(token)
-      store.commit('SET_USER_DATA', token)
+      ApiService.setHeader(token)      
+      store.dispatch('setUser', token)
     }
+
     // continue with desired route
     next()
   }

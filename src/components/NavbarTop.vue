@@ -25,7 +25,7 @@
         </ul>
         <ul class="flex flex-col lg:flex-row list-none">
             <li v-if="loggedIn" class="nav-item">
-              <router-link class="nav-item" :to="{ name:  'Account' }">Account</router-link>
+              <router-link class="nav-item" :to="{ name:  'Account' }">{{user.username}}</router-link>
             </li>
             <li v-if="loggedIn" class="nav-item">
               <a href="" @click="logout" class="nav-item">Logout</a>
@@ -53,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['loggedIn'])
+    ...mapGetters(['loggedIn', 'user'])
   },
   methods: {
     logout(){

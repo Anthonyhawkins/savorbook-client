@@ -24,8 +24,8 @@
         </form>
       </div>
 
-      <div v-if="error" class="text-center">
-        <p class="text-red-500">Invalid Login</p>
+      <div v-if="errorMessage"  class="text-center">
+        <p class="text-red-500">{{ errorMessage }}</p>
       </div>
 
     </div>
@@ -33,30 +33,33 @@
 </template>
 
 <script>
+  import { mapGetters } from "vuex";
 
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      error: null
-    }
-  },
-  methods: {
-    login(){
-      this.$store.dispatch('login', {
-        email: this.email,
-        password: this.password
-      })
-      .then( () => {
-        this.$router.push({name: 'Home'})
-      })
-      .catch(err=> {
-        this.error = err.response.data
-      })
-    }
-  }
-};
+  export default {
+    data() {
+      return {
+        email: '',
+        password: ''
+      }
+    },
+    computed: {
+      ...mapGetters(["errorMessage"]),
+    },
+    methods: {
+      login(){
+          this.$store.dispatch('login', {
+            email: this.email,
+            password: this.password
+          })
+          .then( () => {
+            this.$router.push({name: 'Home'})
+          })
+          .catch(err=> {
+            console.log(err)
+          })
+        }
+      }
+  };
 </script>
 
 <style scoped>
