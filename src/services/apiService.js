@@ -13,6 +13,18 @@ const ApiService = {
 
 export default ApiService;
 
+function trimEmpty (recipe) {
+  recipe.ingredientGroups.forEach(group => {
+    let trimedIngredients = []
+    group.ingredients.forEach(ingredeient => {
+      if (!ingredeient.name == "") {
+        trimedIngredients.push(ingredeient)
+      }
+    })
+    group.ingredients = trimedIngredients
+  });
+}
+
 export const RecipeService = {
     getRecipes(){
         return axios.get('/publish/recipes')
@@ -20,11 +32,13 @@ export const RecipeService = {
     getRecipe(id){    
         return axios.get('/publish/recipes/' + id)
     },
-    createRecipe(recipe){
-      console.log(recipe)  
-      //return axios.post('/publish/recipes', recipe)
+    createRecipe(recipe){      
+      trimEmpty(recipe)
+      console.log(recipe)
+      return axios.post('/publish/recipes', recipe)
     },
     updateRecipe(recipe){
+        trimEmpty(recipe)
         return axios.put('/publish/recipes/' + recipe.id, recipe)
     }
 }

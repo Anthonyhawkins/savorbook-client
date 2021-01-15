@@ -5,7 +5,6 @@ const getDefaultState = () => {
     recipe: {
       name: "",
       description: "",
-      
       ingredientGroups: [
         {
           groupName: '',
@@ -39,7 +38,7 @@ export const actions = {
   getRecipe({ commit }, id){
     RecipeService.getRecipe(id).then(
       ({ data }) => {
-        commit('SET_RECIPE', data)
+        commit('SET_RECIPE', data.data)
       }
     )
   },

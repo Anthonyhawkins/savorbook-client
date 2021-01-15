@@ -19,8 +19,8 @@
 
 
                     <template v-for="step in recipe.steps" :key="step">
-                        <p v-if="step.type === 'text'" class="mb-3">{{step.content.text}}</p>
-                        <p v-if="step.type === 'tipText'" class="py-2 border-b border-t border-rose-500 mb-3">{{step.content.text}}</p>
+                        <p v-if="step.type === 'text'" class="mb-3">{{step.text}}</p>
+                        <p v-if="step.type === 'tipText'" class="py-2 border-b border-t border-rose-500 mb-3">{{step.text}}</p>
                     </template>
             </div>
         </div>  

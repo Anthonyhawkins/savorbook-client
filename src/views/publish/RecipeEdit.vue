@@ -125,7 +125,6 @@
     },
     methods: {
       saveRecipe () {
-        console.log(this.actionType)
         if (this.actionType === "create") {
           RecipeService.createRecipe(this.recipe)
         } else {

@@ -48,7 +48,7 @@ export default {
   mounted() {
     RecipeService.getRecipes()
       .then(response => {
-        this.recipes = response.data
+        this.recipes = response.data.data
       })
       .catch(error => {
         console.log(error)
