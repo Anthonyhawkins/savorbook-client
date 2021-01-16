@@ -28,8 +28,13 @@ export default {
     axios.interceptors.response.use(
       response => response,
       error => {
-        if (error.response.status === 401 ) {
-          this.$store.dispatch('logout')
+        if (error.response.status === 401 ) { 
+          if (this.$route.name === 'Login'){
+            this.$store.dispatch('setError', error.response.data.message)
+          } else {
+            this.$store.dispatch('logout')
+          }
+          
         }
         return Promise.reject(error)
       }

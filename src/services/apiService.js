@@ -2,7 +2,7 @@ import axios from "axios";
 const ApiService = {
 
     init(){
-        axios.defaults.baseURL = 'http://localhost:3000'
+        axios.defaults.baseURL = 'http://localhost:3000/api'
         axios.defaults.withCredentials = false
     },
     setHeader(token){
@@ -13,26 +13,44 @@ const ApiService = {
 
 export default ApiService;
 
+function trimEmpty (recipe) {
+  recipe.ingredientGroups.forEach(group => {
+    let trimedIngredients = []
+    group.ingredients.forEach(ingredeient => {
+      if (!ingredeient.name == "") {
+        trimedIngredients.push(ingredeient)
+      }
+    })
+    group.ingredients = trimedIngredients
+  });
+}
+
 export const RecipeService = {
     getRecipes(){
-        return axios.get('/recipes')
+        return axios.get('/publish/recipes')
     },
     getRecipe(id){    
-        return axios.get('/recipes/' + id)
+        return axios.get('/publish/recipes/' + id)
     },
-    createRecipe(recipe){
-        return axios.post('/recipes', recipe)
+    createRecipe(recipe){      
+      trimEmpty(recipe)
+      console.log(recipe)
+      return axios.post('/publish/recipes', recipe)
     },
     updateRecipe(recipe){
-        return axios.put('/recipes/' + recipe.id, recipe)
+        trimEmpty(recipe)
+        return axios.put('/publish/recipes/' + recipe.id, recipe)
     }
 }
 
 export const AuthService = {
-    createUser(credentials){
-        return axios.post('/users', credentials)
+    createUser({username, displayName, email, password}){
+        return axios.post('/auth/register', {username, displayName, email, password})
     },
-    login(credentials){
-        return axios.post('/login', credentials)
+    login({email, password}){
+        return axios.post('/auth/login', {email, password})
+    },
+    getAccount(){
+      return axios.get('/auth/account')
     }
 }

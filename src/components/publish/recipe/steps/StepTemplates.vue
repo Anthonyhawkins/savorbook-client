@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-auto bg-white w-1/3 border-l border-gray-400 p-5 space-y-5">
+    <div class="flex flex-col h-auto bg-white w-1/3 border-l border-gray-200 p-5 space-y-5 rounded-r-lg">
         
         <h2 class="flex justify-start space-y-3 space-x-3">
             <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-400 place-self-center h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">

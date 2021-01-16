@@ -5,7 +5,6 @@ const getDefaultState = () => {
     recipe: {
       name: "",
       description: "",
-      
       ingredientGroups: [
         {
           groupName: '',
@@ -20,7 +19,13 @@ const getDefaultState = () => {
         {
           id: 1,
           type: "text",
-          content: { text: "" }
+          text: "",
+          textRight: "",
+          imageRight: "",
+          textCenter: "",
+          imageCenter: "",
+          textLeft: "",
+          imageLeft: ""
         }
       ]
     }
@@ -33,7 +38,7 @@ export const actions = {
   getRecipe({ commit }, id){
     RecipeService.getRecipe(id).then(
       ({ data }) => {
-        commit('SET_RECIPE', data)
+        commit('SET_RECIPE', data.data)
       }
     )
   },
@@ -83,10 +88,30 @@ export const mutations= {
     let stepId = state.recipe.steps.length + 1
     switch(stepType) {
       case "text":
-        newStep = { id: stepId, type: "text", content: { text: "" }}
+        newStep = {
+          is: stepId,
+          type: stepType,
+          text: "",
+          textRight: "",
+          imageRight: "",
+          textCenter: "",
+          imageCenter: "",
+          textLeft: "",
+          imageLeft: ""
+        }
         break;
       case "tipText":
-        newStep = { id: stepId, type: "tipText", content: { text: "" }}
+        newStep = {
+          is: stepId,
+          type: stepType,
+          text: "",
+          textRight: "",
+          imageRight: "",
+          textCenter: "",
+          imageCenter: "",
+          textLeft: "",
+          imageLeft: ""
+        }
         break;
     }
     state.recipe.steps.push(newStep)    
