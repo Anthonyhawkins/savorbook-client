@@ -25,6 +25,12 @@ function trimEmpty (recipe) {
   });
 }
 
+export const ImageService = {
+  uploadImage(formData){
+    return axios.post('/images', formData)
+  }
+}
+
 export const RecipeService = {
     getRecipes(){
         return axios.get('/publish/recipes')

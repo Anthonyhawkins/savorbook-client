@@ -32,5 +32,8 @@ module.exports = {
       pink: colors.pink,
       rose: colors.rose
     }
-  }
+  },
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ]
 }
