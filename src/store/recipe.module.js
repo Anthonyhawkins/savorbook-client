@@ -4,6 +4,7 @@ const getDefaultState = () => {
   return {
     recipe: {
       name: "",
+      image: "",
       description: "",
       ingredientGroups: [
         {
@@ -42,7 +43,9 @@ export const actions = {
       }
     )
   },
-
+  setRecipeImage({ commit}, imageSrc){
+    commit('SET_RECIPE_IMAGE', imageSrc)
+  },
   resetRecipe({ commit }){
     commit('RESET_RECIPE')
   },
@@ -74,6 +77,9 @@ export const mutations= {
     Object.assign(state, getDefaultState())
     //state.recipe = initialState
     console.log(state.recipe)
+  },
+  SET_RECIPE_IMAGE(state, imageSrc){
+    state.recipe.image = imageSrc
   },
   SET_RECIPE(state, payload){
     state.recipe = payload

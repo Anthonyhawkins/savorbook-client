@@ -1,7 +1,7 @@
 <template>
   <form action="" enctype="multipart/form-data">
 
-    <div class="flex bg-gray-300 rounded aspect-w-1 aspect-h-1 justify-center">
+    <div class="flex bg-gray-200 rounded aspect-w-1 aspect-h-1 justify-center">
 
       <img class="image-fit w-full rounded" v-if="imgsrc" :src="imgsrc" alt="">
       
@@ -10,7 +10,7 @@
           <svg @click="$refs.file.click()" xmlns="http://www.w3.org/2000/svg" class="bg-rose-600 rounded-md text-white h-6 w-6 place-self-center " fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
           </svg>
-          <svg @click="startCrop()" class="bg-rose-600 rounded-md text-white h-6 w-6 place-self-center " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg v-if="original" @click="startCrop()" class="bg-rose-600 rounded-md text-white h-6 w-6 place-self-center " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
           </svg>
         </div>
@@ -26,21 +26,22 @@
         </div>
       </div>
 
-    </div>
-
     <input 
       type="file"
       ref="file"
       @change="selectFile()"
       class="hidden"
     />
+    </div>
+
+
     <ImageCropper 
     v-if="crop" 
     @close-cropper="closeCropper()" 
     @set-crop="setCrop"
     :src="original"/>
 
-    </form>  
+    </form>
 </template>
 
 <script>
@@ -49,16 +50,20 @@
   import { dataURItoBlob } from "@/helpers/helpers.js"
 
   export default {
-      name: "RecipePhoto",
+      name: "ImageSelector",
       components: {
         ImageCropper
+      },
+      props: {
+        imageFor: String,
+        existingImage: String
       },
       data() {
         return {
           crop: false,
           original: "",
           file: "",
-          imgsrc: "",
+          imgsrc: this.existingImage,
         }
       },
       methods: {
@@ -73,11 +78,11 @@
     
         startCrop()    { this.crop = true; },
         closeCropper() { this.crop = false },
-
         setCrop(croppedImage){
           this.crop = false
           this.imgsrc = croppedImage
-          //this.sendFile()
+          //prevent an upload if cropper was opened but closed and no changes were made.
+          this.sendFile()
         },
 
         selectFile() {
@@ -99,7 +104,8 @@
             await ImageService.uploadImage(formData)
             .then(({ data }) => {
               this.imgsrc="https://storage.googleapis.com" + data.data.path
-              
+              console.log(data)
+              this.$emit('imageSelected', {image: this.imageFor, src: this.imgsrc})
             })
           } catch(err) {
             console.log(err)

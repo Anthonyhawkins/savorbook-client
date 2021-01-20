@@ -68,6 +68,13 @@
   </div>
 
 <!-- Default -->
+
+        <div class="flex flex-col bg-white w-1/3 p-5 rounded-l-lg mx-auto">
+        <ImageSelector imageFor="imageOne" @image-selected="setImage"/>
+        </div>
+        <div class="flex flex-col bg-white w-1/3 p-5 rounded-l-lg mx-auto">
+        <ImageSelector/>
+        </div>
     <div
       class="bg-white px-6 py-4 my-3 w-3/4 mx-auto shadow rounded-md flex items-center"
     >
@@ -98,10 +105,28 @@
 </template>
 
 <script>
+import ImageSelector from "@/components/ImageSelector.vue"
+
 export default {
   name: "Home",
   components: {
-
+    ImageSelector
+  },
+  data(){
+    return {
+      images: {
+        "imageOne": "",
+        "imageTwo": ""
+      }
+    }
+  },
+  methods: {
+    setImage(e){
+      console.log("hereI am")
+      console.log(e)
+      this.images[e.image] = e.src
+    }
   }
+
 };
 </script>

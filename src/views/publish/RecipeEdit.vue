@@ -34,7 +34,9 @@
         <div class="flex flex-col bg-white w-2/3 p-5 rounded-l-lg">
 
           <label for="description" class="this-label">Photo</label>
-          <RecipePhoto/>
+          <ImageSelector v-if="recipe.image" :allowCrop="false" :existingImage="recipe.image" imageFor="recipeImage" @image-selected="setRecipeImage"/>
+          <ImageSelector v-else imageFor="recipeImage" @image-selected="setRecipeImage"/>
+
           <label for="description" class="this-label">Description</label>
           <RecipeDescription v-model="recipe.description"/>
           <IngredientsToolBar/>
@@ -93,10 +95,9 @@
   import store from "@/store"
   import { mapGetters } from "vuex";
   import { RecipeService } from "@/services/apiService.js"
-
+  import ImageSelector from "@/components/ImageSelector.vue"
   import Alert from "@/components/Alert.vue"
   import {
-    RecipePhoto,
     RecipeDescription,
     IngredientsToolBar,
     IngredientGroup
@@ -111,24 +112,19 @@
       IngredientsToolBar,
       IngredientGroup,
       StepTemplates,
-      RecipePhoto,
+      ImageSelector,
       StepHint,
       StepText,
       StepTip
 
     },
-    beforeRouteEnter(to, from, next) {
-      console.log(to.name)
+    async beforeRouteEnter(to, from, next) {
       if (to.name === 'RecipeEdit') {
-        Promise.all([
-          store.dispatch('getRecipe', to.params.id)
-        ]).then(() => {
-          return next();
-        });
+        await store.dispatch('getRecipe', to.params.id)
       } else {
-        store.dispatch('resetRecipe')
-        return next();
+        await store.dispatch('resetRecipe')
       }
+      return next()
     },
     data(){
       return {
@@ -146,9 +142,6 @@
         return "create"
       },
     },
-    mounted(){
-      console.log(this.recipe)
-    },
     methods: {
       displayAlerts(data){
         if (!data.success){
@@ -156,7 +149,9 @@
           this.errors = data.errors
         }
       },
-
+      setRecipeImage(e){
+        this.$store.dispatch('setRecipeImage', e.src)
+      },
       saveRecipe () {
         this.errors = []
         if (this.actionType === "create") {
@@ -168,6 +163,7 @@
             }  
           })
         } else {
+          console.log(this.recipe)
           RecipeService.updateRecipe(this.recipe)
           .then(({ data }) => {
             this.displayAlerts(data)  

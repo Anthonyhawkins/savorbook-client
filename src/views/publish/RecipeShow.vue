@@ -25,6 +25,8 @@
             </div>
             <div class="flex flex-col lg:w-4/6 px-10 lg:pr-10 pb-4">
                     <h1 class="text-rose-500 uppercase text-2xl mb-4">{{recipe.name}}</h1>
+                    
+                    <img class="rounded-sm shadow-md" :src="recipe.image" alt="">
                     <p class="text-lg mb-4">{{recipe.description}}</p>
                     <h1 class="text-rose-500 text-xl mb-4">Steps</h1>
 
