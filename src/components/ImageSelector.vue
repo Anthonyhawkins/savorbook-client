@@ -56,12 +56,13 @@
       },
       props: {
         imageFor: String,
-        existingImage: String
+        existingImage: String,
+        existingOriginal: String
       },
       data() {
         return {
           crop: false,
-          original: "",
+          original: this.existingOriginal,
           file: "",
           imgsrc: this.existingImage,
         }
@@ -104,8 +105,11 @@
             await ImageService.uploadImage(formData)
             .then(({ data }) => {
               this.imgsrc="https://storage.googleapis.com" + data.data.path
-              console.log(data)
-              this.$emit('imageSelected', {image: this.imageFor, src: this.imgsrc})
+              this.$emit('imageSelected', {
+                original: this.original,
+                image: this.imageFor, 
+                src: this.imgsrc,
+                })
             })
           } catch(err) {
             console.log(err)

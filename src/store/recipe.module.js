@@ -75,8 +75,6 @@ export const actions = {
 export const mutations= {
   RESET_RECIPE(state){
     Object.assign(state, getDefaultState())
-    //state.recipe = initialState
-    console.log(state.recipe)
   },
   SET_RECIPE_IMAGE(state, imageSrc){
     state.recipe.image = imageSrc
@@ -86,41 +84,27 @@ export const mutations= {
   },
 
   SET_STEP(state, payload){
-    state.recipe.steps[payload.index] = payload.step
+    state.recipe.steps[payload.index] =  payload.step;
   },
   ADD_STEP(state, stepType){
     let newStep = null
-  
     let stepId = state.recipe.steps.length + 1
-    switch(stepType) {
-      case "text":
-        newStep = {
-          is: stepId,
-          type: stepType,
-          text: "",
-          textRight: "",
-          imageRight: "",
-          textCenter: "",
-          imageCenter: "",
-          textLeft: "",
-          imageLeft: ""
+
+    newStep = {
+      id: stepId,
+      type: stepType,
+      text: "",
+      textRight: "",
+      imageRight: "",
+      textCenter: "",
+      imageCenter: "",
+      textLeft: "",
+      imageLeft: {
+        orgiginal: "",
+        src: ""
         }
-        break;
-      case "tipText":
-        newStep = {
-          is: stepId,
-          type: stepType,
-          text: "",
-          textRight: "",
-          imageRight: "",
-          textCenter: "",
-          imageCenter: "",
-          textLeft: "",
-          imageLeft: ""
-        }
-        break;
     }
-    state.recipe.steps.push(newStep)    
+    state.recipe.steps.push(newStep)   
   },
   REMOVE_STEP(state, index){
     state.recipe.steps.splice(index, 1)
@@ -147,8 +131,6 @@ export const mutations= {
         { name: "", qty: "", unit: "" }
       ]
     }
-    console.log(state.recipe)
-
     state.recipe.ingredientGroups.push(newGroup)
   },  
 }

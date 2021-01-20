@@ -81,6 +81,19 @@
               @dragenter.prevent
               @drop="moveStep($event, index)"
               />
+              <StepImageSingle
+              v-if="step.type === 'imageLeft'"
+              :stepIndex="index"
+              :stepText="step.text"
+              :stepType="step.type"
+              :stepImage="step.imageLeft"
+              :key="index + step.text"
+              draggable="true"
+              @dragstart="pickupStep($event, index)"
+              @dragover.prevent
+              @dragenter.prevent
+              @drop="moveStep($event, index)"
+              />
             </template>
             <StepHint/> 
           </div>
@@ -103,7 +116,7 @@
     IngredientGroup
   } from "@/components/publish/recipe"
 
-  import { StepTemplates, StepHint, StepText, StepTip } from "@/components/publish/recipe/steps"
+  import { StepTemplates, StepHint, StepText, StepTip, StepImageSingle } from "@/components/publish/recipe/steps"
 
   export default {
     components: {
@@ -115,8 +128,8 @@
       ImageSelector,
       StepHint,
       StepText,
-      StepTip
-
+      StepTip,
+      StepImageSingle
     },
     async beforeRouteEnter(to, from, next) {
       if (to.name === 'RecipeEdit') {
@@ -163,7 +176,6 @@
             }  
           })
         } else {
-          console.log(this.recipe)
           RecipeService.updateRecipe(this.recipe)
           .then(({ data }) => {
             this.displayAlerts(data)  
