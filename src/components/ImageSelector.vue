@@ -1,16 +1,17 @@
 <template>
   <form action="" enctype="multipart/form-data">
-
-    <div class="flex bg-gray-200 rounded aspect-w-1 aspect-h-1 justify-center">
-
-      <img class="image-fit w-full rounded" v-if="imgsrc" :src="imgsrc" alt="">
       
+    <div class="flex bg-gray-200 rounded aspect-w-1 aspect-h-1 justify-center">
+      <img class="image-fit w-full rounded" v-if="imgsrc" :src="imgsrc" alt="">
+      <div v-if="fileTooBig" class="flex flex-col justify-end pb-2">
+        <Alert alertType="warning" :message="sizeWarning"/>
+      </div>
       <div v-if="imgsrc" class="flex justify-end h-full p-2">
         <div class=" h-6 w-6 justify-center cursor-pointer space-y-2">
-          <svg @click="$refs.file.click()" xmlns="http://www.w3.org/2000/svg" class="bg-rose-600 rounded-md text-white h-6 w-6 place-self-center " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg @click="$refs.file.click()" xmlns="http://www.w3.org/2000/svg" class="bg-gray-600 opacity-50 rounded-md text-white h-6 w-6 place-self-center " fill="none" viewBox="0 0 24 24" stroke="currentColor" alt="Select New Image">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
           </svg>
-          <svg v-if="original" @click="startCrop()" class="bg-rose-600 rounded-md text-white h-6 w-6 place-self-center " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg v-if="original" @click="startCrop()" class="bg-gray-600 opacity-50 rounded-md text-white h-6 w-6 place-self-center " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" alt="Crop">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
           </svg>
         </div>
@@ -48,11 +49,12 @@
   import { ImageService } from "@/services/apiService.js"
   import ImageCropper from "@/components/ImageCropper.vue"
   import { dataURItoBlob } from "@/helpers/helpers.js"
-
+  import Alert from "@/components/Alert.vue"
   export default {
       name: "ImageSelector",
       components: {
-        ImageCropper
+        ImageCropper,
+        Alert
       },
       props: {
         imageFor: String,
@@ -61,10 +63,28 @@
       },
       data() {
         return {
+          fileSzieLimit: 3 * 1024 *1024,
           crop: false,
+          fileSize: 0,
           original: this.existingOriginal,
           file: "",
           imgsrc: this.existingImage,
+        }
+      },
+      watch: {
+        existingImage(){ this.imgsrc = this.existingImage },
+        existingOriginal(){ this.original = this.existingOriginal }
+      },
+      computed: {
+        fileTooBig(){
+          if (this.fileSize > this.fileSzieLimit){
+            return true
+          } 
+          return false
+        },
+        sizeWarning(){
+          const inMB = this.fileSzieLimit / 1024 / 1024
+          return `File too large! Images should be ${inMB}MB or less.`
         }
       },
       methods: {
@@ -82,13 +102,12 @@
         setCrop(croppedImage){
           this.crop = false
           this.imgsrc = croppedImage
-          //prevent an upload if cropper was opened but closed and no changes were made.
           this.sendFile()
         },
-
         selectFile() {
           // store as original
           this.original = this.$refs.file.files[0]
+          this.fileSize = this.original.size
           var reader = new FileReader();
           reader.onload = (e) => {
             this.imgsrc = e.target.result;

@@ -14,6 +14,7 @@ const ApiService = {
 export default ApiService;
 
 function trimEmpty (recipe) {
+  //remove empty fields
   recipe.ingredientGroups.forEach(group => {
     let trimedIngredients = []
     group.ingredients.forEach(ingredeient => {
@@ -22,7 +23,21 @@ function trimEmpty (recipe) {
       }
     })
     group.ingredients = trimedIngredients
-  });
+  })
+
+  //remove original images
+  recipe.steps.forEach(step =>{
+    let trimmedImages = []
+    step.images.forEach(image => {
+       const trimmedStep = {
+         src: image.src,
+         text: image.text
+       }
+       trimmedImages.push(trimmedStep)
+    })
+    step.images = trimmedImages
+  })
+
 }
 
 export const ImageService = {
@@ -45,6 +60,7 @@ export const RecipeService = {
     },
     updateRecipe(recipe){
         trimEmpty(recipe)
+        console.log(recipe)
         return axios.put('/publish/recipes/' + recipe.id, recipe)
     }
 }

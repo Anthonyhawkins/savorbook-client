@@ -21,12 +21,23 @@ const getDefaultState = () => {
           id: 1,
           type: "text",
           text: "",
-          textRight: "",
-          imageRight: "",
-          textCenter: "",
-          imageCenter: "",
-          textLeft: "",
-          imageLeft: ""
+          images: [
+            {
+              src: "",
+              original: "",
+              text: ""
+            },
+            {
+              src: "",
+              original: "",
+              text: ""
+            },
+            {
+              src: "",
+              original: "",
+              text: ""
+            }
+          ]
         }
       ]
     }
@@ -94,16 +105,25 @@ export const mutations= {
       id: stepId,
       type: stepType,
       text: "",
-      textRight: "",
-      imageRight: "",
-      textCenter: "",
-      imageCenter: "",
-      textLeft: "",
-      imageLeft: {
-        orgiginal: "",
-        src: ""
+      images: [
+        {
+          src: "",
+          original: "",
+          text: ""
+        },
+        {
+          src: "",
+          original: "",
+          text: ""
+        },
+        {
+          src: "",
+          original: "",
+          text: ""
         }
+      ]
     }
+
     state.recipe.steps.push(newStep)   
   },
   REMOVE_STEP(state, index){

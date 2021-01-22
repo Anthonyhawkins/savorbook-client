@@ -54,7 +54,7 @@ export default {
   methods: {
     crop() {
       const canvas = this.cropper.getCroppedCanvas()
-      this.destination = canvas.toDataURL("image/jpg")
+      this.destination = canvas.toDataURL("image/jpeg")
       this.$emit('set-crop', this.destination)
     }
   }

@@ -1,24 +1,35 @@
 <template>
     <div class="flex flex-row bg-white h-auto text-sm p-2 text-gray-300 shadow-md border border-gray-300 mt-2">
-        <div class="flex flex-row w-full">
+        <div class="flex flex-row w-full justify-between space-x-2">
             
-            <div v-if="type === 'imageLeft'" class="flex flex-col w-1/2">
-              <ImageSelector :existingImage="imgSrc" :existingOriginal="original" imageFor="imgSrc" @image-selected="setImage"/>
-            </div>
-            <div class="flex w-1/2">
+
+            <div class="flex flex-col w-1/2">
+              <ImageSelector :existingImage="images[0].src" :existingOriginal="images[0].original" imageFor="0" @image-selected="setImage"/>
               <textarea 
               name="description" 
-              placeholder="What About this imatwsfsfsfsfge" 
-              class="step-text h-full" 
+              placeholder="What Aboout this image 1" 
+              class="step-text h-full mt-2" 
               cols="30" 
               rows="10"
-              v-model="text"
+              v-model="images[0].text"
               @blur="saveStep()"
-              ></textarea>
+              ></textarea>    
             </div>
-            <div v-if="type === 'imageRight'" class="flex flex-col w-1/2">
-              <ImageSelector :existingImage="imgSrc" :existingOriginal="original" imageFor="imgSrc" @image-selected="setImage"/>
+
+            <div class="flex flex-col w-1/2">
+              <ImageSelector :existingImage="images[1].src" :existingOriginal="images[1].original" imageFor="1" @image-selected="setImage"/>
+              <textarea 
+              name="description" 
+              placeholder="What About this image 2" 
+              class="step-text h-full mt-2" 
+              cols="30" 
+              rows="10"
+              v-model="images[1].text"
+              @blur="saveStep()"
+              ></textarea>   
             </div>
+
+        
         </div>
         <div class="flex flex-col w-10 pl-1 justify-between">
             <div class="flex justify-center">
@@ -49,7 +60,7 @@
 <script>
   import ImageSelector from "@/components/ImageSelector.vue"
   export default {
-    name: "StepImageSingle",
+    name: "StepImageDouble",
     components: {
       ImageSelector
     },
@@ -66,23 +77,22 @@
       return {
         index: this.stepIndex,
         type: this.step.type,
-        text: this.step.images[0].text,
-        imgSrc: this.step.images[0].src,
-        original: this.step.images[0].original
+        images: this.step.images
       }
     },
     methods: {
       flipImage(){
-        if (this.type === 'imageLeft') {
-          this.type = 'imageRight'
-        } else {
-          this.type = 'imageLeft'
-        }
+                this.images = [
+          this.images[1],
+          this.images[0],
+          this.images[2]
+        ]
         this.saveStep()
       },
       setImage(e){
-        this.imgSrc = e.src
-        this.original = e.original
+        const index = parseInt(e.image, 10)
+        this.images[index].src = e.src
+        this.images[index].original = e.original
         this.saveStep()
       },
       saveStep(){
@@ -92,15 +102,9 @@
             id: this.step.id,
             type: this.type,
             text: "",
-            images: [
-              {
-                src: this.imgSrc,
-                original: this.original,
-                text: this.text
-              }
-            ]
+            images: this.images
           }
-        }
+        } 
         this.$store.dispatch('setStep', payload)
       },
       removeStep(){
@@ -112,6 +116,6 @@
 
 <style lang="postcss" scoped>
     .step-text {
-        @apply w-full h-full focus:outline-none focus:ring p-2 text-gray-600 ml-1
+        @apply w-full h-full focus:outline-none focus:ring p-2 text-gray-600
     }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col"> 
+  <div class="flex flex-col mx-auto lg:w-4/5 w-7/8"> 
     <form @submit.prevent>
   
       <div class="flex flex-row p-2 bg-white mb-2 shadow rounded-lg justify-between space-x-3 m-2">
@@ -62,7 +62,7 @@
               <StepText
               v-if="step.type === 'text'"
               :stepIndex="index"
-              :stepText="step.text"
+              :step="step"
               :key="index + step.text"
               draggable="true"
               @dragstart="pickupStep($event, index)"
@@ -73,7 +73,7 @@
               <StepTip
               v-if="step.type === 'tipText'"
               :stepIndex="index"
-              :stepText="step.text"
+              :step="step"
               :key="index + step.text"
               draggable="true"
               @dragstart="pickupStep($event, index)"
@@ -82,12 +82,21 @@
               @drop="moveStep($event, index)"
               />
               <StepImageSingle
-              v-if="step.type === 'imageLeft'"
+              v-if="['imageLeft', 'imageRight'].includes(step.type)"
               :stepIndex="index"
-              :stepText="step.text"
-              :stepType="step.type"
-              :stepImage="step.imageLeft"
-              :key="index + step.text"
+              :step="step"
+              :key="index + step.id"
+              draggable="true"
+              @dragstart="pickupStep($event, index)"
+              @dragover.prevent
+              @dragenter.prevent
+              @drop="moveStep($event, index)"
+              />
+              <StepImageDouble
+              v-if="step.type === 'imageDouble'"
+              :stepIndex="index"
+              :step="step"
+              :key="index + step.id"
               draggable="true"
               @dragstart="pickupStep($event, index)"
               @dragover.prevent
@@ -116,7 +125,14 @@
     IngredientGroup
   } from "@/components/publish/recipe"
 
-  import { StepTemplates, StepHint, StepText, StepTip, StepImageSingle } from "@/components/publish/recipe/steps"
+  import { 
+    StepTemplates, 
+    StepHint, 
+    StepText, 
+    StepTip, 
+    StepImageSingle,
+    StepImageDouble 
+  } from "@/components/publish/recipe/steps"
 
   export default {
     components: {
@@ -129,7 +145,8 @@
       StepHint,
       StepText,
       StepTip,
-      StepImageSingle
+      StepImageSingle,
+      StepImageDouble
     },
     async beforeRouteEnter(to, from, next) {
       if (to.name === 'RecipeEdit') {
