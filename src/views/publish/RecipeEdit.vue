@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col"> 
+  <div class="flex flex-col mx-auto lg:w-4/5 w-7/8"> 
     <form @submit.prevent>
   
       <div class="flex flex-row p-2 bg-white mb-2 shadow rounded-lg justify-between space-x-3 m-2">
@@ -62,7 +62,7 @@
               <StepText
               v-if="step.type === 'text'"
               :stepIndex="index"
-              :stepText="step.text"
+              :step="step"
               :key="index + step.text"
               draggable="true"
               @dragstart="pickupStep($event, index)"
@@ -73,8 +73,41 @@
               <StepTip
               v-if="step.type === 'tipText'"
               :stepIndex="index"
-              :stepText="step.text"
+              :step="step"
               :key="index + step.text"
+              draggable="true"
+              @dragstart="pickupStep($event, index)"
+              @dragover.prevent
+              @dragenter.prevent
+              @drop="moveStep($event, index)"
+              />
+              <StepImageSingle
+              v-if="['imageLeft', 'imageRight'].includes(step.type)"
+              :stepIndex="index"
+              :step="step"
+              :key="index + step.id"
+              draggable="true"
+              @dragstart="pickupStep($event, index)"
+              @dragover.prevent
+              @dragenter.prevent
+              @drop="moveStep($event, index)"
+              />
+              <StepImageDouble
+              v-if="step.type === 'imageDouble'"
+              :stepIndex="index"
+              :step="step"
+              :key="index + step.id"
+              draggable="true"
+              @dragstart="pickupStep($event, index)"
+              @dragover.prevent
+              @dragenter.prevent
+              @drop="moveStep($event, index)"
+              />
+              <StepImageTriple
+              v-if="step.type === 'imageTriple'"
+              :stepIndex="index"
+              :step="step"
+              :key="index + step.id"
               draggable="true"
               @dragstart="pickupStep($event, index)"
               @dragover.prevent
@@ -103,7 +136,15 @@
     IngredientGroup
   } from "@/components/publish/recipe"
 
-  import { StepTemplates, StepHint, StepText, StepTip } from "@/components/publish/recipe/steps"
+  import { 
+    StepTemplates, 
+    StepHint, 
+    StepText, 
+    StepTip, 
+    StepImageSingle,
+    StepImageDouble,
+    StepImageTriple 
+  } from "@/components/publish/recipe/steps"
 
   export default {
     components: {
@@ -115,8 +156,10 @@
       ImageSelector,
       StepHint,
       StepText,
-      StepTip
-
+      StepTip,
+      StepImageSingle,
+      StepImageDouble,
+      StepImageTriple
     },
     async beforeRouteEnter(to, from, next) {
       if (to.name === 'RecipeEdit') {
@@ -163,7 +206,6 @@
             }  
           })
         } else {
-          console.log(this.recipe)
           RecipeService.updateRecipe(this.recipe)
           .then(({ data }) => {
             this.displayAlerts(data)  

@@ -3,9 +3,16 @@ import StepHint from "@/components/publish/recipe/steps/StepHint.vue"
 import StepText from "@/components/publish/recipe/steps/StepText.vue"
 import StepTip from "@/components/publish/recipe/steps/StepTip.vue"
 
+import StepImageSingle from "@/components/publish/recipe/steps/StepImageSingle.vue"
+import StepImageDouble from "@/components/publish/recipe/steps/StepImageDouble.vue"
+import StepImageTriple from "@/components/publish/recipe/steps/StepImageTriple.vue"
+
 export {
     StepTemplates,
     StepHint,
     StepText,
-    StepTip
+    StepTip,
+    StepImageSingle,
+    StepImageDouble,
+    StepImageTriple
 }

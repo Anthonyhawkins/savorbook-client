@@ -30,43 +30,48 @@
 </template>
 
 <script>
-export default {
+  export default {
     name: "StepTip",
     props: {
-        stepIndex: {
-            type: [Number],
-            required: true
-        },
-        stepText: {
-            type: [String],
-            required: true
-        }
+      stepIndex: {
+        type: [Number],
+        required: true
+      },
+      step: {
+        type: Object
+      }
     },
     data () {
-        return {
-            index: this.stepIndex,
-            text: this.stepText
-        }
+      return {
+        type: this.step.type,
+        index: this.stepIndex,
+        text: this.step.text
+      }
     },
     methods: {
-        createNewContent(){
-            console.log(this.recipe.steps)
-        },
-        saveStep(index){
-            const payload = {
-                index,
-                step: {
-                    type: "tipText",
-                    text: this.text
-                }
-            }
-            this.$store.dispatch('setStep', payload)
-        },
-        removeStep(index){
-            this.$store.dispatch('removeStep', index)
+      saveStep(){
+        const payload = {
+          index: this.index,
+          step: {
+            id: this.step.id,
+            type: this.type,
+            text: this.text,
+            images: [
+              {
+                src: "",
+                original: "",
+                text: ""
+              }
+            ]
+          }
         }
+        this.$store.dispatch('setStep', payload)
+      },
+      removeStep(index){
+        this.$store.dispatch('removeStep', index)
+      }
     }
-}
+  }
 </script>
 
 <style lang="postcss" scoped>
