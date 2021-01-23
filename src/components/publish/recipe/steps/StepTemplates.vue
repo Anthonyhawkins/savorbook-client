@@ -92,7 +92,24 @@
             </div>
         </div>
 
-        <div class="flex flex-row bg-white h-40 space-x-1 shadow-md border border-gray-300">
+        <div 
+          class="
+          flex
+          flex-row
+          space-x-1 
+          bg-white 
+          h-40 
+          text-sm 
+          p-2 
+        text-gray-300 
+          shadow-md 
+          border
+        border-gray-300
+          hover:shadow-lg
+          cursor-pointer
+          select-none"
+          @click="addStep('imageTriple')" 
+        >
             <div class="flex w-1/3 flex-col">
                 <div class="flex h-1/2 bg-gray-400 justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-100 place-self-center h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">

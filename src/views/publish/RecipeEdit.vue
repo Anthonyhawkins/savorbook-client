@@ -103,6 +103,17 @@
               @dragenter.prevent
               @drop="moveStep($event, index)"
               />
+              <StepImageTriple
+              v-if="step.type === 'imageTriple'"
+              :stepIndex="index"
+              :step="step"
+              :key="index + step.id"
+              draggable="true"
+              @dragstart="pickupStep($event, index)"
+              @dragover.prevent
+              @dragenter.prevent
+              @drop="moveStep($event, index)"
+              />
             </template>
             <StepHint/> 
           </div>
@@ -131,7 +142,8 @@
     StepText, 
     StepTip, 
     StepImageSingle,
-    StepImageDouble 
+    StepImageDouble,
+    StepImageTriple 
   } from "@/components/publish/recipe/steps"
 
   export default {
@@ -146,7 +158,8 @@
       StepText,
       StepTip,
       StepImageSingle,
-      StepImageDouble
+      StepImageDouble,
+      StepImageTriple
     },
     async beforeRouteEnter(to, from, next) {
       if (to.name === 'RecipeEdit') {

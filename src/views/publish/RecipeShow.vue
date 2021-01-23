@@ -18,7 +18,8 @@
                     <h3 class="font-medium">{{group.groupName}}</h3>
                     <ul class="font-serif mb-3">
                         <li 
-                        class="mt-2"
+                        class="mt-2 step-focus"
+                        tabindex="0"
                         v-for="item in group.ingredients" :key="item">{{item.qty}} {{item.unit}} {{item.name}}</li>
                     </ul>
                 </template>
@@ -31,7 +32,7 @@
               <h1 class="text-rose-500 text-xl mb-4">Steps</h1>
 
               <template v-for="(step, index) in recipe.steps" :key="step">
-                <div>
+                <div class="relative">
                   
                   
                   <template v-if="step.type === 'text'">
@@ -48,7 +49,7 @@
                   </template>
                   
                   
-                  <p v-if="step.type === 'tipText'" :tabindex="index" class="ml-4 text-justify step-focus py-2 border-b border-t border-rose-500 mb-3 font-medium">{{step.text}}</p>
+                  <p v-if="step.type === 'tipText'" :tabindex="index" class="tip-pane">{{step.text}}</p>
 
                   <template v-if="step.type === 'imageLeft'">
                     <div :tabindex="index" class="flex step-focus my-12">                            
@@ -68,14 +69,30 @@
                     <div :tabindex="index" class="flex flex-row space-x-2 step-focus ml-4  my-12">
                       <div class="flex flex-col w-1/2">
                         <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[0].src" alt="">                              
-                        <p v-if="step.images[0].text" class="w-full text-center py-3 border-b border-rose-500 font-medium text-xs text-rose-500 ml-4 place-self-center">{{step.images[0].text}}</p>
+                        <p v-if="step.images[0].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[0].text}}</p>
                       </div>
                       <div class="flex flex-col w-1/2">
                         <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[1].src" alt="">                              
-                        <p v-if="step.images[1].text" class="w-full text-center py-3 border-b border-rose-500 font-medium text-xs text-rose-500 ml-4 place-self-center">{{step.images[1].text}}</p>
+                        <p v-if="step.images[1].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[1].text}}</p>
                       </div>
                     </div>
+                  </template>
 
+                  <template v-if="step.type === 'imageTriple'">
+                    <div :tabindex="index" class="flex flex-row space-x-2 step-focus ml-4  my-12">
+                      <div class="flex flex-col w-1/3">
+                        <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[0].src" alt="">                              
+                        <p v-if="step.images[0].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[0].text}}</p>
+                      </div>
+                      <div class="flex flex-col w-1/3">
+                        <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[1].src" alt="">                              
+                        <p v-if="step.images[1].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[1].text}}</p>
+                      </div>
+                      <div class="flex flex-col w-1/3">
+                        <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[2].src" alt="">                              
+                        <p v-if="step.images[2].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[2].text}}</p>
+                      </div>
+                    </div>
                   </template>
 
                 </div>
@@ -133,7 +150,11 @@ export default {
 }
 
 .step-focus:focus {
-  @apply bg-rose-50 border-0 outline-none
+  @apply bg-rose-100 border-0 outline-none
+}
+
+.tip-pane {
+  @apply step-focus my-6 ml-4 py-2 border-b-2 border-t-2 border-rose-500 font-medium
 }
 
 </style>
