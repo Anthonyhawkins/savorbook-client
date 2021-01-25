@@ -1,6 +1,6 @@
 <template>
-    <div class="move-icon flex flex-row bg-white h-auto text-sm p-2 text-gray-300 shadow-md border border-gray-300 mt-2">
-        <div class="flex w-full bg-red-200">
+    <div class="move-icon flex flex-row rounded-md bg-white h-auto text-sm p-2 text-gray-300 shadow border border-gray-300 mt-2">
+        <div class="flex w-full h-auto">
             <textarea 
             name="description" 
             placeholder="Now do this..." 

@@ -1,16 +1,16 @@
 <template>
-
-    <textarea 
-    name="description" 
-    placeholder="What makes the recipe special?" 
-    class="des-textarea" 
-    id="" 
-    cols="30" 
-    rows="10"
-    :value="modelValue"
-    @input="$emit('update:modelValue', $event.target.value)"
-    ></textarea>
-
+    <div class="h-48">
+      <textarea 
+      name="description" 
+      placeholder="What makes the recipe special?" 
+      class="des-textarea" 
+      id="" 
+      cols="30" 
+      rows="10"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+      ></textarea>
+    </div>
 </template>
 
 <script>

@@ -12,15 +12,30 @@
         </div>
         
         <div class="flex flex-col bg-gray-50 lg:flex-row h-full pt-4 shadow rounded-lg">
-            <div class="flex flex-col lg:w-2/6 px-16">
-                <h2 class="text-xl uppercase mb-4">Ingredients</h2>
+            <div class="flex flex-col lg:w-2/6 px-10">
+                <h2 class="text-xl uppercase mb-4 px-10">Ingredients</h2>
                 <template v-for="group in recipe.ingredientGroups" :key="group">
                     <h3 class="font-medium">{{group.groupName}}</h3>
                     <ul class="font-serif mb-3">
                         <li 
                         class="mt-2 step-focus"
                         tabindex="0"
-                        v-for="item in group.ingredients" :key="item">{{item.qty}} {{item.unit}} {{item.name}}</li>
+                        v-for="item in group.ingredients" :key="item">
+
+                        <div class="flex flex-row">
+                          <div class=" flex w-12  pr-2">
+                            <p class="block w-full text-right">{{item.qty}}</p>
+                          </div>
+                          <div class="flex">
+                            {{item.unit}} {{item.name}}
+                          </div>
+                        </div>
+
+
+                        
+                        
+                        
+                        </li>
                     </ul>
                 </template>
             </div>
@@ -36,16 +51,12 @@
                   
                   
                   <template v-if="step.type === 'text'">
-
-                    <div :tabindex="index" class="step-focus flex flex-row">
-                      <div class="flex ">
-                        <div class="step w-3">{{stepMap[step.id]}}</div>
-                      </div>
-                      <div class="flex">
+                      <div :tabindex="index" class="step-focus">
+                        <div class="step-number step w-10">
+                          <p class="text-right">{{stepMap[step.id]}}</p>
+                        </div>
                         <p class="mb-3 text-justify">{{step.text}}</p>
-                      </div>                            
-                    </div>
-                    
+                      </div>
                   </template>
                   
                   
@@ -53,20 +64,20 @@
 
                   <template v-if="step.type === 'imageLeft'">
                     <div :tabindex="index" class="flex step-focus my-12">                            
-                      <img class="object-contain w-1/2 float-left rounded-sm shadow-md ml-4 mr-3" :src="step.images[0].src" alt="">                              
+                      <img class="object-contain w-1/2 float-left rounded-sm shadow-md  mr-3" :src="step.images[0].src" alt="">                              
                       <p v-if="step.images[0].text" class="py-3 border-b border-t border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[0].text}}</p>
                     </div>
                   </template>
 
                   <template v-if="step.type === 'imageRight'">
                     <div :tabindex="index" class="flex step-focus my-12">
-                      <p v-if="step.images[0].text" class="py-3 border-b border-t border-rose-500 text-right font-medium text-xs text-rose-500 ml-4 place-self-center">{{step.images[0].text}}</p>
+                      <p v-if="step.images[0].text" class="py-3 border-b border-t border-rose-500 text-right font-medium text-xs text-rose-500  place-self-center">{{step.images[0].text}}</p>
                       <img class="object-contain w-1/2 float-left rounded-sm shadow-md ml-3" :src="step.images[0].src" alt="">                              
                     </div>
                   </template>
 
                   <template v-if="step.type === 'imageDouble'">
-                    <div :tabindex="index" class="flex flex-row space-x-2 step-focus ml-4  my-12">
+                    <div :tabindex="index" class="flex flex-row space-x-2 step-focus   my-12">
                       <div class="flex flex-col w-1/2">
                         <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[0].src" alt="">                              
                         <p v-if="step.images[0].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[0].text}}</p>
@@ -79,7 +90,7 @@
                   </template>
 
                   <template v-if="step.type === 'imageTriple'">
-                    <div :tabindex="index" class="flex flex-row space-x-2 step-focus ml-4  my-12">
+                    <div :tabindex="index" class="flex flex-row space-x-2 step-focus   my-12">
                       <div class="flex flex-col w-1/3">
                         <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[0].src" alt="">                              
                         <p v-if="step.images[0].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[0].text}}</p>
@@ -154,7 +165,14 @@ export default {
 }
 
 .tip-pane {
-  @apply step-focus my-6 ml-4 py-2 border-b-2 border-t-2 border-rose-500 font-medium
+  @apply step-focus my-6  py-2 border-b-2 border-t-2 border-rose-500 font-medium
 }
+
+.step-number {
+  position: absolute;
+  top: 0px;
+  left: -50px;
+}
+
 
 </style>

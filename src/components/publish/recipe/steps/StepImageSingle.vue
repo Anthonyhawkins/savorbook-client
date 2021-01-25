@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-row bg-white h-auto text-sm p-2 text-gray-300 shadow-md border border-gray-300 mt-2">
+    <div class="flex flex-row rounded-md bg-white h-auto text-sm p-2 text-gray-300 shadow border border-gray-300 mt-2">
         <div class="flex flex-row w-full">
             
             <div v-if="type === 'imageLeft'" class="flex flex-col w-1/2">
@@ -9,7 +9,7 @@
               <textarea 
               name="description" 
               placeholder="What About this imatwsfsfsfsfge" 
-              class="step-text h-full" 
+              class="step-text h-full border-b-2 border-t-2 border-rose-500 place-self-center" 
               cols="30" 
               rows="10"
               v-model="text"

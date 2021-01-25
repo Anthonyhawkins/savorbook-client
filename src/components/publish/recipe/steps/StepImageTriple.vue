@@ -1,7 +1,6 @@
 <template>
-    <div class="flex flex-row bg-white h-auto text-sm p-2 text-gray-300 shadow-md border border-gray-300 mt-2">
+    <div class="flex flex-row rounded-md bg-white h-auto text-sm p-2 text-gray-300 shadow border border-gray-300 mt-2">
         
-
         <draggable 
           :list="images"
           @start="drag=true" 
@@ -15,9 +14,9 @@
               <textarea 
               name="description" 
               placeholder="What Aboout this image 1" 
-              class="step-text h-full mt-2" 
+              class="step-text h-full mt-2 border-b-2 border-rose-500" 
               cols="30" 
-              rows="5"
+              rows="3"
               v-model="element.text"
               @blur="saveStep()"
               ></textarea>    

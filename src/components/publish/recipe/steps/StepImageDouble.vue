@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-row bg-white h-auto text-sm p-2 text-gray-300 shadow-md border border-gray-300 mt-2">
+    <div class="flex flex-row rounded-md bg-white h-auto text-sm p-2 text-gray-300 shadow border border-gray-300 mt-2">
         <div class="flex flex-row w-full justify-between space-x-2">
             
 
@@ -8,9 +8,9 @@
               <textarea 
               name="description" 
               placeholder="What Aboout this image 1" 
-              class="step-text h-full mt-2" 
+              class="step-text h-full mt-2 border-b-2 border-rose-500" 
               cols="30" 
-              rows="10"
+              rows="3"
               v-model="images[0].text"
               @blur="saveStep()"
               ></textarea>    
@@ -21,9 +21,9 @@
               <textarea 
               name="description" 
               placeholder="What About this image 2" 
-              class="step-text h-full mt-2" 
+              class="step-text h-full mt-2 border-b-2 border-rose-500" 
               cols="30" 
-              rows="10"
+              rows="3"
               v-model="images[1].text"
               @blur="saveStep()"
               ></textarea>   

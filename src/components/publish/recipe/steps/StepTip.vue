@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-row bg-white h-auto text-sm p-2 text-gray-300 shadow-md border border-gray-300 mt-2">
-        <div class="flex w-full bg-red-200">
+    <div class="flex flex-row rounded-md bg-white h-auto text-sm p-2 text-gray-300 shadow border border-gray-300 mt-2">
+        <div class="flex w-full ">
             <textarea 
             name="description" 
             placeholder="Now do this..." 
@@ -76,6 +76,6 @@
 
 <style lang="postcss" scoped>
     .step-text {
-        @apply w-full h-24 focus:outline-none focus:ring p-2 text-gray-600 font-semibold border-b-2 border-t-2 border-red-300
+        @apply w-full h-24 focus:outline-none focus:ring p-2 text-gray-600 font-semibold border-b-2 border-t-2 border-rose-500
     }
 </style>

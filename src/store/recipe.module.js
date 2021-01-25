@@ -18,7 +18,7 @@ const getDefaultState = () => {
       ],
       steps: [
         {
-          id: 1,
+          id: 1, 
           type: "text",
           text: "",
           images: [
@@ -91,7 +91,9 @@ export const mutations= {
     state.recipe.image = imageSrc
   },
   SET_RECIPE(state, payload){
+    console.log(state.recipe)
     state.recipe = payload
+    console.log(state.recipe)
   },
 
   SET_STEP(state, payload){

@@ -15,6 +15,7 @@
             </div>
           </router-link>
         </div>
+
         <table class="table-fixed shadow-md rounded-md mt-3">
           <thead class=" text-rose-500 bg-white">
             <th class=" rounded-tl-md font-normal py-2">Name</th>
@@ -24,11 +25,12 @@
             </th>
           </thead>
           <tbody class="bg-white">
-        <RecipeListItem 
-        v-for="(recipe, index) in recipes" 
-        :key="index" 
-        :recipeName="recipe.name"
-        :recipeId="recipe.id"/>
+            <RecipeListItem 
+              v-for="(recipe, index) in recipes" 
+              :key="index" 
+              :recipeName="recipe.name"
+              :recipeId="recipe.id"
+            />
           </tbody>
         </table>
 
@@ -36,29 +38,29 @@
 </template>
 
 <script>
-import RecipeListItem from "@/components/publish/recipe/RecipeListItem.vue"
-import { RecipeService } from '@/services/apiService.js'
+  import RecipeListItem from "@/components/publish/recipe/RecipeListItem.vue"
+  import { RecipeService } from '@/services/apiService.js'
 
-export default {
-    name: "RecipeList",
-    components: {
+  export default {
+      name: "RecipeList",
+      components: {
         RecipeListItem
-    },
-    data(){
+      },
+      data(){
         return {
-            recipes: []
+          recipes: []
         }
-    },
-  mounted() {
-    RecipeService.getRecipes()
-      .then(response => {
-        this.recipes = response.data.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
+      },
+    mounted() {
+      RecipeService.getRecipes()
+        .then(response => {
+          this.recipes = response.data.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
   }
-}
 </script>
 
 
