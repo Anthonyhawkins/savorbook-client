@@ -34,9 +34,8 @@ export default {
           } else {
             this.$store.dispatch('logout')
           }
-          
         }
-        return Promise.reject(error)
+        return Promise.reject(error.response.data)
       }
     )
     

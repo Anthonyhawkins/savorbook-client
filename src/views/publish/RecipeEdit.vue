@@ -29,9 +29,11 @@
         </div>
       </div>
 
-      <Alert v-for="(error, index) in errors" :key="index" alertType="danger" :message="error"/>
-      <Alert v-if="alertType == 'success'" :key="index" :alertType="alertType" :message="message"/>
-      
+      <div class="flex flex-col mx-2">
+        <Alert v-for="(error, index) in errors" :key="index" alertType="danger" :message="error"/>
+        <Alert v-if="alertType == 'success'" :key="index" :alertType="alertType" :message="message"/>
+      </div>
+
       <div class="flex flex-row h-screen justify-end mx-2 mb-2 shadow rounded-lg">
         <div class="flex flex-col overflow-y-scroll bg-white w-2/3 p-5 rounded-l-lg">
         <template v-for="parentRecipe in recipe.parentRecipes" :key="parentRecipe.id">
@@ -234,6 +236,9 @@
             if (data.success){
               this.$router.push({ name: 'RecipeEdit', params: { id: data.data.id }})
             }  
+          })
+          .catch(err => {
+            this.displayAlerts(err)
           })
         } else {
           RecipeService.updateRecipe(this.recipe)

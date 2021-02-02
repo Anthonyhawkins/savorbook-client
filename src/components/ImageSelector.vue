@@ -2,11 +2,11 @@
   <form action="" enctype="multipart/form-data">
       
     <div class="flex bg-gray-200 rounded aspect-w-1 aspect-h-1 justify-center">
-      <img class="image-fit w-full rounded" v-if="imgsrc" :src="imgsrc" alt="">
+      <img class="image-fit w-full rounded" v-if="imagePresent" :src="imgsrc" alt="">
       <div v-if="fileTooBig" class="flex flex-col justify-end pb-2">
         <Alert alertType="warning" :message="sizeWarning"/>
       </div>
-      <div v-if="imgsrc" class="flex justify-end h-full p-2">
+      <div v-if="imagePresent" class="flex justify-end h-full p-2">
         <div class=" h-6 w-6 justify-center cursor-pointer space-y-2">
           <svg @click="$refs.file.click()" xmlns="http://www.w3.org/2000/svg" class="bg-gray-600 opacity-50 rounded-md text-white h-6 w-6 place-self-center " fill="none" viewBox="0 0 24 24" stroke="currentColor" alt="Select New Image">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+  import { StorageBaseURL, StorageFolder } from "@/services/cloudStorage.js"
   import { ImageService } from "@/services/apiService.js"
   import ImageCropper from "@/components/ImageCropper.vue"
   import { dataURItoBlob } from "@/helpers/helpers.js"
@@ -68,14 +69,24 @@
           fileSize: 0,
           original: this.existingOriginal,
           file: "",
-          imgsrc: this.existingImage,
+          imgsrc: "https://" + StorageBaseURL + StorageFolder + this.existingImage,
         }
       },
       watch: {
-        existingImage(){ this.imgsrc = this.existingImage },
+        existingImage(){ 
+          this.imgsrc = "https://" + StorageBaseURL + StorageFolder + this.existingImage 
+        },
         existingOriginal(){ this.original = this.existingOriginal }
       },
       computed: {
+        imagePresent(){
+          if (this.imgsrc == "https://" + StorageBaseURL + StorageFolder + "undefined"
+           || this.imgsrc == "https://" + StorageBaseURL + StorageFolder
+          ){
+            return false
+          }
+          return true
+        },
         fileTooBig(){
           if (this.fileSize > this.fileSzieLimit){
             return true
@@ -123,11 +134,11 @@
           try {
             await ImageService.uploadImage(formData)
             .then(({ data }) => {
-              this.imgsrc="https://storage.googleapis.com" + data.data.path
+              this.imgsrc="https://" + StorageBaseURL + StorageFolder + data.data.name
               this.$emit('imageSelected', {
                 original: this.original,
                 image: this.imageFor, 
-                src: this.imgsrc,
+                src: data.data.name,
                 })
             })
           } catch(err) {

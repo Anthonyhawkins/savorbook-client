@@ -82,7 +82,7 @@
     },
     methods: {
       flipImage(){
-                this.images = [
+        this.images = [
           this.images[1],
           this.images[0],
           this.images[2]

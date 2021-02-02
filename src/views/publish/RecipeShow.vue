@@ -55,7 +55,7 @@
             <div class="flex flex-col lg:w-4/6 px-10 lg:pr-10 pb-4">
               <h1 class="text-rose-500 uppercase text-2xl mb-4">{{recipe.name}}</h1>
               
-              <img class="rounded-sm shadow-md" :src="recipe.image" alt="">
+              <img class="rounded-sm shadow-md" :src="recipeImage" alt="">
               <p class="my-4 has-dropcap text-justify">{{recipe.description}}</p>
               <h1 class="text-rose-500 text-xl mb-4">Steps</h1>
 
@@ -77,26 +77,26 @@
 
                   <template v-if="step.type === 'imageLeft'">
                     <div :tabindex="index" class="flex step-focus my-12">                            
-                      <img class="object-contain w-1/2 float-left rounded-sm shadow-md  mr-3" :src="step.images[0].src" alt="">                              
+                      <img class="object-contain w-1/2 float-left rounded-sm shadow-md  mr-3" :src="genImageLink(step.images[0].src)" alt="">                              
                       <p v-if="step.images[0].text" class="py-3 border-b border-t border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[0].text}}</p>
                     </div>
                   </template>
 
                   <template v-if="step.type === 'imageRight'">
-                    <div :tabindex="index" class="flex step-focus my-12">
+                    <div :tabindex="index" class="flex step-focus my-12 justify-end">
                       <p v-if="step.images[0].text" class="py-3 border-b border-t border-rose-500 text-right font-medium text-xs text-rose-500  place-self-center">{{step.images[0].text}}</p>
-                      <img class="object-contain w-1/2 float-left rounded-sm shadow-md ml-3" :src="step.images[0].src" alt="">                              
+                      <img class="object-contain w-1/2 float-right rounded-sm shadow-md ml-3" :src="genImageLink(step.images[0].src)" alt="">                              
                     </div>
                   </template>
 
                   <template v-if="step.type === 'imageDouble'">
                     <div :tabindex="index" class="flex flex-row space-x-2 step-focus   my-12">
                       <div class="flex flex-col w-1/2">
-                        <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[0].src" alt="">                              
+                        <img class="object-contain rounded-sm shadow-md mb-1" :src="genImageLink(step.images[0].src)" alt="">                              
                         <p v-if="step.images[0].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[0].text}}</p>
                       </div>
                       <div class="flex flex-col w-1/2">
-                        <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[1].src" alt="">                              
+                        <img class="object-contain rounded-sm shadow-md mb-1" :src="genImageLink(step.images[1].src)" alt="">                              
                         <p v-if="step.images[1].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[1].text}}</p>
                       </div>
                     </div>
@@ -105,15 +105,15 @@
                   <template v-if="step.type === 'imageTriple'">
                     <div :tabindex="index" class="flex flex-row space-x-2 step-focus   my-12">
                       <div class="flex flex-col w-1/3">
-                        <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[0].src" alt="">                              
+                        <img class="object-contain rounded-sm shadow-md mb-1" :src="genImageLink(step.images[0].src)" alt="">                              
                         <p v-if="step.images[0].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[0].text}}</p>
                       </div>
                       <div class="flex flex-col w-1/3">
-                        <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[1].src" alt="">                              
+                        <img class="object-contain rounded-sm shadow-md mb-1" :src="genImageLink(step.images[1].src)" alt="">                              
                         <p v-if="step.images[1].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[1].text}}</p>
                       </div>
                       <div class="flex flex-col w-1/3">
-                        <img class="object-contain rounded-sm shadow-md mb-1" :src="step.images[2].src" alt="">                              
+                        <img class="object-contain rounded-sm shadow-md mb-1" :src="genImageLink(step.images[2].src)" alt="">                              
                         <p v-if="step.images[2].text" class="h-full w-full py-3 border-b border-rose-500 font-medium text-xs text-rose-500 place-self-center">{{step.images[2].text}}</p>
                       </div>
                     </div>
@@ -139,44 +139,59 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import store from "@/store"
-export default {
-  beforeRouteEnter(to, from, next) {
-    Promise.all([
-        store.dispatch('getRecipe', to.params.id),
-    ]).then(() => {
-        next();
-    });
-  },
-  beforeRouteUpdate(to, from, next) {
-    Promise.all([
-        store.dispatch('getRecipe', to.params.id),
-    ]).then(() => {
-        next();
-    });
-  },
-  computed: {
-    ...mapGetters(["recipe"]),
-    stepMap(){
-      let stepMap = {}
-      let stepNum = 1
-      this.recipe.steps.forEach(step => {
-        if (step.type === 'text'){
-          stepMap[step.id] = stepNum
-          stepNum++
-        }
-      })
-      return stepMap
+  import { StorageBaseURL, StorageFolder } from "@/services/cloudStorage.js"
+  import { mapGetters } from "vuex";
+  import store from "@/store"
+  export default {
+    beforeRouteEnter(to, from, next) {
+      Promise.all([
+          store.dispatch('getRecipe', to.params.id),
+      ]).then(() => {
+          next();
+      });
     },
-    hasDependencies(){
-      if (this.recipe.dependentRecipes.length > 0) {
-        return true
+    beforeRouteUpdate(to, from, next) {
+      Promise.all([
+          store.dispatch('getRecipe', to.params.id),
+      ]).then(() => {
+          next();
+      });
+    },
+    methods: {
+      genImageLink(src){
+        if (src){
+          return "https://" + StorageBaseURL + StorageFolder + src
+        } 
+        return ""
       }
-      return false 
-    }
-  },
-}
+    },
+    computed: {
+      ...mapGetters(["recipe"]),
+      recipeImage(){
+        if (this.recipe.image){
+          return "https://" + StorageBaseURL + StorageFolder + this.recipe.image
+        }
+        return ""
+      },
+      stepMap(){
+        let stepMap = {}
+        let stepNum = 1
+        this.recipe.steps.forEach(step => {
+          if (step.type === 'text'){
+            stepMap[step.id] = stepNum
+            stepNum++
+          }
+        })
+        return stepMap
+      },
+      hasDependencies(){
+        if (this.recipe.dependentRecipes.length > 0) {
+          return true
+        }
+        return false 
+      }
+    },
+  }
 </script>
 
 <style lang="postcss" scoped>
