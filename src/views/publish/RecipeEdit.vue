@@ -34,6 +34,20 @@
       
       <div class="flex flex-row h-screen justify-end mx-2 mb-2 shadow rounded-lg">
         <div class="flex flex-col overflow-y-scroll bg-white w-2/3 p-5 rounded-l-lg">
+        <template v-for="parentRecipe in recipe.parentRecipes" :key="parentRecipe.id">
+          <router-link :to="{ name: 'RecipeShow', params: { id: parentRecipe.id }}">
+            <div @click="navigate" class="flex flex-col text-sm rounded-md bg-light-blue-400 text-white hover:bg-light-blue-500 hover:text-white px-3 py-1 mb-1 justify-between">
+              <div class="flex justify-center">
+                <svg class="h6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p>Required to make:  
+                  <span class="text-center font-bold">{{parentRecipe.name}}</span>
+                </p>
+              </div>
+            </div>
+          </router-link>
+        </template>
 
           <label for="description" class="this-label">Photo</label>
           <ImageSelector 
@@ -50,8 +64,12 @@
 
           <label for="description" class="this-label">Description</label>
           <RecipeDescription v-model="recipe.description"/>
-          <IngredientsToolBar/>
 
+
+          <label for="description" class="this-label">Dependent Recipes</label>
+          <DependentRecipes/>
+
+          <IngredientsToolBar/>
           <div class="flex flex-col">
             <template
             v-for="(group, index) in recipe.ingredientGroups" 
@@ -140,6 +158,7 @@
   import Alert from "@/components/Alert.vue"
   import {
     RecipeDescription,
+    DependentRecipes,
     IngredientsToolBar,
     IngredientGroup
   } from "@/components/publish/recipe"
@@ -158,6 +177,7 @@
     components: {
       Alert,
       RecipeDescription,
+      DependentRecipes,
       IngredientsToolBar,
       IngredientGroup,
       StepTemplates,

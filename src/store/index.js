@@ -38,6 +38,7 @@ export default createStore({
         ({ data }) => {
           if (data.success){
             commit('SET_USER_DATA', data.data.accessToken)
+            return data
           } else {
             //return errors back to component
             return data

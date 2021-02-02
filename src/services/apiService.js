@@ -47,6 +47,9 @@ export const ImageService = {
 }
 
 export const RecipeService = {
+    getRecipesLike(searchString){
+        return axios.get('/publish/recipes?name='+searchString)
+    },
     getRecipes(){
         return axios.get('/publish/recipes')
     },
@@ -56,21 +59,31 @@ export const RecipeService = {
     createRecipe(recipe){      
       trimEmpty(recipe)
       console.log(recipe)
-      return axios.post('/publish/recipes', recipe)
+      
+      return axios.post('/publish/recipes', {recipe})
     },
     updateRecipe(recipe){
         trimEmpty(recipe)
         console.log(recipe)
-        return axios.put('/publish/recipes/' + recipe.id, recipe)
+        return axios.put('/publish/recipes/' + recipe.id, {recipe})
     }
 }
 
 export const AuthService = {
     createUser({username, displayName, email, password}){
-        return axios.post('/auth/register', {username, displayName, email, password})
+        const payload = {
+          registration: {
+            username, 
+            displayName, 
+            email, 
+            password
+          }
+        }
+
+        return axios.post('/auth/register', payload)
     },
     login({email, password}){
-        return axios.post('/auth/login', {email, password})
+        return axios.post('/auth/login', {login: {email, password}})
     },
     getAccount(){
       return axios.get('/auth/account')

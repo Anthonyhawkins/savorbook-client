@@ -16,23 +16,32 @@
           </router-link>
         </div>
 
-        <table class="table-fixed shadow-md rounded-md mt-3">
-          <thead class=" text-rose-500 bg-white">
-            <th class=" rounded-tl-md font-normal py-2">Name</th>
-            <th class=" w-16 font-normal">State</th>
-            <th class=" w-1/3 font-normal">Tags</th>
-            <th class=" rounded-tr-md w-12 font-normal">
-            </th>
-          </thead>
-          <tbody class="bg-white">
-            <RecipeListItem 
-              v-for="(recipe, index) in recipes" 
-              :key="index" 
-              :recipeName="recipe.name"
-              :recipeId="recipe.id"
-            />
-          </tbody>
-        </table>
+        <template v-if="recipes">
+          <table class="table-fixed shadow-md rounded-md mt-3">
+            <thead class=" text-rose-500 bg-white">
+              <th class=" rounded-tl-md font-normal py-2">Name</th>
+              <th class=" w-16 font-normal">State</th>
+              <th class=" w-1/3 font-normal">Tags</th>
+              <th class=" rounded-tr-md w-12 font-normal">
+              </th>
+            </thead>
+            <tbody class="bg-white">
+              <RecipeListItem 
+                v-for="(recipe, index) in recipes" 
+                :key="index" 
+                :recipeName="recipe.name"
+                :recipeId="recipe.id"
+              />
+            </tbody>
+          </table>
+        </template>
+        <template v-else>
+          <div class="flex bg-white w-2/5 mx-auto mt-10 rounded-md p-5 text-rose-500">
+            <p>
+              You haven't written any recipes yet.  Click the <span class="text-xl font-bold">+</span> to create your first one.
+            </p>
+          </div>
+        </template>
 
     </div>
 </template>
