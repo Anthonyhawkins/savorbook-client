@@ -6,6 +6,9 @@ const getDefaultState = () => {
       name: "",
       image: "",
       description: "",
+      dependentRecipes: [
+
+      ],
       ingredientGroups: [
         {
           groupName: '',
@@ -77,6 +80,12 @@ export const actions = {
   },
   addIngredientGroup({ commit }){
     commit('ADD_INGREDIENT_GROUP')
+  },
+  addDependentRecipe({ commit }, payload){
+    commit('ADD_DEPENDENT_RECIPE', payload)
+  },
+  removeDependentRecipe({ commit }, payload){
+    commit('REMOVE_DEPENDENT_RECIPE', payload)
   }
 }
 
@@ -154,7 +163,14 @@ export const mutations= {
       ]
     }
     state.recipe.ingredientGroups.push(newGroup)
-  },  
+  },
+  ADD_DEPENDENT_RECIPE(state, recipe){
+    state.recipe.dependentRecipes.push(recipe)
+  },
+  REMOVE_DEPENDENT_RECIPE(state, recipe){
+    const index = state.recipe.dependentRecipes.indexOf(recipe)
+    state.recipe.dependentRecipes.splice(index, 1)
+  }   
 }
 
 const getters = {

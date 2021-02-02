@@ -13,28 +13,41 @@
         
         <div class="flex flex-col bg-gray-50 lg:flex-row h-full pt-4 shadow rounded-lg">
             <div class="flex flex-col lg:w-2/6 px-10">
-                <h2 class="text-xl uppercase mb-4 px-10">Ingredients</h2>
+                <h2 class="text-xl block text-center uppercase mb-4 px-10">Ingredients</h2>
+                <h3 v-if="hasDependencies" class="font-medium block text-center mb-2">Requires</h3>
+                <template v-for="dependentRecipe in recipe.dependentRecipes" :key="dependentRecipe.id">
+                  <router-link :to="{ name: 'RecipeShow', params: { id: dependentRecipe.id }}">
+                    <div @click="navigate" class="flex flex-col text-sm rounded-md shadow-sm bg-rose-500 text-white hover:bg-rose-600 font-serif px-3 py-1 mb-1 justify-between">
+                      <div class="flex justify-center">
+                        <span class="font-medium w-3 text-right">{{dependentRecipe.qty}}</span>
+                        <span v-if="dependentRecipe.qty > 1" class="mx-2">batches of</span>
+                        <span v-else class="mx-2 mr-6">batch of</span>  
+                      </div>
+                      <div class="flex justify-center">
+                        <span class="text-center font-medium">{{dependentRecipe.name}}</span>
+                      </div>
+                    </div>
+                  </router-link>
+                </template>
+                <h3 v-if="hasDependencies" class="font-medium block text-center mt-2">This Recipe</h3>
                 <template v-for="group in recipe.ingredientGroups" :key="group">
                     <h3 class="font-medium">{{group.groupName}}</h3>
                     <ul class="font-serif mb-3">
                         <li 
                         class="mt-2 step-focus"
                         tabindex="0"
-                        v-for="item in group.ingredients" :key="item">
+                        v-for="item in group.ingredients" :key="item"
+                        >
 
-                        <div class="flex flex-row">
-                          <div class=" flex w-12  pr-2">
-                            <p class="block w-full text-right">{{item.qty}}</p>
+                          <div class="flex flex-row">
+                            <div class=" flex w-12  pr-2">
+                              <p class="block w-full text-right">{{item.qty}}</p>
+                            </div>
+                            <div class="flex">
+                              {{item.unit}} {{item.name}}
+                            </div>
                           </div>
-                          <div class="flex">
-                            {{item.unit}} {{item.name}}
-                          </div>
-                        </div>
 
-
-                        
-                        
-                        
                         </li>
                     </ul>
                 </template>
@@ -108,6 +121,18 @@
 
                 </div>
               </template>
+
+                <template v-for="parentRecipe in recipe.parentRecipes" :key="parentRecipe.id">
+                  <router-link :to="{ name: 'RecipeShow', params: { id: parentRecipe.id }}">
+                    <div @click="navigate" class="flex flex-col text-sm rounded-md bg-gray-50 text-gray-400 hover:bg-rose-300 hover:text-white font-serif px-3 py-1 mb-1 justify-between">
+                      <div class="flex justify-center">
+                        <p>Required to make:  
+                          <span class="text-center font-bold">{{parentRecipe.name}}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </router-link>
+                </template>
           </div>
         </div>  
   </div>  
@@ -118,6 +143,13 @@ import { mapGetters } from "vuex";
 import store from "@/store"
 export default {
   beforeRouteEnter(to, from, next) {
+    Promise.all([
+        store.dispatch('getRecipe', to.params.id),
+    ]).then(() => {
+        next();
+    });
+  },
+  beforeRouteUpdate(to, from, next) {
     Promise.all([
         store.dispatch('getRecipe', to.params.id),
     ]).then(() => {
@@ -135,7 +167,13 @@ export default {
           stepNum++
         }
       })
-    return stepMap
+      return stepMap
+    },
+    hasDependencies(){
+      if (this.recipe.dependentRecipes.length > 0) {
+        return true
+      }
+      return false 
     }
   },
 }

@@ -33,7 +33,7 @@
         </form>
       </div>
 
-      <div v-if="passwordsMatch" class="text-center">
+      <div v-if="passwordMismatch" class="text-center">
         <p class="text-red-500">Password mismatch.</p>
       </div>
       <div v-for="error in errors"  :key="error" class="text-center">
@@ -55,16 +55,16 @@ export default {
       password: '',
       passwordConfirm: '',
       errors: [],
-      passwordsMatch: null,
+      passwordMismatch: null,
     }
   },
   methods: {
     register() {
 
-      if (this.password == this.passwordConfirm) {
-        this.passwordsMatch = true
+      if (this.password != this.passwordConfirm) {
+        this.passwordMismatch = true
       } else {
-        this.passwordsMatch = false
+        this.passwordMismatch = false
       }
 
       this.$store.dispatch('register', {
@@ -74,7 +74,7 @@ export default {
         password: this.password,
       })
       .then( response => {
-        
+        console.log(response)
         if (response.success) {
           this.$router.push({ name: 'Home'})
         } else {
