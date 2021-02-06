@@ -28,6 +28,7 @@ export default {
     axios.interceptors.response.use(
       response => response,
       error => {
+        //TODO 404 catch
         if (error.response.status === 401 ) { 
           if (this.$route.name === 'Login'){
             this.$store.dispatch('setError', error.response.data.message)
