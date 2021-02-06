@@ -1,6 +1,5 @@
 <template>
   <div class="flex flex-col mx-auto lg:w-4/5 w-7/8"> 
-    <form @submit.prevent>
   
       <div class="flex flex-row p-2 bg-white mb-2 shadow rounded-lg justify-between space-x-3 m-2">
         <div class="flex h-10 justify-center w-2/3">
@@ -51,7 +50,15 @@
           </router-link>
         </template>
 
-          <label for="description" class="this-label">Photo</label>
+          <label  class="this-label">Tags</label>
+          <div class="flex border-b border-gray-300 w-full">
+            <TagInput
+              @tags-updated="setRecipeTags"
+              :tags="recipe.tags"
+            />
+          </div>
+
+          <label  class="this-label">Photo</label>
           <ImageSelector 
             v-if="recipe.image" 
             :allowCrop="false" 
@@ -64,11 +71,34 @@
             @image-selected="setRecipeImage"
           />
 
-          <label for="description" class="this-label">Description</label>
+          <label  class="this-label">Description</label>
           <RecipeDescription v-model="recipe.description"/>
 
+          <div class="flex flex-row h-8 mt-3">
+            <div class="flex mr-2">
+              <label  class="font-medium text-rose-500 place-self-center">Time</label>
+            </div>
+            <div class="flex w-1/4">
+              <input 
+                v-model="recipe.prepTime" type="text" placeholder="time needed"
+                class="w-full border-b border-gray-200 mr-1 h-8 focus:outline-none focus:ring text-gray-600 pl-3" 
+              >
+            </div>
+            <div class="flex mx-2">
+              <label  class="font-medium text-rose-500 place-self-center">Servings</label>
+            </div>
+            <div class="flex w-1/4">
+              <input 
+                v-model="recipe.servings" type="text" placeholder="servings"
+                class="w-full border-b border-gray-200 h-8 focus:outline-none focus:ring text-gray-600 pl-3" 
+              >
+            </div>
 
-          <label for="description" class="this-label">Dependent Recipes</label>
+          </div>
+
+
+
+          <label  class="this-label">Dependent Recipes</label>
           <DependentRecipes/>
 
           <IngredientsToolBar/>
@@ -85,7 +115,7 @@
           </div>
 
           <div class="flex flex-col">
-            <label for="description" class="this-label">Steps</label>
+            <label  class="this-label">Steps</label>
             <template v-for="(step, index) in recipe.steps">
               <StepText
               v-if="step.type === 'text'"
@@ -148,7 +178,6 @@
         </div>
         <StepTemplates/>
       </div>
-    </form>
   </div>
 </template>
 
@@ -156,6 +185,7 @@
   import store from "@/store"
   import { mapGetters } from "vuex";
   import { RecipeService } from "@/services/apiService.js"
+  import TagInput from "@/components/publish/TagInput.vue"
   import ImageSelector from "@/components/ImageSelector.vue"
   import Alert from "@/components/Alert.vue"
   import {
@@ -189,7 +219,8 @@
       StepTip,
       StepImageSingle,
       StepImageDouble,
-      StepImageTriple
+      StepImageTriple,
+      TagInput
     },
     async beforeRouteEnter(to, from, next) {
       await store.dispatch('resetRecipe')
@@ -223,6 +254,9 @@
       },
       setRecipeImage(e){
         this.$store.dispatch('setRecipeImage', e.src)
+      },
+      setRecipeTags(tags){
+        this.$store.dispatch('setRecipeTags', tags)
       },
       mounted() {
         console.log(this.recipe)
@@ -267,11 +301,11 @@
 
 <style lang="postcss" scoped>
   .this-label {
-    @apply font-medium text-red-500 mb-2 mt-5;
+    @apply font-medium text-rose-500 mb-2 mt-5;
   }
 
   .title-input {
-    @apply h-full px-5 placeholder-gray-400 text-red-500 bg-white focus:outline-none focus:ring font-medium text-lg w-full;
+    @apply h-full px-5 placeholder-gray-400 text-rose-500 bg-white focus:outline-none focus:ring font-medium text-lg w-full;
   }
 
   .round-button {

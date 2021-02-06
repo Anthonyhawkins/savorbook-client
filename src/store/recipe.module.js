@@ -1,4 +1,7 @@
 import { RecipeService } from "@/services/apiService.js"
+import router from '@/router'
+
+
 
 const getDefaultState = () => {
   return {
@@ -6,9 +9,10 @@ const getDefaultState = () => {
       name: "",
       image: "",
       description: "",
-      dependentRecipes: [
-
-      ],
+      prepTime: "",
+      servings: "",
+      tags: [],
+      dependentRecipes: [],
       ingredientGroups: [
         {
           groupName: '',
@@ -56,6 +60,11 @@ export const actions = {
         commit('SET_RECIPE', data.data)
       }
     )
+    .catch(error => {
+      if (!error.success){
+        router.push({ name: 'RecipeList'})
+      }
+    })
   },
   setRecipeImage({ commit}, imageSrc){
     commit('SET_RECIPE_IMAGE', imageSrc)
@@ -86,6 +95,9 @@ export const actions = {
   },
   removeDependentRecipe({ commit }, payload){
     commit('REMOVE_DEPENDENT_RECIPE', payload)
+  },
+  setRecipeTags({ commit }, payload){
+    commit('SET_RECIPE_TAGS', payload)
   }
 }
 
@@ -170,6 +182,9 @@ export const mutations= {
   REMOVE_DEPENDENT_RECIPE(state, recipe){
     const index = state.recipe.dependentRecipes.indexOf(recipe)
     state.recipe.dependentRecipes.splice(index, 1)
+  },
+  SET_RECIPE_TAGS(state, tags){
+    state.recipe.tags = tags
   }   
 }
 
