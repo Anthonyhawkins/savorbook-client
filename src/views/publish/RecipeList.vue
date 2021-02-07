@@ -53,7 +53,6 @@
             <TagInput 
             placeholder="filter by tags..."
             @tags-updated="filterByTags"
-            :tags="tagFilters"
             />
           </div>
         </div>
@@ -76,6 +75,19 @@
                 @tag-selected="setTag"
               />
             </tbody>
+            <tfoot class="bg-white h-36 border-t border-gray-200">
+              <tr>
+                <td colspan="4">
+                  <button
+                    v-if="allowMore"  
+                    @click="loadMore()"
+                    class="h-8 px-2 my-3 mx-auto rounded-md bg-gray-200 hover:bg-gray-300 font-medium text-white block"
+                  >
+                    LOAD MORE
+                  </button>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </template>
         <template v-else>
@@ -102,21 +114,19 @@
       },
       data(){
         return {
+          page: 1,
+          pageSize: 50,
           showFilter: false,
           showTags: false,
           recipes: [],
           tags: [],
-          selectedTag: ""
+          searchTags: [],
+          selectedTag: "",
+          allowMore: true
         }
       },
     mounted() {
-      RecipeService.getRecipes()
-        .then(response => {
-          this.recipes = response.data.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      this.getRecipes()
       RecipeService.getTags()
         .then(response => {
           this.tags = response.data.data
@@ -126,28 +136,36 @@
         })
     },
     methods: {
-      filterByTags(tags){
-         RecipeService.getRecipesByTags(tags)
+      getRecipes(){
+        RecipeService.getRecipes(this.page, this.pageSize, this.searchTags)
           .then(response => {
-            this.recipes = response.data.data
+            console.log(response.data.data)
+            if (response.data.data.length == 0){
+              this.allowMore = false
+            } else {
+              this.recipes = this.recipes.concat(response.data.data)
+              this.allowMore = true
+            }
           })
           .catch(error => {
             console.log(error)
-          }) 
+          })
+      },
+      loadMore(){
+        this.page++
+        this.getRecipes()
+      },
+      filterByTags(tags){
+        this.recipes = []
+        this.page = 1
+        this.searchTags = tags
+        this.getRecipes()
       },
       toggleTags(){
-        if (this.showTags) {
-          this.showTags = false
-        } else {
-          this.showTags = true
-        }
+        this.showTags = (this.showTags) ? false : true
       },
       toggleFilter(){
-        if (this.showFilter) {
-          this.showFilter = false
-        } else {
-          this.showFilter = true
-        }
+        this.showFilter = (this.showFilter) ? false : true
       },
       setTag(tag){
         this.selectedTag = "#"+tag

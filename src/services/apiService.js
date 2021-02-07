@@ -47,17 +47,13 @@ export const ImageService = {
 }
 
 export const RecipeService = {
-    getRecipesByTags(searchString){
-      return axios.get('/publish/recipes?tags='+searchString)
-    },
     getTags(){
       return axios.get('/publish/recipes/tags')
    },
-    getRecipesLike(searchString){
-      return axios.get('/publish/recipes?name='+searchString)
-    },
-    getRecipes(){
-        return axios.get('/publish/recipes')
+    getRecipes(page=0, pageSize=50, tags=[], name=""){
+      if (tags) return axios.get(`/publish/recipes?tags=${tags}&page=${page}&page_size=${pageSize}`)
+      if (name) return axios.get(`/publish/recipes?name=${name}&page=${page}&page_size=${pageSize}`)
+      return axios.get(`/publish/recipes?page=${page}&page_size=${pageSize}`)
     },
     getRecipe(id){    
         return axios.get('/publish/recipes/' + id)
