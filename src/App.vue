@@ -1,14 +1,13 @@
 <template>
   <div class="flex flex-col h-screen justify-between">
-    <header><NavbarTop/></header>
+    <header><NavbarTop /></header>
     <main class="mb-auto"><router-view /></main>
-    <footer><NavbarBottom/></footer>
+    <footer><NavbarBottom /></footer>
   </div>
 </template>
 
-
 <script>
-import axios from "axios"
+import axios from "axios";
 import NavbarTop from "@/components/NavbarTop.vue";
 import NavbarBottom from "@/components/NavbarBottom.vue";
 
@@ -17,11 +16,11 @@ export default {
     NavbarTop,
     NavbarBottom
   },
-  created(){
-    const userString = localStorage.getItem('user')
+  created() {
+    const userString = localStorage.getItem("user");
     if (userString) {
-      const userData = JSON.parse(userString)
-      this.$store.commit('SET_USER_DATA', userData)
+      const userData = JSON.parse(userString);
+      this.$store.commit("SET_USER_DATA", userData);
     }
 
     //handle malicious attempts to view protected routes
@@ -29,23 +28,18 @@ export default {
       response => response,
       error => {
         //TODO 404 catch
-        if (error.response.status === 401 ) { 
-          if (this.$route.name === 'Login'){
-            this.$store.dispatch('setError', error.response.data.message)
+        if (error.response.status === 401) {
+          if (this.$route.name === "Login") {
+            this.$store.dispatch("setError", error.response.data.message);
           } else {
-            this.$store.dispatch('logout')
+            this.$store.dispatch("logout");
           }
         }
-        return Promise.reject(error.response.data)
+        return Promise.reject(error.response.data);
       }
-    )
-    
-  },
+    );
+  }
 };
-
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

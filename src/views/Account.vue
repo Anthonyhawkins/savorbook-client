@@ -1,15 +1,15 @@
-<template >
+<template>
   <div class="container">
     <h1>Account</h1>
     <ul>
-        <li>Reset Password</li>
-        <li>Change Password</li>
-        <li>Update Email</li>
+      <li>Reset Password</li>
+      <li>Change Password</li>
+      <li>Update Email</li>
     </ul>
     <h2>Display Information</h2>
     <ul>
-        <li>Username</li>
-        <li>Name</li>
+      <li>Username</li>
+      <li>Name</li>
     </ul>
     <h2>Security</h2>
     <h2>Billing</h2>
@@ -18,14 +18,10 @@
 
 <script>
 export default {
-    data(){
-        return {
-
-        }
-    }
-}
+  data() {
+    return {};
+  }
+};
 </script>
 
-<style>
-    
-</style>
+<style></style>

@@ -1,7 +1,7 @@
-import { createStore } from "vuex";
+import { createStore } from "vuex"
 import JwtService from "@/services/jwtService.js"
 import { AuthService } from "@/services/apiService.js"
-import recipe from "./recipe.module";
+import recipe from "./recipe.module"
 
 export default createStore({
   modules: {
@@ -22,7 +22,7 @@ export default createStore({
       state.user = user
     },
 
-    CLEAR_USER_DATA (state) {
+    CLEAR_USER_DATA(state) {
       state.user = {}
       JwtService.destroyToken()
       // force a refresh to clear state
@@ -31,50 +31,50 @@ export default createStore({
   },
   actions: {
     setError({ commit }, error) {
-      commit('SET_ERROR', error)
+      commit("SET_ERROR", error)
     },
-    register({ commit }, {username, displayName, email, password}){
-      return AuthService.createUser({username, displayName, email, password}).then(
-        ({ data }) => {
-          if (data.success){
-            commit('SET_USER_DATA', data.data.accessToken)
-            return data
-          } else {
-            //return errors back to component
-            return data
-          }
+    register({ commit }, { username, displayName, email, password }) {
+      return AuthService.createUser({
+        username,
+        displayName,
+        email,
+        password
+      }).then(({ data }) => {
+        if (data.success) {
+          commit("SET_USER_DATA", data.data.accessToken)
+          return data
+        } else {
+          //return errors back to component
+          return data
         }
-      )
+      })
     },
-    login({ commit }, {email, password}){
-      return AuthService.login({email, password}).then(
-        ({ data }) => {
-          if (data.success){
-            commit('SET_USER_DATA', data.data.accessToken)
-          } else {
-            //return errors back to component
-            return data
-          }
+    login({ commit }, { email, password }) {
+      return AuthService.login({ email, password }).then(({ data }) => {
+        if (data.success) {
+          commit("SET_USER_DATA", data.data.accessToken)
+        } else {
+          //return errors back to component
+          return data
         }
-      )
+      })
     },
     logout({ commit }) {
-        commit('CLEAR_USER_DATA')
+      commit("CLEAR_USER_DATA")
     },
-    setUser({commit}, token) {
-      commit('SET_USER_DATA', token)
+    setUser({ commit }, token) {
+      commit("SET_USER_DATA", token)
     }
   },
   getters: {
-    errorMessage (state) {
+    errorMessage(state) {
       return state.error
     },
-    loggedIn (state) {
+    loggedIn(state) {
       return !!state.user
     },
-    user (state) {
+    user(state) {
       return state.user
     }
-
   }
-});
+})

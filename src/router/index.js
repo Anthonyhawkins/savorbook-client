@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import store from "@/store"
+import store from "@/store";
 
-import JwtService from "@/services/jwtService.js"
-import ApiService from "@/services/apiService.js"
-
-
+import JwtService from "@/services/jwtService.js";
+import ApiService from "@/services/apiService.js";
 
 const routes = [
   {
@@ -21,7 +19,7 @@ const routes = [
     path: "/publish",
     name: "Publish",
     component: () => import("@/views/publish/Publish.vue"),
-    meta: { requiresAuth: true } 
+    meta: { requiresAuth: true }
   },
   {
     path: "/login",
@@ -62,7 +60,7 @@ const routes = [
     name: "RecipeEdit",
     component: () => import("@/views/publish/RecipeEdit.vue"),
     meta: { requiresAuth: true }
-  },
+  }
 ];
 
 const router = createRouter({
@@ -71,26 +69,23 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = JwtService.getToken()
+  const token = JwtService.getToken();
   //Not Logged In
   if (to.matched.some(record => record.meta.requiresAuth) && !token) {
-
     // route to home if not authenticated / loggedin
-    next('/')
-  
+    next("/");
+
     //Logged In
   } else {
-
-    //if we have a token, ensure the auth header and user is set 
+    //if we have a token, ensure the auth header and user is set
     if (token) {
-      ApiService.setHeader(token)      
-      store.dispatch('setUser', token)
+      ApiService.setHeader(token);
+      store.dispatch("setUser", token);
     }
 
     // continue with desired route
-    next()
+    next();
   }
-})
-
+});
 
 export default router;
