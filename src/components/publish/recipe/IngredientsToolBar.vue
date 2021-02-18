@@ -6,6 +6,7 @@
     <div class="flex flex-col justify-end">
       <button
         class="w-full text-gray-700 bg-white border border-solid border-gray-700 hover:bg-gray-700 hover:text-white font-bold uppercase text-xs px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1"
+        data-testid="add-group"
         @click="addGroup()"
       >
         Add Grouping

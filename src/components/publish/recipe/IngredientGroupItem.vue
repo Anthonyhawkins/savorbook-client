@@ -4,32 +4,35 @@
       <div class="flex w-full">
         <input
           type="text"
+          name="ingredient-name"
           class="ingredient-input  w-full mr-1"
           placeholder="Name"
           v-bind="$attrs"
           :value="ingredientName"
           @input="$emit('update:ingredientName', $event.target.value)"
-          @blur="$emit('outOfFocus')"
+          @blur="$emit('out-of-focus')"
         />
       </div>
       <div class="flex w-24 mr-1">
         <input
           type="text"
+          name="ingredient-qty"
           class="ingredient-input text-center w-full"
           placeholder="qty"
           :value="ingredientQty"
           @input="$emit('update:ingredientQty', $event.target.value)"
-          @blur="$emit('outOfFocus')"
+          @blur="$emit('out-of-focus')"
         />
       </div>
       <div class="flex w-46 mr-2">
         <input
           type="text"
+          name="ingredient-unit"
           class="ingredient-input w-full"
           placeholder="unit"
           :value="ingredientUnit"
           @input="$emit('update:ingredientUnit', $event.target.value)"
-          @blur="$emit('outOfFocus')"
+          @blur="$emit('out-of-focus')"
         />
       </div>
     </div>
@@ -40,7 +43,7 @@
 export default {
   name: "IngredientGroupItem",
   emits: [
-    "outOfFocus",
+    "out-of-focus",
     "update:ingredientName",
     "update:ingredientQty",
     "update:ingredientUnit"

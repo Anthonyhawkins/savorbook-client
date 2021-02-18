@@ -3,6 +3,7 @@
     <li class="flex-row border-b border-gray-200 space-x-6 list-none">
       <input
         type="text"
+        name="group-name"
         class="ingredient-sub w-full"
         placeholder="Group Name - 'For the Glaze'"
         v-model="groupName"
@@ -15,11 +16,12 @@
       :key="ingredient.id"
     >
       <IngredientGroupItem
+        data-testid="ingredient-group-item"
         v-model:ingredientName="ingredient.name"
         v-model:ingredientQty="ingredient.qty"
         v-model:ingredientUnit="ingredient.unit"
         @blur="adjustIngredients(ingredient)"
-        @outOfFocus="saveGroup(groupIndex)"
+        @out-of-focus="saveGroup(groupIndex)"
         @keydown.enter="adjustIngredients(ingredient)"
       />
     </template>
@@ -27,7 +29,7 @@
 </template>
 
 <script>
-import IngredientGroupItem from "@/components/publish/recipe/IngredientGroupItem.vue";
+import IngredientGroupItem from "@/components/publish/recipe/IngredientGroupItem.vue"
 
 export default {
   name: "IngredientGroup",
@@ -48,13 +50,11 @@ export default {
     return {
       groupName: this.ingredientGroup.groupName,
       ingredients: this.ingredientGroup.ingredients
-    };
+    }
   },
   mounted() {
-    // if list is zero, ensure there's an input set
-    if (this.ingredients.length == 0) {
-      this.ingredients.push({ name: "", qty: "", unit: "" });
-    }
+    this.ensureAtLeastOne()
+    this.newFieldifFull()
   },
   methods: {
     /**
@@ -67,9 +67,9 @@ export default {
         index,
         groupName: this.groupName,
         ingredients: this.ingredients
-      };
+      }
 
-      this.$store.dispatch("setIngredientGroup", payload);
+      this.$store.dispatch("setIngredientGroup", payload)
     },
     /**
      * When the Name field of an ingredient is no longer in focus
@@ -80,28 +80,28 @@ export default {
      */
     adjustIngredients(ingredient) {
       //remove if empty field and clicked out of
-      if (ingredient.name == "") {
-        this.ingredients.splice(this.ingredients.indexOf(ingredient), 1);
+      if (!ingredient.name) {
+        this.ingredients.splice(this.ingredients.indexOf(ingredient), 1)
       }
-
+      this.newFieldifFull()
+      this.ensureAtLeastOne()
+    },
+    newFieldifFull() {
       // if all ingredients have names, provide new input set
-      let allNamed = true;
+      let allNamed = true
       this.ingredients.forEach(function(ingredient) {
-        if (ingredient.name == "") {
-          allNamed = false;
-        }
-      });
-      if (allNamed) {
-        this.ingredients.push({ name: "", qty: "", unit: "" });
-      }
-
+        if (!ingredient.name) allNamed = false
+      })
+      if (allNamed) this.ingredients.push({ name: "", qty: "", unit: "" })
+    },
+    ensureAtLeastOne() {
       // if list is zero, ensure there's an input set
-      if (this.ingredients.length == 0) {
-        this.ingredients.push({ name: "", qty: "", unit: "" });
+      if (!this.ingredients.length) {
+        this.ingredients.push({ name: "", qty: "", unit: "" })
       }
     }
   }
-};
+}
 </script>
 
 <style lang="postcss" scoped>

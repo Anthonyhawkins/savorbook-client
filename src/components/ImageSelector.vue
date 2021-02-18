@@ -10,10 +10,15 @@
       <div v-if="fileTooBig" class="flex flex-col justify-end pb-2">
         <Alert alertType="warning" :message="sizeWarning" />
       </div>
-      <div v-if="imagePresent" class="flex justify-end h-full p-2">
+      <div
+        v-if="imagePresent"
+        data-testid="image-adjustment-buttons"
+        class="flex justify-end h-full p-2"
+      >
         <div class=" h-6 w-6 justify-center cursor-pointer space-y-2">
           <svg
             @click="$refs.file.click()"
+            data-testid="upload-button-secondary"
             xmlns="http://www.w3.org/2000/svg"
             class="bg-gray-600 opacity-50 rounded-md text-white h-6 w-6 place-self-center "
             fill="none"
@@ -31,6 +36,7 @@
           <svg
             v-if="original"
             @click="startCrop()"
+            data-testid="crop-button"
             class="bg-gray-600 opacity-50 rounded-md text-white h-6 w-6 place-self-center "
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -47,7 +53,11 @@
           </svg>
         </div>
       </div>
-      <div v-else class="flex flex-col justify-center">
+      <div
+        v-else
+        data-testid="upload-button-primary"
+        class="flex flex-col justify-center"
+      >
         <div
           @click="$refs.file.click()"
           class="bg-rose-600 p-3 justify-center place-self-center cursor-pointer rounded-md shadow"
@@ -83,10 +93,17 @@
         </div>
       </div>
 
-      <input type="file" ref="file" @change="selectFile()" class="hidden" />
+      <input
+        type="file"
+        ref="file"
+        name="file-selector"
+        @change="selectFile"
+        class="hidden"
+      />
     </div>
 
     <ImageCropper
+      data-testid="image-cropper"
       v-if="crop"
       @close-cropper="closeCropper()"
       @set-crop="setCrop"
@@ -134,8 +151,8 @@ export default {
   computed: {
     imagePresent() {
       if (
-        this.imgsrc ==
-          "https://" + StorageBaseURL + StorageFolder + "undefined" ||
+        // eslint-disable-next-line prettier/prettier
+        this.imgsrc == "https://" + StorageBaseURL + StorageFolder + "undefined" ||
         this.imgsrc == "https://" + StorageBaseURL + StorageFolder
       ) {
         return false
@@ -174,11 +191,11 @@ export default {
       this.imgsrc = croppedImage
       this.sendFile()
     },
-    selectFile() {
-      // store as original
-      this.original = this.$refs.file.files[0]
+    selectFile(event) {
+      this.original = event.target.files[0]
+      console.info(this.original)
       this.fileSize = this.original.size
-      var reader = new FileReader()
+      let reader = new FileReader()
       reader.onload = e => {
         this.imgsrc = e.target.result
         this.original = e.target.result

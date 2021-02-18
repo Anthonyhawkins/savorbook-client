@@ -3,7 +3,6 @@ import { mount } from "@vue/test-utils"
 import { createStore } from "vuex"
 import router from "@/router"
 
-
 describe("NavbarTop.vue", () => {
   it("Displays Account and Logout when user is Logged in.", async () => {
     const store = createStore({

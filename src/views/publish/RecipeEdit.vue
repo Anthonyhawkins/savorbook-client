@@ -330,30 +330,30 @@ export default {
             }
           })
           .catch(err => {
-            this.displayAlerts(err);
+            this.displayAlerts(err)
           });
       } else {
         RecipeService.updateRecipe(this.recipe).then(({ data }) => {
-          this.displayAlerts(data);
+          this.displayAlerts(data)
         });
       }
     },
 
     pickupStep(e, index) {
-      e.dataTransfer.effectAllowed = "move";
-      e.dataTransfer.dropEffect = "move";
-      e.dataTransfer.setData("from-step-index", index);
+      e.dataTransfer.effectAllowed = "move"
+      e.dataTransfer.dropEffect = "move"
+      e.dataTransfer.setData("from-step-index", index)
     },
 
     moveStep(e, toStepIndex) {
-      const fromStepIndex = e.dataTransfer.getData("from-step-index");
+      const fromStepIndex = e.dataTransfer.getData("from-step-index")
       this.$store.dispatch("moveStep", {
         fromStepIndex,
         toStepIndex
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="postcss" scoped>

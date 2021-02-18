@@ -1,4 +1,4 @@
-<template>
+ <template>
   <tr class="border-t border-gray-200 hover:bg-warm-gray-100">
     <td class="recipe-cell tx-sm">
       <router-link
@@ -19,7 +19,13 @@
     </td>
     <td class="recipe-cell">
       <div class="flex flex-row flex-wrap justify-right">
-        <div @click="setTag(tag)" class="tag" v-for="tag in tags" :key="tag">
+        <div
+          @click="setTag(tag)"
+          data-testid="recipe-tag"
+          class="tag"
+          v-for="tag in tags"
+          :key="tag"
+        >
           #{{ tag }}
         </div>
       </div>
@@ -37,6 +43,7 @@
 <script>
 export default {
   name: "RecipeListItem",
+  emits: ["tag-selected"],
   props: {
     recipeName: {
       type: [String],
@@ -53,13 +60,13 @@ export default {
     tags: {
       type: [Array],
       default() {
-        return [];
+        return []
       }
     }
   },
   methods: {
     setTag(tag) {
-      this.$emit("tag-selected", tag);
+      this.$emit("tag-selected", tag)
     }
   }
 };

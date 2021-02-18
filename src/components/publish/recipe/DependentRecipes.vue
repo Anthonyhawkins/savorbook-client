@@ -26,6 +26,7 @@
     <div
       v-for="dependentRecipe in recipe.dependentRecipes"
       :key="dependentRecipe.id"
+      data-testid="dependent-recipe"
       class="flex flex-row rounded-sm shadow-sm bg-rose-500 text-white px-3 py-1 mb-1 justify-between"
     >
       <div class="flex">
@@ -38,7 +39,11 @@
         <span v-else class="text-rose-100 mx-2 mr-6">batch of</span>
         <span class="font-medium">{{ dependentRecipe.name }}</span>
       </div>
-      <div @click="removeDependentRecipe(dependentRecipe)" class="flex">
+      <div
+        @click="removeDependentRecipe(dependentRecipe)"
+        data-testid="remove-button"
+        class="flex"
+      >
         <svg
           class="h-6 w-6 hover:text-rose-200"
           xmlns="http://www.w3.org/2000/svg"
@@ -66,6 +71,7 @@
         <input
           @keyup="getSuggestions(recipeName)"
           v-model="recipeName"
+          name="recipe-name"
           class="w-8/12 text-gray-500 h-8 border-b border-gray-200 focus:outline-none focus:ring px-2"
           type="text"
           placeholder="recipe name..."
@@ -78,6 +84,7 @@
         />
         <button
           @click="addDependentRecipe()"
+          data-testid="add-dependent-recipe"
           class="w-1/12  text-rose-500 rounded-md pl-2 hover:text-rose-600"
         >
           <svg
@@ -105,6 +112,7 @@
             v-for="suggestion in suggestions"
             :key="suggestion.id"
             @click="selectSuggestion(suggestion)"
+            data-testid="suggestion"
             class="bg-white border-t border-gray-200 pl-2 py-1 text-rose-500 font-medium hover:bg-rose-500 hover:text-white select-none"
           >
             {{ suggestion.name }}
@@ -116,9 +124,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { RecipeService } from "@/services/apiService.js";
-import Alert from "@/components/Alert.vue";
+import { mapGetters } from "vuex"
+import { RecipeService } from "@/services/apiService.js"
+import Alert from "@/components/Alert.vue"
 
 export default {
   name: "DependentRecipes",
@@ -132,7 +140,7 @@ export default {
       recipeId: 0,
       suggestions: [],
       errors: []
-    };
+    }
   },
   methods: {
     getSuggestions(input) {
@@ -141,69 +149,63 @@ export default {
        * other key press after 2
        */
       if (input.length > 2 && input.length % 2) {
-        RecipeService.getRecipesLike(input)
+        RecipeService.getRecipes({ name: input })
           .then(response => {
-            console.log(response.data);
             if (response.data.success) {
-              this.suggestions = response.data.data;
-              console.log(this.suggestions);
+              this.suggestions = response.data.data
             }
           })
           .catch(error => {
-            console.log(error);
-          });
+            console.log(error)
+          })
       }
     },
     selectSuggestion(suggestion) {
-      this.recipeName = suggestion.name;
-      this.recipeId = suggestion.id;
-      this.suggestions = [];
+      this.recipeName = suggestion.name
+      this.recipeId = suggestion.id
+      this.suggestions = []
     },
     addDependentRecipe() {
-      for (const dependent of this.recipe.dependentRecipes) {
+      for (let dependent of this.recipe.dependentRecipes) {
         if (this.recipeName === dependent.name) {
-          this.errors.push("That recipe is already listed as a dependency.");
-          return false;
+          this.errors.push("That recipe is already listed as a dependency.")
+          return false
         }
       }
 
       if (this.recipeQty < 1) {
-        this.errors.push(
-          "You must specify how many batches of this recipe are needed."
-        );
-        return false;
+        // eslint-disable-next-line prettier/prettier
+        this.errors.push("You must specify how many batches of this recipe are needed.")
+        return false
       }
 
       if (this.recipeId == this.$route.params.id) {
-        this.errors.push("A recipe cannot be dependent upon itself.");
-        return false;
+        this.errors.push("A recipe cannot be dependent upon itself.")
+        return false
       }
 
       const dependency = {
         id: this.recipeId,
         name: this.recipeName,
         qty: this.recipeQty
-      };
-      this.$store.dispatch("addDependentRecipe", dependency);
-      this.recipeId = 0;
-      this.recipeName = "";
-      this.recipeQty = "";
-      console.log(this.recipe);
+      }
+      this.$store.dispatch("addDependentRecipe", dependency)
+      this.recipeId = 0
+      this.recipeName = ""
+      this.recipeQty = ""
     },
     removeDependentRecipe(dependency) {
-      this.$store.dispatch("removeDependentRecipe", dependency);
+      this.$store.dispatch("removeDependentRecipe", dependency)
     }
   },
   computed: {
     ...mapGetters(["recipe"]),
     displaySuggestions() {
-      if (this.suggestions.length > 0) {
-        return true;
-      }
-      return false;
+      if (this.suggestions.length > 0) return true
+      return false
     }
   }
-};
+}
 </script>
 
 <style lang="postcss" scoped></style>

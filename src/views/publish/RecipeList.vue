@@ -174,9 +174,9 @@
 </template>
 
 <script>
-import RecipeListItem from "@/components/publish/recipe/RecipeListItem.vue";
-import { RecipeService } from "@/services/apiService.js";
-import TagInput from "@/components/publish/TagInput.vue";
+import RecipeListItem from "@/components/publish/recipe/RecipeListItem.vue"
+import { RecipeService } from "@/services/apiService.js"
+import TagInput from "@/components/publish/TagInput.vue"
 
 export default {
   name: "RecipeList",
@@ -198,14 +198,14 @@ export default {
     };
   },
   mounted() {
-    this.getRecipes();
+    this.getRecipes()
     RecipeService.getTags()
       .then(response => {
-        this.tags = response.data.data;
+        this.tags = response.data.data
       })
       .catch(error => {
-        console.log(error);
-      });
+        console.log(error)
+      })
   },
   methods: {
     getRecipes() {
@@ -213,35 +213,35 @@ export default {
         .then(response => {
           console.log(response.data.data);
           if (response.data.data.length == 0) {
-            this.allowMore = false;
+            this.allowMore = false
           } else {
-            this.recipes = this.recipes.concat(response.data.data);
-            this.allowMore = true;
+            this.recipes = this.recipes.concat(response.data.data)
+            this.allowMore = true
           }
         })
         .catch(error => {
-          console.log(error);
+          console.log(error)
         });
     },
     loadMore() {
-      this.page++;
-      this.getRecipes();
+      this.page++
+      this.getRecipes()
     },
     filterByTags(tags) {
-      this.recipes = [];
-      this.page = 1;
-      this.searchTags = tags;
-      this.getRecipes();
+      this.recipes = []
+      this.page = 1
+      this.searchTags = tags
+      this.getRecipes()
     },
     toggleTags() {
-      this.showTags = this.showTags ? false : true;
+      this.showTags = this.showTags ? false : true
     },
     toggleFilter() {
-      this.showFilter = this.showFilter ? false : true;
+      this.showFilter = this.showFilter ? false : true
     },
     setTag(tag) {
-      this.selectedTag = "#" + tag;
-      this.filterByTags([tag]);
+      this.selectedTag = "#" + tag
+      this.filterByTags([tag])
     }
   }
 };
