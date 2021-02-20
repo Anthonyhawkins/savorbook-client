@@ -1,2 +1,2 @@
-export const StorageBaseURL = "storage.googleapis.com";
-export const StorageFolder = "/savorbook-dev/";
+export const StorageBaseURL = "storage.googleapis.com"
+export const StorageFolder = "/savorbook-dev/"

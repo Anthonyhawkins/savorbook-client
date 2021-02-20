@@ -313,9 +313,6 @@ export default {
     setRecipeTags(tags) {
       this.$store.dispatch("setRecipeTags", tags)
     },
-    mounted() {
-      console.log(this.recipe)
-    },
     saveRecipe() {
       this.errors = []
       if (this.actionType === "create") {

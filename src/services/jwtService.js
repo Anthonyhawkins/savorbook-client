@@ -1,30 +1,30 @@
-const ID_TOKEN_KEY = "id_token";
+const ID_TOKEN_KEY = "id_token"
 
 export const getToken = () => {
-  return window.localStorage.getItem(ID_TOKEN_KEY);
-};
+  return window.localStorage.getItem(ID_TOKEN_KEY)
+}
 
 export const saveToken = token => {
-  window.localStorage.setItem(ID_TOKEN_KEY, token);
-};
+  window.localStorage.setItem(ID_TOKEN_KEY, token)
+}
 
 export const destroyToken = () => {
-  window.localStorage.removeItem(ID_TOKEN_KEY);
-};
+  window.localStorage.removeItem(ID_TOKEN_KEY)
+}
 
 export const parseToken = token => {
-  const base64Url = token.split(".")[1];
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const base64Url = token.split(".")[1]
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/")
   const jsonPayload = decodeURIComponent(
     atob(base64)
       .split("")
       .map(function(c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)
       })
       .join("")
-  );
+  )
 
-  return JSON.parse(jsonPayload);
-};
+  return JSON.parse(jsonPayload)
+}
 
-export default { getToken, saveToken, destroyToken, parseToken };
+export default { getToken, saveToken, destroyToken, parseToken }

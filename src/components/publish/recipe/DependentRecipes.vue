@@ -149,7 +149,7 @@ export default {
        * other key press after 2
        */
       if (input.length > 2 && input.length % 2) {
-        RecipeService.getRecipes({ name: input })
+        RecipeService.getRecipes(0, 50, [], input)
           .then(response => {
             if (response.data.success) {
               this.suggestions = response.data.data

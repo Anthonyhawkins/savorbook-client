@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import ImageSelector from "@/components/ImageSelector.vue";
+import ImageSelector from "@/components/ImageSelector.vue"
 
 export default {
   name: "Home",
@@ -121,14 +121,12 @@ export default {
         imageOne: "",
         imageTwo: ""
       }
-    };
+    }
   },
   methods: {
     setImage(e) {
-      console.log("hereI am");
-      console.log(e);
-      this.images[e.image] = e.src;
+      this.images[e.image] = e.src
     }
   }
-};
+}
 </script>
