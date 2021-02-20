@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import axios from "axios";
-import NavbarTop from "@/components/NavbarTop.vue";
-import NavbarBottom from "@/components/NavbarBottom.vue";
+import axios from "axios"
+import NavbarTop from "@/components/NavbarTop.vue"
+import NavbarBottom from "@/components/NavbarBottom.vue"
 
 export default {
   components: {
@@ -17,10 +17,10 @@ export default {
     NavbarBottom
   },
   created() {
-    const userString = localStorage.getItem("user");
+    const userString = localStorage.getItem("user")
     if (userString) {
-      const userData = JSON.parse(userString);
-      this.$store.commit("SET_USER_DATA", userData);
+      const userData = JSON.parse(userString)
+      this.$store.commit("SET_USER_DATA", userData)
     }
 
     //handle malicious attempts to view protected routes
@@ -30,16 +30,16 @@ export default {
         //TODO 404 catch
         if (error.response.status === 401) {
           if (this.$route.name === "Login") {
-            this.$store.dispatch("setError", error.response.data.message);
+            this.$store.dispatch("setError", error.response.data.message)
           } else {
-            this.$store.dispatch("logout");
+            this.$store.dispatch("logout")
           }
         }
-        return Promise.reject(error.response.data);
+        return Promise.reject(error.response.data)
       }
-    );
+    )
   }
-};
+}
 </script>
 
 <style scoped></style>

@@ -11,6 +11,7 @@
       <div class="flex space-x-3">
         <div
           @click="toggleTags()"
+          data-testid="toggle-tags"
           class="flex h-10 w-10 rounded-full border border-gray-200 text-rose-500 bg-white-200 justify-center items-center hover:bg-rose-500 hover:text-white shadow cursor-pointer"
         >
           <svg
@@ -30,6 +31,7 @@
         </div>
         <div
           @click="toggleFilter()"
+          data-testid="toggle-filter"
           class="flex h-10 w-10 rounded-full border border-gray-200 text-rose-500 bg-white-200 justify-center items-center hover:bg-rose-500 hover:text-white shadow cursor-pointer"
         >
           <svg
@@ -71,6 +73,7 @@
     </div>
     <div
       v-if="showTags"
+      data-testid="tags"
       class="flex flex-col p-2 bg-white mb-2 shadow rounded-lg justify-between space-x-3"
     >
       <div class="flex flex-row flex-wrap justify-right">
@@ -103,6 +106,7 @@
     </div>
     <div
       v-if="showFilter"
+      data-testid="filter"
       class="flex flex-row p-2 bg-white mb-2 shadow rounded-lg  space-x-3"
     >
       <div class="flex w-10">
@@ -138,6 +142,7 @@
         </thead>
         <tbody class="bg-white">
           <RecipeListItem
+            data-testid="recipe-item"
             v-for="(recipe, index) in recipes"
             :key="index"
             :recipeName="recipe.name"
@@ -195,7 +200,7 @@ export default {
       searchTags: [],
       selectedTag: "",
       allowMore: true
-    };
+    }
   },
   mounted() {
     this.getRecipes()
@@ -211,7 +216,6 @@ export default {
     getRecipes() {
       RecipeService.getRecipes(this.page, this.pageSize, this.searchTags)
         .then(response => {
-          console.log(response.data.data);
           if (response.data.data.length == 0) {
             this.allowMore = false
           } else {
@@ -221,7 +225,7 @@ export default {
         })
         .catch(error => {
           console.log(error)
-        });
+        })
     },
     loadMore() {
       this.page++
@@ -244,7 +248,7 @@ export default {
       this.filterByTags([tag])
     }
   }
-};
+}
 </script>
 
 <style lang="postcss" scoped>

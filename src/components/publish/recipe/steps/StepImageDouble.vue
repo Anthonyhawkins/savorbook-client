@@ -5,13 +5,14 @@
     <div class="flex flex-row w-full justify-between space-x-2">
       <div class="flex flex-col w-1/2">
         <ImageSelector
+          data-testid="image-1"
           :existingImage="images[0].src"
           :existingOriginal="images[0].original"
           imageFor="0"
           @image-selected="setImage"
         />
         <textarea
-          name="description"
+          name="caption-1"
           placeholder="What Aboout this image 1"
           class="step-text h-full mt-2 border-b-2 border-rose-500"
           cols="30"
@@ -23,13 +24,14 @@
 
       <div class="flex flex-col w-1/2">
         <ImageSelector
+          data-testid="image-2"
           :existingImage="images[1].src"
           :existingOriginal="images[1].original"
           imageFor="1"
           @image-selected="setImage"
         />
         <textarea
-          name="description"
+          name="caption-2"
           placeholder="What About this image 2"
           class="step-text h-full mt-2 border-b-2 border-rose-500"
           cols="30"
@@ -56,7 +58,11 @@
           />
         </svg>
       </div>
-      <div class="flex justify-center cursor-pointer" @click="flipImage()">
+      <div
+        @click="flipImage()"
+        data-testid="flip-button"
+        class="flex justify-center cursor-pointer"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="text-gray-200 h-6 w-6 cursor-pointer"
@@ -72,7 +78,11 @@
           />
         </svg>
       </div>
-      <div class="flex justify-center cursor-pointer" @click="removeStep()">
+      <div
+        @click="removeStep()"
+        class="flex justify-center cursor-pointer"
+        data-testid="delete-step"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="text-gray-200 h-6 w-6 cursor-pointer"
@@ -93,7 +103,7 @@
 </template>
 
 <script>
-import ImageSelector from "@/components/ImageSelector.vue";
+import ImageSelector from "@/components/ImageSelector.vue"
 export default {
   name: "StepImageDouble",
   components: {
@@ -113,18 +123,18 @@ export default {
       index: this.stepIndex,
       type: this.step.type,
       images: this.step.images
-    };
+    }
   },
   methods: {
     flipImage() {
-      this.images = [this.images[1], this.images[0], this.images[2]];
-      this.saveStep();
+      this.images = [this.images[1], this.images[0], this.images[2]]
+      this.saveStep()
     },
     setImage(e) {
-      const index = parseInt(e.image, 10);
-      this.images[index].src = e.src;
-      this.images[index].original = e.original;
-      this.saveStep();
+      const index = parseInt(e.image, 10)
+      this.images[index].src = e.src
+      this.images[index].original = e.original
+      this.saveStep()
     },
     saveStep() {
       const payload = {
@@ -135,14 +145,14 @@ export default {
           text: "",
           images: this.images
         }
-      };
-      this.$store.dispatch("setStep", payload);
+      }
+      this.$store.dispatch("setStep", payload)
     },
     removeStep() {
-      this.$store.dispatch("removeStep", this.index);
+      this.$store.dispatch("removeStep", this.index)
     }
   }
-};
+}
 </script>
 
 <style lang="postcss" scoped>

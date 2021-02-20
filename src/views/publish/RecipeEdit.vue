@@ -129,9 +129,9 @@
 
         <div class="flex flex-row h-8 mt-3">
           <div class="flex mr-2">
-            <label class="font-medium text-rose-500 place-self-center"
-              >Time</label
-            >
+            <label class="font-medium text-rose-500 place-self-center">
+              Time
+            </label>
           </div>
           <div class="flex w-1/4">
             <input
@@ -142,9 +142,9 @@
             />
           </div>
           <div class="flex mx-2">
-            <label class="font-medium text-rose-500 place-self-center"
-              >Servings</label
-            >
+            <label class="font-medium text-rose-500 place-self-center">
+              Servings
+            </label>
           </div>
           <div class="flex w-1/4">
             <input
@@ -237,18 +237,18 @@
 </template>
 
 <script>
-import store from "@/store";
-import { mapGetters } from "vuex";
-import { RecipeService } from "@/services/apiService.js";
-import TagInput from "@/components/publish/TagInput.vue";
-import ImageSelector from "@/components/ImageSelector.vue";
-import Alert from "@/components/Alert.vue";
+import store from "@/store"
+import { mapGetters } from "vuex"
+import { RecipeService } from "@/services/apiService.js"
+import TagInput from "@/components/publish/TagInput.vue"
+import ImageSelector from "@/components/ImageSelector.vue"
+import Alert from "@/components/Alert.vue"
 import {
   RecipeDescription,
   DependentRecipes,
   IngredientsToolBar,
   IngredientGroup
-} from "@/components/publish/recipe";
+} from "@/components/publish/recipe"
 
 import {
   StepTemplates,
@@ -258,7 +258,7 @@ import {
   StepImageSingle,
   StepImageDouble,
   StepImageTriple
-} from "@/components/publish/recipe/steps";
+} from "@/components/publish/recipe/steps"
 
 export default {
   components: {
@@ -278,64 +278,64 @@ export default {
     TagInput
   },
   async beforeRouteEnter(to, from, next) {
-    await store.dispatch("resetRecipe");
+    await store.dispatch("resetRecipe")
     if (to.name === "RecipeEdit") {
-      await store.dispatch("getRecipe", to.params.id);
+      await store.dispatch("getRecipe", to.params.id)
     }
-    return next();
+    return next()
   },
   data() {
     return {
       alertType: null,
       message: "",
       errors: []
-    };
+    }
   },
   computed: {
     ...mapGetters(["recipe"]),
     actionType() {
       if (this.$route.name === "RecipeEdit") {
-        return "update";
+        return "update"
       }
-      return "create";
+      return "create"
     }
   },
   methods: {
     displayAlerts(data) {
       if (!data.success) {
-        this.message = "Recipe Unable to be Saved.";
-        this.errors = data.errors;
+        this.message = "Recipe Unable to be Saved."
+        this.errors = data.errors
       }
     },
     setRecipeImage(e) {
-      this.$store.dispatch("setRecipeImage", e.src);
+      this.$store.dispatch("setRecipeImage", e.src)
     },
     setRecipeTags(tags) {
-      this.$store.dispatch("setRecipeTags", tags);
+      this.$store.dispatch("setRecipeTags", tags)
     },
     mounted() {
-      console.log(this.recipe);
+      console.log(this.recipe)
     },
     saveRecipe() {
-      this.errors = [];
+      this.errors = []
       if (this.actionType === "create") {
         RecipeService.createRecipe(this.recipe)
           .then(({ data }) => {
-            this.displayAlerts(data);
+            this.displayAlerts(data)
             if (data.success) {
               this.$router.push({
                 name: "RecipeEdit",
                 params: { id: data.data.id }
-              });
+              })
             }
           })
           .catch(err => {
             this.displayAlerts(err)
-          });
+          })
       } else {
         RecipeService.updateRecipe(this.recipe).then(({ data }) => {
           this.displayAlerts(data)
-        });
+        })
       }
     },
 

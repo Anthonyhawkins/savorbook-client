@@ -63,7 +63,7 @@ describe("ImageSelector.vue", () => {
   })
 
   //TODO - Mock File Blobs and File Reader
-  it("Starts the Cropper when Image is Selected", async () => {})
-  it("It Displays a warning if file size is too big", async () => {})
-  it("Uploads an Image when set-crop is emitted, then emits imageSelected", async () => {})
+  //it("Starts the Cropper when Image is Selected", async () => {})
+  //it("It Displays a warning if file size is too big", async () => {})
+  //it("Uploads an Image when set-crop is emitted, then emits imageSelected", async () => {})
 })

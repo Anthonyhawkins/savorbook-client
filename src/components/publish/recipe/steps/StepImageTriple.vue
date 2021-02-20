@@ -18,7 +18,7 @@
             @image-selected="setImage"
           />
           <textarea
-            name="description"
+            :name="'caption-' + index.toString()"
             placeholder="What Aboout this image 1"
             class="step-text h-full mt-2 border-b-2 border-rose-500"
             cols="30"
@@ -47,7 +47,11 @@
           />
         </svg>
       </div>
-      <div class="flex justify-center cursor-pointer" @click="removeStep()">
+      <div
+        @click="removeStep()"
+        data-testid="delete-step"
+        class="flex justify-center cursor-pointer"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="text-gray-200 h-6 w-6 cursor-pointer"
@@ -68,8 +72,8 @@
 </template>
 
 <script>
-import ImageSelector from "@/components/ImageSelector.vue";
-import draggable from "vuedraggable";
+import ImageSelector from "@/components/ImageSelector.vue"
+import draggable from "vuedraggable"
 export default {
   name: "StepImageTripple",
   components: {
@@ -90,14 +94,14 @@ export default {
       index: this.stepIndex,
       type: this.step.type,
       images: this.step.images
-    };
+    }
   },
   methods: {
     setImage(e) {
-      const index = parseInt(e.image, 10);
-      this.images[index].src = e.src;
-      this.images[index].original = e.original;
-      this.saveStep();
+      const index = parseInt(e.image, 10)
+      this.images[index].src = e.src
+      this.images[index].original = e.original
+      this.saveStep()
     },
     saveStep() {
       const payload = {
@@ -108,14 +112,14 @@ export default {
           text: "",
           images: this.images
         }
-      };
-      this.$store.dispatch("setStep", payload);
+      }
+      this.$store.dispatch("setStep", payload)
     },
     removeStep() {
-      this.$store.dispatch("removeStep", this.index);
+      this.$store.dispatch("removeStep", this.index)
     }
   }
-};
+}
 </script>
 
 <style lang="postcss" scoped>

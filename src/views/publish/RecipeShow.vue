@@ -40,6 +40,7 @@
               :to="{ name: 'RecipeShow', params: { id: dependentRecipe.id } }"
             >
               <div
+                data-testid="dependent-recipe"
                 @click="navigate"
                 class="flex flex-col text-sm rounded-md shadow-sm bg-rose-500 text-white hover:bg-rose-600 font-serif px-3 py-1 mb-1 ml-12 justify-between"
               >
@@ -64,9 +65,12 @@
         </div>
 
         <template v-for="group in recipe.ingredientGroups" :key="group">
-          <h3 class="ml-12 font-medium">{{ group.groupName }}</h3>
+          <h3 data-testid="ingredient-group-name" class="ml-12 font-medium">
+            {{ group.groupName }}
+          </h3>
           <ul class="font-serif mb-3">
             <li
+              data-testid="ingredient"
               class="mt-2 step-focus"
               tabindex="0"
               v-for="item in group.ingredients"
@@ -84,28 +88,50 @@
       </div>
       <div class="flex flex-col lg:w-4/6 px-10 lg:pr-10 pb-4">
         <div class="flex font-medium text-sm mb-2">
-          <p>
+          <p data-testid="recipe-prep-servings">
             Cooking Time {{ recipe.prepTime }} | {{ recipe.servings }} Servings
           </p>
         </div>
 
-        <h1 class="text-rose-500 uppercase font-medium text-2xl mb-2">
+        <h1
+          data-testid="recipe-title"
+          class="text-rose-500 uppercase font-medium text-2xl mb-2"
+        >
           {{ recipe.name }}
         </h1>
         <div class="flex flex-row flex-wrap justify-right mb-4">
-          <div class="tag" v-for="tag in recipe.tags" :key="tag">
+          <div
+            data-testid="recipe-tag"
+            class="tag"
+            v-for="tag in recipe.tags"
+            :key="tag"
+          >
             #{{ tag }}
           </div>
         </div>
-        <img class="rounded-sm shadow-md" :src="recipeImage" alt="" />
+        <img
+          data-testid="recipe-photo"
+          class="rounded-sm shadow-md"
+          :src="recipeImage"
+          alt=""
+        />
 
-        <p class="my-4 has-dropcap text-justify">{{ recipe.description }}</p>
+        <p
+          data-testid="recipe-description"
+          class="my-4 has-dropcap text-justify"
+        >
+          {{ recipe.description }}
+        </p>
         <h1 class="text-rose-500 text-xl mb-4">Steps</h1>
 
         <template v-for="(step, index) in recipe.steps" :key="step">
           <div class="relative">
             <template v-if="step.type === 'text'">
-              <div :tabindex="index" class="step-focus">
+              <div
+                data-testid="text-steps"
+                :tabindex="index"
+                class="step-focus"
+              >
                 <div class="step-number step w-10">
                   <p class="text-right">{{ stepMap[step.id] }}</p>
                 </div>
@@ -115,6 +141,7 @@
 
             <p
               v-if="step.type === 'tipText'"
+              data-testid="tip-step"
               :tabindex="index"
               class="tip-pane"
             >
@@ -122,7 +149,11 @@
             </p>
 
             <template v-if="step.type === 'imageLeft'">
-              <div :tabindex="index" class="flex step-focus my-12">
+              <div
+                :tabindex="index"
+                data-testid="image-left"
+                class="flex step-focus my-12"
+              >
                 <img
                   class="object-contain w-1/2 float-left rounded-sm shadow-md  mr-3"
                   :src="genImageLink(step.images[0].src)"
@@ -138,7 +169,11 @@
             </template>
 
             <template v-if="step.type === 'imageRight'">
-              <div :tabindex="index" class="flex step-focus my-12 justify-end">
+              <div
+                :tabindex="index"
+                data-testid="image-right"
+                class="flex step-focus my-12 justify-end"
+              >
                 <p
                   v-if="step.images[0].text"
                   class="py-3 border-b border-t border-rose-500 text-right font-medium text-xs text-rose-500  place-self-center"
@@ -156,6 +191,7 @@
             <template v-if="step.type === 'imageDouble'">
               <div
                 :tabindex="index"
+                data-testid="image-double"
                 class="flex flex-row space-x-2 step-focus   my-12"
               >
                 <div class="flex flex-col w-1/2">
@@ -190,6 +226,7 @@
             <template v-if="step.type === 'imageTriple'">
               <div
                 :tabindex="index"
+                data-testid="image-triple"
                 class="flex flex-row space-x-2 step-focus   my-12"
               >
                 <div class="flex flex-col w-1/3">
@@ -264,55 +301,52 @@
 </template>
 
 <script>
-import { StorageBaseURL, StorageFolder } from "@/services/cloudStorage.js";
-import { mapGetters } from "vuex";
-import store from "@/store";
+import { StorageBaseURL, StorageFolder } from "@/services/cloudStorage.js"
+import { mapGetters } from "vuex"
+import store from "@/store"
 export default {
   beforeRouteEnter(to, from, next) {
     Promise.all([store.dispatch("getRecipe", to.params.id)]).then(() => {
-      next();
-    });
+      next()
+    })
   },
   beforeRouteUpdate(to, from, next) {
     Promise.all([store.dispatch("getRecipe", to.params.id)]).then(() => {
-      next();
-    });
+      next()
+    })
   },
   methods: {
     genImageLink(src) {
       if (src) {
-        return "https://" + StorageBaseURL + StorageFolder + src;
+        return "https://" + StorageBaseURL + StorageFolder + src
       }
-      return "";
+      return ""
     }
   },
   computed: {
     ...mapGetters(["recipe"]),
     recipeImage() {
-      if (this.recipe.image) {
-        return "https://" + StorageBaseURL + StorageFolder + this.recipe.image;
-      }
-      return "";
+      return this.genImageLink(this.recipe.image)
     },
     stepMap() {
-      let stepMap = {};
-      let stepNum = 1;
+      let stepMap = {}
+      let stepNum = 1
       this.recipe.steps.forEach(step => {
         if (step.type === "text") {
-          stepMap[step.id] = stepNum;
-          stepNum++;
+          stepMap[step.id] = stepNum
+          stepNum++
         }
-      });
-      return stepMap;
+      })
+      return stepMap
     },
     hasDependencies() {
       if (this.recipe.dependentRecipes.length > 0) {
-        return true;
+        return true
       }
-      return false;
+      return false
     }
   }
-};
+}
 </script>
 
 <style lang="postcss" scoped>

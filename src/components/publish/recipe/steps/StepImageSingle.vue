@@ -3,7 +3,11 @@
     class="flex flex-row rounded-md bg-white h-auto text-sm p-2 text-gray-300 shadow border border-gray-300 mt-2"
   >
     <div class="flex flex-row w-full">
-      <div v-if="type === 'imageLeft'" class="flex flex-col w-1/2">
+      <div
+        v-if="type === 'imageLeft'"
+        data-testid="imageLeft"
+        class="flex flex-col w-1/2"
+      >
         <ImageSelector
           :existingImage="imgSrc"
           :existingOriginal="original"
@@ -13,7 +17,7 @@
       </div>
       <div class="flex w-1/2">
         <textarea
-          name="description"
+          name="caption-1"
           placeholder="What About this imatwsfsfsfsfge"
           class="step-text h-full border-b-2 border-t-2 border-rose-500 place-self-center"
           cols="30"
@@ -22,7 +26,11 @@
           @blur="saveStep()"
         ></textarea>
       </div>
-      <div v-if="type === 'imageRight'" class="flex flex-col w-1/2">
+      <div
+        v-if="type === 'imageRight'"
+        data-testid="imageRight"
+        class="flex flex-col w-1/2"
+      >
         <ImageSelector
           :existingImage="imgSrc"
           :existingOriginal="original"
@@ -48,7 +56,11 @@
           />
         </svg>
       </div>
-      <div class="flex justify-center cursor-pointer" @click="flipImage()">
+      <div
+        @click="flipImage()"
+        data-testid="flip-button"
+        class="flex justify-center cursor-pointer"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="text-gray-200 h-6 w-6 cursor-pointer"
@@ -64,7 +76,11 @@
           />
         </svg>
       </div>
-      <div class="flex justify-center cursor-pointer" @click="removeStep()">
+      <div
+        @click="removeStep()"
+        data-testid="delete-step"
+        class="flex justify-center cursor-pointer"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="text-gray-200 h-6 w-6 cursor-pointer"
@@ -85,7 +101,7 @@
 </template>
 
 <script>
-import ImageSelector from "@/components/ImageSelector.vue";
+import ImageSelector from "@/components/ImageSelector.vue"
 export default {
   name: "StepImageSingle",
   components: {
@@ -107,21 +123,21 @@ export default {
       text: this.step.images[0].text,
       imgSrc: this.step.images[0].src,
       original: this.step.images[0].original
-    };
+    }
   },
   methods: {
     flipImage() {
       if (this.type === "imageLeft") {
-        this.type = "imageRight";
+        this.type = "imageRight"
       } else {
-        this.type = "imageLeft";
+        this.type = "imageLeft"
       }
-      this.saveStep();
+      this.saveStep()
     },
     setImage(e) {
-      this.imgSrc = e.src;
-      this.original = e.original;
-      this.saveStep();
+      this.imgSrc = e.src
+      this.original = e.original
+      this.saveStep()
     },
     saveStep() {
       const payload = {
@@ -138,14 +154,14 @@ export default {
             }
           ]
         }
-      };
-      this.$store.dispatch("setStep", payload);
+      }
+      this.$store.dispatch("setStep", payload)
     },
     removeStep() {
-      this.$store.dispatch("removeStep", this.index);
+      this.$store.dispatch("removeStep", this.index)
     }
   }
-};
+}
 </script>
 
 <style lang="postcss" scoped>
