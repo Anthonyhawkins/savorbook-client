@@ -148,7 +148,7 @@ export default {
        * Help reduce DB calls by only searching every
        * other key press after 2
        */
-      if (input.length > 2 && input.length % 2) {
+      if (input.length % 2) {
         RecipeService.getRecipes(0, 50, [], input)
           .then(response => {
             if (response.data.success) {

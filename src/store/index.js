@@ -2,10 +2,12 @@ import { createStore } from "vuex"
 import JwtService from "@/services/jwtService.js"
 import { AuthService } from "@/services/apiService.js"
 import recipe from "./recipe.module"
+import cookbook from "./cookbook.module"
 
 export default createStore({
   modules: {
-    recipe
+    recipe,
+    cookbook
   },
   state: {
     user: null,

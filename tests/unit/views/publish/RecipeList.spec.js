@@ -1,6 +1,5 @@
 import RecipeList from "@/views/publish/RecipeList.vue"
 import { mount } from "@vue/test-utils"
-import { createStore } from "vuex"
 import router from "@/router"
 import axios from "axios"
 

@@ -37,12 +37,27 @@ function trimEmpty(recipe) {
   })
 }
 
+/**
+ * IMAGES
+ */
 export const ImageService = {
   uploadImage(formData) {
     return axios.post("/images", formData)
   }
 }
 
+/**
+ * COOKBOOKS
+ */
+export const CookbookService = {
+  createOrUpdateCookbook(cookbook) {
+    console.log(cookbook)
+  }
+}
+
+/**
+ * RECIPES
+ */
 export const RecipeService = {
   getTags() {
     return axios.get("/publish/recipes/tags")
@@ -72,6 +87,9 @@ export const RecipeService = {
   }
 }
 
+/**
+ * AUTHENTICATION
+ */
 export const AuthService = {
   createUser({ username, displayName, email, password }) {
     const payload = {

@@ -60,6 +60,15 @@ const routes = [
     name: "RecipeEdit",
     component: () => import("@/views/publish/RecipeEdit.vue"),
     meta: { requiresAuth: true }
+  },
+  /**
+   * COOKBOOKS
+   */
+  {
+    path: "/publish/cookbooks/new",
+    name: "RecipeNew",
+    component: () => import("@/views/publish/CookbookEdit.vue"),
+    meta: { requiresAuth: true }
   }
 ]
 
