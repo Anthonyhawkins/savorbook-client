@@ -2,7 +2,7 @@ import RecipeCard from "@/components/publish/cookbook/RecipeCard.vue"
 import { mount } from "@vue/test-utils"
 import router from "@/router"
 
-describe("RecipeCard", () => {
+describe("RecipeCard.vue", () => {
   beforeEach(async () => {
     router.push("/")
     await router.isReady()

@@ -6,7 +6,7 @@
       <label class="this-label">Title</label>
       <input
         name="cookbook-title"
-        v-model="title"
+        v-model="cookbookTitle"
         type="text"
         class="h-12 outline-none border-b border-rose-500"
         placeholder="Title..."
@@ -14,14 +14,18 @@
       />
       <input
         name="cookbook-sub"
-        v-model="subTitle"
+        v-model="cookbookSubTitle"
         type="text"
         class="h-12 outline-none border-b border-rose-500"
         placeholder="Sub Heading..."
         @blur="setDetails()"
       />
       <label class="this-label">Cover Photo</label>
-      <ImageSelector imageFor="cookbookImage" @image-selected="setImage" />
+      <ImageSelector
+        imageFor="cookbookImage"
+        @image-selected="setImage"
+        :existingImage="cookbookImage"
+      />
       <label class="this-label">Blurb</label>
       <textarea
         name="blurb"
@@ -29,7 +33,7 @@
         class="blurb"
         cols="30"
         rows="10"
-        v-model="blurb"
+        v-model="cookbookBlurb"
         @blur="setDetails()"
       ></textarea>
     </div>
@@ -42,19 +46,38 @@ export default {
   components: {
     ImageSelector
   },
+  props: {
+    title: {
+      type: String,
+      default: ""
+    },
+    subTitle: {
+      type: String,
+      default: ""
+    },
+    blurb: {
+      type: String,
+      default: ""
+    },
+    image: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
-      title: "",
-      subTitle: "",
-      blurb: ""
+      cookbookTitle: this.title,
+      cookbookSubTitle: this.subTitle,
+      cookbookBlurb: this.blurb,
+      cookbookImage: this.image
     }
   },
   methods: {
     setDetails() {
       this.$store.dispatch("setCookbookDetails", {
-        title: this.title,
-        subTitle: this.subTitle,
-        blurb: this.blurb
+        title: this.cookbookTitle,
+        subTitle: this.cookbookSubTitle,
+        blurb: this.cookbookBlurb
       })
     },
     setImage(e) {

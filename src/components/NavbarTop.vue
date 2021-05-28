@@ -7,7 +7,7 @@
         class="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start"
       >
         <a
-          class="text-sm font-bold leading-relaxed inline-block mr-6 py-2 whitespace-no-wrap uppercase text-white"
+          class="text-sm font-bold leading-relaxed inline-block mr-6 py-2 whitespace-no-wrap uppercase text-white text-xl"
           href="#pablo"
         >
           savorbook

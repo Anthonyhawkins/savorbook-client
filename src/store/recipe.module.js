@@ -111,7 +111,6 @@ export const mutations = {
   SET_RECIPE(state, payload) {
     state.recipe = payload
   },
-
   SET_STEP(state, payload) {
     state.recipe.steps[payload.index] = payload.step
   },

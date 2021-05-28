@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col flex-shrink-0 h-screen w-96 bg-white p-2 space-y-2"
-  >
+  <div class="flex flex-col flex-shrink-0 h-screen w-96 bg-white p-2 space-y-2">
     <div class="flex flex-col mb-2">
       <input
         @keyup="searchRecipes()"
@@ -17,7 +15,7 @@
       :list="recipes"
       @start="drag = true"
       @end="drag = true"
-      group="recipes"
+      :group="{ name: 'recipes', pull: 'clone', put: false }"
       item-key="id"
       class="flex flex-col overflow-y-scroll"
     >
@@ -29,13 +27,13 @@
         />
       </template>
     </draggable>
-      <button
-        v-if="allowMore"
-        @click="loadMore()"
-        class="h-8 px-2 my-3 mx-auto rounded-md bg-gray-200 hover:bg-gray-300 font-medium text-white block"
-      >
-        LOAD MORE
-      </button>
+    <button
+      v-if="allowMore"
+      @click="loadMore()"
+      class="h-8 px-2 my-3 mx-auto rounded-md bg-gray-200 hover:bg-gray-300 font-medium text-white block"
+    >
+      LOAD MORE
+    </button>
   </div>
 </template>
 <script>

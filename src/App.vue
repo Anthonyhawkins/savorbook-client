@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col h-screen justify-between">
-    <header><NavbarTop /></header>
+  <div class="flex flex-col justify-between">
+    <header v-if="showNav"><NavbarTop /></header>
     <main class="mb-auto"><router-view /></main>
-    <footer><NavbarBottom /></footer>
+    <footer v-if="showNav"><NavbarBottom /></footer>
   </div>
 </template>
 
@@ -15,6 +15,13 @@ export default {
   components: {
     NavbarTop,
     NavbarBottom
+  },
+  computed: {
+    showNav() {
+      const noNavRoutes = ["CookbookShow"]
+      if (noNavRoutes.includes(this.$route.name)) return false
+      return true
+    }
   },
   created() {
     const userString = localStorage.getItem("user")

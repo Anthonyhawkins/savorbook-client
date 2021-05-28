@@ -51,7 +51,7 @@
         </div>
         <router-link :to="{ name: 'RecipeNew' }">
           <div
-            class="flex h-10 w-10 rounded-full border border-gray-200 text-rose-500 bg-white-200 justify-center items-center hover:bg-rose-500 hover:text-white shadow"
+            class="flex h-10 w-10 rounded-full border border-gray-200 text-rose-500 bg-white-200 justify-center items-center hover:bg-rose-500 hover:text-white shadow cursor-pointer"
           >
             <svg
               class="h-6 w-6"

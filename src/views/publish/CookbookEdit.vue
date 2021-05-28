@@ -24,9 +24,17 @@
           <h2 class="font-medium">Recipe Box</h2>
         </div>
       </div>
-      <RecipePane v-show="isTab('recipes')" />
-      <DetailsPane v-show="isTab('title')" />
-      <TableOfContents v-show="isTab('toc')" />
+      <template v-if="cookbook.loaded">
+        <RecipePane v-show="isTab('recipes')" />
+        <DetailsPane
+          v-show="isTab('title')"
+          :title="cookbook.title"
+          :subTitle="cookbook.subTitle"
+          :blurb="cookbook.blurb"
+          :image="cookbook.image"
+        />
+        <TableOfContents v-show="isTab('toc')" />
+      </template>
     </div>
     <div class="flex flex-col w-full bg-white p-2 space-y-4 overflow-x-scroll">
       <div class="flex">
@@ -34,11 +42,11 @@
       </div>
       <div class="flex flex-row flex-grow-0 h-full">
         <draggable
-          :list="sections"
+          :list="cookbookSections"
           @start="drag = true"
           @end="drag = false"
           :onUpdate="updateSections"
-          group="sections"
+          group="cookbookSections"
           item-key="id"
           class="flex flex-row flex-grow-0"
         >
@@ -62,8 +70,9 @@
 </template>
 
 <script>
-import draggable from "vuedraggable"
 import { mapGetters } from "vuex"
+import store from "@/store"
+import draggable from "vuedraggable"
 import RecipePane from "@/components/publish/cookbook/RecipePane.vue"
 import DetailsPane from "@/components/publish/cookbook/DetailsPane.vue"
 import TableOfContents from "@/components/publish/cookbook/TableOfContents.vue"
@@ -79,23 +88,30 @@ export default {
     TableOfContents,
     CookbookSection
   },
+  async beforeRouteEnter(to, from, next) {
+    await store.dispatch("resetCookbook")
+    await store.dispatch("getCookbook", to.params.id)
+    return next()
+  },
   data() {
     return {
       tab: "title",
-      sections: []
+      cookbookSections: []
     }
   },
   mounted() {
-    this.sections = this.cookbook.sections
+    this.cookbookSections = this.cookbook.sections
+  },
+  watch: {
+    sections: {
+      deep: true,
+      handler() {
+        this.cookbookSections = this.sections
+      }
+    }
   },
   computed: {
-    ...mapGetters(["cookbook"]),
-    actionType() {
-      if (this.$route.name === "CookbookNew") {
-        return "update"
-      }
-      return "create"
-    }
+    ...mapGetters(["cookbook", "sections"])
   },
   /**
    * It may be tempting to use a watcher for the list but the watcher

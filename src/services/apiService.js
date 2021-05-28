@@ -50,8 +50,40 @@ export const ImageService = {
  * COOKBOOKS
  */
 export const CookbookService = {
-  createOrUpdateCookbook(cookbook) {
-    console.log(cookbook)
+  getCookbook(id) {
+    return axios.get("/publish/cookbooks/" + id)
+  },
+  getCookbooks(page = 0, pageSize = 50, tags = [], name = "") {
+    if (tags.length > 0)
+      return axios.get(
+        `/publish/cookbooks?tags=${tags}&page=${page}&page_size=${pageSize}`
+      )
+    if (name)
+      return axios.get(
+        `/publish/cookbooks?name=${name}&page=${page}&page_size=${pageSize}`
+      )
+    return axios.get(`/publish/cookbooks?page=${page}&page_size=${pageSize}`)
+  },
+  CreateCookbook(title) {
+    // eslint-disable-next-line prettier/prettier
+    return axios.post("/publish/cookbooks", { cookbook: {title} })
+  },
+  UpdateCookbook(cookbook) {
+    let cookbookCopy = JSON.parse(JSON.stringify(cookbook))
+    console.log(cookbookCopy)
+    cookbookCopy.sections.forEach(section => {
+      let recipeIds = []
+      section.recipes.forEach(recipe => {
+        recipeIds.push(recipe.id)
+      })
+      section.recipes = recipeIds
+    })
+
+    // eslint-disable-next-line prettier/prettier
+    return axios.put("/publish/cookbooks/" + cookbookCopy.id, { cookbook: cookbookCopy })
+  },
+  getSectionRecipes(sectionID) {
+    return axios.get("/publish/sections/" + sectionID + "/recipes")
   }
 }
 
