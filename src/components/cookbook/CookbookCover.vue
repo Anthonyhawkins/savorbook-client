@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-gray-50">
+  <div class="bg-gray-50 relative bg-blue-200">
     <img
       v-if="image"
-      class="rounded-sm shadow-md mb-1 object-fill"
+      class="rounded-sm shadow-md mb-1 object-fill w-full"
       :src="image"
       alt=""
     />

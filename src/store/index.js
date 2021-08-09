@@ -29,6 +29,9 @@ export default createStore({
       JwtService.destroyToken()
       // force a refresh to clear state
       location.reload()
+    },
+    UPDATE_USER_FIELD(state, { field, value }) {
+      state.user[field] = value
     }
   },
   actions: {
@@ -66,6 +69,9 @@ export default createStore({
     },
     setUser({ commit }, token) {
       commit("SET_USER_DATA", token)
+    },
+    updateUserField({ commit }, { field, value }) {
+      commit("UPDATE_USER_FIELD", { field, value })
     }
   },
   getters: {

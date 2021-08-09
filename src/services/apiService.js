@@ -135,6 +135,18 @@ export const AuthService = {
 
     return axios.post("/auth/register", payload)
   },
+  updateUser({ username, displayName, email, password }) {
+    const payload = {
+      user: {
+        username,
+        displayName,
+        email,
+        password
+      }
+    }
+    console.log(payload)
+    return axios.put("/auth/account", payload)
+  },
   login({ email, password }) {
     return axios.post("/auth/login", { login: { email, password } })
   },

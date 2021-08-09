@@ -2,24 +2,28 @@
   <div class="flex flex-col justify-between">
     <header v-if="showNav"><NavbarTop /></header>
     <main class="mb-auto"><router-view /></main>
-    <footer v-if="showNav"><NavbarBottom /></footer>
   </div>
 </template>
 
 <script>
 import axios from "axios"
 import NavbarTop from "@/components/NavbarTop.vue"
-import NavbarBottom from "@/components/NavbarBottom.vue"
+//import NavbarBottom from "@/components/NavbarBottom.vue"
 
 export default {
   components: {
     NavbarTop,
-    NavbarBottom
+    //NavbarBottom
   },
   computed: {
     showNav() {
       const noNavRoutes = ["CookbookShow"]
-      if (noNavRoutes.includes(this.$route.name)) return false
+      if (
+        noNavRoutes.includes(this.$route.name) ||
+        this.$route.query.readerMode
+      ) {
+        return false
+      }
       return true
     }
   },
@@ -48,7 +52,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

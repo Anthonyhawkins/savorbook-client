@@ -1,20 +1,21 @@
 <template>
-  <div class="flex text-gray-400 px-20 justify-between h-full">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-sm font-bold py-3">SAVORBOOK</div>
-      <div
-        class="mx-auto bg-gray-200 text-gray-500 shadow-md relative"
-      >
-        <CookbookContents v-if="page == 'toc'" :sections="cookbook.sections" />
-        <CookbookCover
-          v-if="page == 'cover'"
-          :image="coverPhoto"
-          :title="cookbook.title"
-          :subTitle="cookbook.subTitle"
-        />
-      </div>
-      <CookbookNav @select-page="selectPage" />
-    </div>
+  <div
+    class="flex flex-col h-screen text-gray-400 md:px-20 px-3 lg:w-1/2 mx-auto"
+  >
+    <header class="py-5 text-gray-400 text-left font-bold">
+      SAVORBOOK / {{ cookbook.title }}
+    </header>
+    <main class="flex-1">
+      <CookbookCover
+        v-if="page == 'cover'"
+        :image="coverPhoto"
+        :title="cookbook.title"
+        :subTitle="cookbook.subTitle"
+      />
+      <CookbookContents :sections="cookbook.sections" />
+    </main>
+    <footer class="py-5 text-center text-white">
+    </footer>
   </div>
 </template>
 
@@ -23,21 +24,30 @@ import { mapGetters } from "vuex"
 import store from "@/store"
 import { CookbookService } from "@/services/apiService.js"
 import { GenImageLink } from "@/services/cloudStorage.js"
-import CookbookNav from "@/components/cookbook/CookbookNav.vue"
+//import CookbookNav from "@/components/cookbook/CookbookNav.vue"
 import CookbookCover from "@/components/cookbook/CookbookCover.vue"
 import CookbookContents from "@/components/cookbook/CookbookContents.vue"
+//import CookbookRecipe from "@/components/cookbook/CookbookRecipe.vue"
 
 export default {
   name: "CookbookShow",
   async beforeRouteEnter(to, from, next) {
     await store.dispatch("resetCookbook")
     await store.dispatch("getCookbook", to.params.id)
+    if (to.query.recipe) {
+      /**
+       * TODO
+       * - Fetch a Single Recipe and save to state
+       * - Set the Page
+       */
+    }
     return next()
   },
   components: {
-    CookbookNav,
+    //CookbookNav,
     CookbookCover,
     CookbookContents
+    //CookbookRecipe
   },
   data() {
     return {
@@ -51,9 +61,10 @@ export default {
       this.getSections()
     }
   },
-  mounted(){
-    console.log(this.cookbook)
-    console.log(this.sections)
+  mounted() {
+    if (this.$route.query.recipe) {
+      this.page = "recipe"
+    }
   },
   methods: {
     genImage(image) {
@@ -73,6 +84,8 @@ export default {
           })
       })
       this.loaded = true
+      console.log(this.cookbook)
+      console.log(this.sections)
     },
     selectPage(page) {
       this.page = page

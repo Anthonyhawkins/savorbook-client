@@ -32,7 +32,7 @@
           </div>
         </router-link>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-yellow-500 h-16 w-16"
@@ -86,7 +86,7 @@
           </div>
         </router-link>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-violet-500 h-16 w-16"
@@ -111,7 +111,7 @@
           </div>
         </div>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-cyan-500 h-16 w-16"
@@ -136,7 +136,7 @@
           </div>
         </div>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-amber-500 h-16 w-16"
@@ -161,7 +161,7 @@
           </div>
         </div>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-light-blue-500 h-16 w-16"
@@ -186,7 +186,7 @@
           </div>
         </div>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-lime-500 h-16 w-16"
@@ -222,6 +222,10 @@ export default {}
 <style lang="postcss" scoped>
 .publish-card {
   @apply bg-white p-4 m-1 shadow rounded-md flex flex-col justify-start hover:shadow-lg text-cool-gray-500;
+}
+
+.publish-card-inactive {
+  @apply bg-gray-200 p-4 m-1 rounded-md flex flex-col justify-start text-cool-gray-500;
 }
 
 .publish-card-label {
