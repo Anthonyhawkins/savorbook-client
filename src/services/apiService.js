@@ -144,8 +144,14 @@ export const AuthService = {
         password
       }
     }
-    console.log(payload)
     return axios.put("/auth/account", payload)
+  },
+  updatePassword(password) {
+    const payload = {
+      password: { password }
+    }
+    console.log(payload)
+    return axios.put("/auth/account/password", payload)
   },
   login({ email, password }) {
     return axios.post("/auth/login", { login: { email, password } })

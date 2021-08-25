@@ -2,7 +2,11 @@
   <div class="container mx-auto p-5">
     <h1 class="text-xl font-medium my-3 text-rose-600">Account</h1>
     <div class="flex flex-col">
-      <Alert v-if="alertMessage" alertType="danger" :message="alertMessage" />
+      <Alert
+        v-if="alertMessage"
+        :alertType="alertType"
+        :message="alertMessage"
+      />
 
       <div class="flex flex-row justify-between mb-3">
         <div class="flex w-1/4">
@@ -86,7 +90,6 @@
           </span>
         </div>
       </div>
-
     </div>
     <h1 class="text-xl font-medium my-3 text-rose-600">Actions</h1>
     <div class="flex flex-col">
@@ -96,9 +99,35 @@
             Password
           </strong>
         </div>
-        <div class="flex w-1/3"></div>
+        <div class="flex w-1/2">
+          <input
+            v-if="toggles.password"
+            v-model="password"
+            name="password"
+            type="password"
+            placeholder="new password"
+            class="input mr-2"
+          />
+          <input
+            v-if="toggles.password"
+            v-model="passwordConfirm"
+            name="passwordConfirm"
+            type="password"
+            placeholder="confirm new password"
+            class="input"
+          />
+        </div>
         <div class="flex">
-          <span class="text-cyan-600">change</span>
+          <span
+            v-if="toggles.password"
+            class="text-cyan-600"
+            @click="changePassword()"
+          >
+            set password
+          </span>
+          <span v-else class="text-cyan-600" @click="edit('password')">
+            change
+          </span>
         </div>
       </div>
       <div class="flex flex-col justify-between mb-3">
@@ -127,11 +156,15 @@ export default {
   data() {
     return {
       alertMessage: "",
+      alertType: "",
       toggles: {
         username: false,
         email: false,
-        displayName: false
-      }
+        displayName: false,
+        password: false
+      },
+      password: "",
+      passwordConfirm: ""
     }
   },
   created() {
@@ -158,7 +191,25 @@ export default {
         })
         .catch(error => {
           this.alertMessage = `${error.message} - ${error.errors[0]}`
+          this.alertType = "danger"
         })
+    },
+    changePassword() {
+      if (this.passwordConfirm != this.password) {
+        this.alertMessage = "New password and confirm password do not match."
+      } else {
+        this.alertMessage = ""
+        AuthService.updatePassword(this.password)
+          .then(() => {
+            this.toggles.password = false
+            this.alertMessage = "Password Successfully Changed."
+            this.alertType = "success"
+          })
+          .catch(error => {
+            this.alertMessage = `${error.message} - ${error.errors[0]}`
+            this.alertType = "danger"
+          })
+      }
     }
   },
   computed: {
