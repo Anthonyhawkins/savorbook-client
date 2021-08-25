@@ -32,7 +32,7 @@
           </div>
         </router-link>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-yellow-500 h-16 w-16"
@@ -58,33 +58,35 @@
           </div>
         </div>
 
-        <div class="publish-card">
-          <div class="flex justify-center">
-            <svg
-              class="text-teal-500 h-16 w-16"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-              />
-            </svg>
+        <router-link :to="{ name: 'CookbookList' }">
+          <div class="publish-card">
+            <div class="flex justify-center">
+              <svg
+                class="text-teal-500 h-16 w-16"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+            </div>
+            <div class="publish-card-label">
+              Cookbooks
+            </div>
+            <div class="publish-card-text">
+              A cookbook is a collection of recipes and which can tell a culinary
+              story or share a common theme.
+            </div>
           </div>
-          <div class="publish-card-label">
-            Cookbooks
-          </div>
-          <div class="publish-card-text">
-            A cookbook is a collection of recipes and which can tell a culinary
-            story or share a common theme.
-          </div>
-        </div>
+        </router-link>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-violet-500 h-16 w-16"
@@ -109,7 +111,7 @@
           </div>
         </div>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-cyan-500 h-16 w-16"
@@ -134,7 +136,7 @@
           </div>
         </div>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-amber-500 h-16 w-16"
@@ -159,7 +161,7 @@
           </div>
         </div>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-light-blue-500 h-16 w-16"
@@ -184,7 +186,7 @@
           </div>
         </div>
 
-        <div class="publish-card">
+        <div class="publish-card-inactive">
           <div class="flex justify-center">
             <svg
               class="text-lime-500 h-16 w-16"
@@ -220,6 +222,10 @@ export default {}
 <style lang="postcss" scoped>
 .publish-card {
   @apply bg-white p-4 m-1 shadow rounded-md flex flex-col justify-start hover:shadow-lg text-cool-gray-500;
+}
+
+.publish-card-inactive {
+  @apply bg-gray-200 p-4 m-1 rounded-md flex flex-col justify-start text-cool-gray-500;
 }
 
 .publish-card-label {

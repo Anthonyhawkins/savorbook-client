@@ -1,6 +1,10 @@
 <template>
   <div class="mx-auto lg:w-4/5 max-w-screen-lg text-gray-600 my-3">
+    <div v-if="readerMode" class="py-5 text-gray-400 text-left font-bold">
+      SAVORBOOK
+    </div>
     <div
+      v-else
       class="flex flex-row p-2 bg-gray-50 mb-2 shadow rounded-lg justify-center space-x-3"
     >
       <router-link :to="{ name: 'RecipeEdit', params: { id: recipe.id } }">
@@ -340,9 +344,11 @@ export default {
       return stepMap
     },
     hasDependencies() {
-      if (this.recipe.dependentRecipes.length > 0) {
-        return true
-      }
+      if (this.recipe.dependentRecipes.length > 0) return true
+      return false
+    },
+    readerMode() {
+      if (this.$route.query.readerMode) return true
       return false
     }
   }

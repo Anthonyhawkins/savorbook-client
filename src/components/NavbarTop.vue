@@ -6,12 +6,12 @@
       <div
         class="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start"
       >
-        <a
-          class="text-sm font-bold leading-relaxed inline-block mr-6 py-2 whitespace-no-wrap uppercase text-white"
-          href="#pablo"
+        <router-link
+          class="text-sm font-bold leading-relaxed inline-block mr-6 py-2 whitespace-no-wrap uppercase text-white text-xl"
+          :to="{ name: 'Home' }"
         >
           savorbook
-        </a>
+        </router-link>
         <button class="nav-hamburger" type="button">
           <span class="block relative w-6 h-px rounded-sm bg-white"></span>
           <span class="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
@@ -24,14 +24,16 @@
       >
         <ul class="flex flex-col lg:flex-row list-none">
           <li class="nav-item">
-            <router-link class="nav-item" :to="{ name: 'About' }"
+            Library
+            <!-- <router-link class="nav-item" :to="{ name: 'About' }"
               >Library</router-link
-            >
+            > -->
           </li>
           <li class="nav-item">
-            <router-link class="nav-item" :to="{ name: 'About' }"
+            Store
+            <!--<router-link class="nav-item" :to="{ name: 'About' }"
               >Store</router-link
-            >
+            > -->
           </li>
           <li class="nav-item">
             <router-link class="nav-item" :to="{ name: 'Publish' }"

@@ -60,6 +60,27 @@ const routes = [
     name: "RecipeEdit",
     component: () => import("@/views/publish/RecipeEdit.vue"),
     meta: { requiresAuth: true }
+  },
+  /**
+   * COOKBOOKS
+   */
+  {
+    path: "/publish/cookbooks/:id/edit",
+    name: "CookbookEdit",
+    component: () => import("@/views/publish/CookbookEdit.vue"),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/publish/cookbooks",
+    name: "CookbookList",
+    component: () => import("@/views/publish/CookbookList.vue"),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/publish/cookbooks/:id",
+    name: "CookbookShow",
+    component: () => import("@/views/cookbook/CookbookShow.vue"),
+    meta: { requiresAuth: true }
   }
 ]
 

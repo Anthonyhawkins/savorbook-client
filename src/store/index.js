@@ -2,10 +2,12 @@ import { createStore } from "vuex"
 import JwtService from "@/services/jwtService.js"
 import { AuthService } from "@/services/apiService.js"
 import recipe from "./recipe.module"
+import cookbook from "./cookbook.module"
 
 export default createStore({
   modules: {
-    recipe
+    recipe,
+    cookbook
   },
   state: {
     user: null,
@@ -27,6 +29,9 @@ export default createStore({
       JwtService.destroyToken()
       // force a refresh to clear state
       location.reload()
+    },
+    UPDATE_USER_FIELD(state, { field, value }) {
+      state.user[field] = value
     }
   },
   actions: {
@@ -64,6 +69,9 @@ export default createStore({
     },
     setUser({ commit }, token) {
       commit("SET_USER_DATA", token)
+    },
+    updateUserField({ commit }, { field, value }) {
+      commit("UPDATE_USER_FIELD", { field, value })
     }
   },
   getters: {
